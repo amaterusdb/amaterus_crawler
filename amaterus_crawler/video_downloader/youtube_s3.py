@@ -2,7 +2,7 @@ import tempfile
 from pathlib import Path
 from uuid import uuid4
 
-from mypy_boto3_s3.service_resource import Bucket
+import boto3
 from yt_dlp import YoutubeDL
 from yt_dlp.utils import YoutubeDLError
 
@@ -13,17 +13,26 @@ class VideoDownloaderYoutubeS3(VideoDownloader):
     def __init__(
         self,
         youtube_video_url: str,
-        output_bucket: Bucket,
-        output_object_key: str,
+        s3_access_key_id: str,
+        s3_secret_access_key: str,
+        s3_endpoint_url: str,
+        s3_bucket_name: str,
+        s3_object_key: str,
     ):
         self.youtube_video_url = youtube_video_url
-        self.output_bucket = output_bucket
-        self.output_object_key = output_object_key
+        self.s3_access_key_id = s3_access_key_id
+        self.s3_secret_access_key = s3_secret_access_key
+        self.s3_endpoint_url = s3_endpoint_url
+        self.s3_bucket_name = s3_bucket_name
+        self.s3_object_key = s3_object_key
 
     async def download_video(self) -> None:
         youtube_video_url = self.youtube_video_url
-        output_bucket = self.output_bucket
-        output_object_key = self.output_object_key
+        s3_access_key_id = self.s3_access_key_id
+        s3_secret_access_key = self.s3_secret_access_key
+        s3_endpoint_url = self.s3_endpoint_url
+        s3_bucket_name = self.s3_bucket_name
+        s3_object_key = self.s3_object_key
 
         with tempfile.TemporaryDirectory() as tmpdir:
             tmpdir_path = Path(tmpdir)
@@ -45,7 +54,7 @@ class VideoDownloaderYoutubeS3(VideoDownloader):
                         )
             except YoutubeDLError:
                 raise DownloadVideoFailedError(
-                    f"Failed to download. YouTubeDLError occured."
+                    "Failed to download. YouTubeDLError occured."
                 )
 
         video_file: Path | None = None
@@ -59,7 +68,14 @@ class VideoDownloaderYoutubeS3(VideoDownloader):
                 f"Failed to download. No file downloaded in temp dir: {tmpdir_path}"
             )
 
-        output_bucket.upload_file(
-            Filename=tmpdir_path,
-            Key=output_object_key,
+        s3 = boto3.resource(
+            service_name="s3",
+            endpoint_url=s3_endpoint_url,
+            aws_access_key_id=s3_access_key_id,
+            aws_secret_access_key=s3_secret_access_key,
+        )
+        bucket = s3.Bucket(name=s3_bucket_name)
+        bucket.upload_file(
+            Filename=str(tmpdir_path),
+            Key=s3_object_key,
         )
