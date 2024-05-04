@@ -1,8 +1,8 @@
-from .base import FfprobeReader, FfprobeReadError
-from .binaryio import FfprobeBinaryIOReader
+from .base import MimetypeReader, MimetypeReadError
+from .binaryio import MimetypeBinaryIOReader
 
 __all__ = [
-    "FfprobeReader",
-    "FfprobeReadError",
-    "FfprobeBinaryIOReader",
+    "MimetypeReader",
+    "MimetypeReadError",
+    "MimetypeBinaryIOReader",
 ]
