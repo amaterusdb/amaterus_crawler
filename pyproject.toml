@@ -23,6 +23,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "~3.11"
+yt-dlp = "^2024.4.9"
 
 
 [tool.poetry.group.dev.dependencies]
