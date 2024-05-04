@@ -1,4 +1,5 @@
-from abc import ABC
+from abc import ABC, abstractmethod
+from dataclasses import dataclass
 
 
 class DownloadVideoFailedError(Exception):
@@ -6,4 +7,5 @@ class DownloadVideoFailedError(Exception):
 
 
 class VideoDownloader(ABC):
+    @abstractmethod
     async def download_video(self) -> None: ...
