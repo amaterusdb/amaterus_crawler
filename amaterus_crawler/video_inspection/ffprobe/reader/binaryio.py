@@ -27,7 +27,7 @@ class FfprobeBinaryIOReader(FfprobeReader):
         ]
 
         proc = await asyncio.create_subprocess_exec(
-            program="ffprobe",
+            "ffprobe",
             *args,
             stdin=fileobj,
             stdout=asyncio.subprocess.PIPE,
