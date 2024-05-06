@@ -31,6 +31,11 @@ class YoutubeChannelUpdaterHasura(YoutubeChannelUpdater):
         hasura_url = self.hasura_url
         hasura_access_token = self.hasura_access_token
 
+        hasura_graphql_api_url = hasura_url
+        if not hasura_graphql_api_url.endswith("/"):
+            hasura_graphql_api_url += "/"
+        hasura_graphql_api_url += "v1/graphql"
+
         objects: list[YoutubeChannelsInsertInput] = []
         for update_query in update_queries:
             objects.append(
@@ -45,7 +50,7 @@ class YoutubeChannelUpdaterHasura(YoutubeChannelUpdater):
         try:
             async with httpx.AsyncClient() as client:
                 res = await client.post(
-                    url=hasura_url,
+                    url=hasura_graphql_api_url,
                     headers={
                         "Authorization": f"Bearer {hasura_access_token}",
                     },
