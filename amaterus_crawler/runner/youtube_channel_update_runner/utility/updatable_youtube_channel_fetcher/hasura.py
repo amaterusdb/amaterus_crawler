@@ -13,13 +13,19 @@ from .base import (
 logger = getLogger(__name__)
 
 
-class GetYoutubeChannelInfosResponseBodyDataYoutubeChannel(BaseModel):
-    remote_youtube_channel_id: str
+class YoutubeChannel(BaseModel):
     name: str
 
 
+class CrawlerYoutubeChannelUpdateRunnerYoutubeChannel(BaseModel):
+    remote_youtube_channel_id: str
+    youtube_channel: YoutubeChannel | None = None
+
+
 class GetYoutubeChannelInfosResponseBodyData(BaseModel):
-    youtube_channels: list[GetYoutubeChannelInfosResponseBodyDataYoutubeChannel]
+    crawler__youtube_channel_update_runner__youtube_channels: list[
+        CrawlerYoutubeChannelUpdateRunnerYoutubeChannel
+    ]
 
 
 class GetYoutubeChannelInfosResponseBodyError(BaseModel):
@@ -85,7 +91,7 @@ class UpdatableYoutubeChannelFetcherHasura(UpdatableYoutubeChannelFetcher):
                     json={
                         "query": """
 query GetUpdatableYoutubeChannels {
-  youtube_channels(
+  crawler__youtube_channel_update_runner__youtube_channels(
     where: {
       auto_update_enabled: {
         _eq: true
@@ -96,7 +102,9 @@ query GetUpdatableYoutubeChannels {
     }
   ) {
     remote_youtube_channel_id
-    name
+    youtube_channel {
+      name
+    }
   }
 }
 """,
@@ -114,14 +122,20 @@ query GetUpdatableYoutubeChannels {
             logger.error(f"Hasura response body: {response_body.model_dump_json()}")
             raise UpdatableYoutubeChannelFetchError("Hasura error occured.")
 
-        youtube_channels = response_body.data.youtube_channels
+        crawler_youtube_channels = (
+            response_body.data.crawler__youtube_channel_update_runner__youtube_channels
+        )
 
         updatable_youtube_channels: list[UpdatableYoutubeChannel] = []
-        for youtube_channel in youtube_channels:
+        for crawler_youtube_channel in crawler_youtube_channels:
+            name: str | None = None
+            if crawler_youtube_channel.youtube_channel is not None:
+                name = crawler_youtube_channel.youtube_channel.name
+
             updatable_youtube_channels.append(
                 UpdatableYoutubeChannel(
-                    remote_youtube_channel_id=youtube_channel.remote_youtube_channel_id,
-                    name=youtube_channel.name,
+                    remote_youtube_channel_id=crawler_youtube_channel.remote_youtube_channel_id,
+                    name=name,
                 )
             )
 

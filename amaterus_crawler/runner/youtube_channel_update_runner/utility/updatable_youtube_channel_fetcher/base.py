@@ -5,7 +5,10 @@ from dataclasses import dataclass
 @dataclass
 class UpdatableYoutubeChannel:
     remote_youtube_channel_id: str
-    name: str
+    name: str | None
+    """
+    None の場合、未取得のチャンネル
+    """
 
 
 @dataclass

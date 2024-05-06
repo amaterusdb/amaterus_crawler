@@ -1,8 +1,9 @@
 from datetime import timezone
 from logging import getLogger
+from typing import Annotated
 
 import httpx
-from pydantic import BaseModel, TypeAdapter
+from pydantic import BaseModel, Field, TypeAdapter
 
 from .base import (
     YoutubeChannelUpdateError,
@@ -13,12 +14,37 @@ from .base import (
 logger = getLogger(__name__)
 
 
+class CrawlerYoutubeChannelUpdateRunnerYoutubeChannelInsertInput(BaseModel):
+    auto_updated_at: str | None
+
+
+class CrawlerYoutubeChannelUpdateRunnerYoutubeChannelObjRelInsertInputOnConflict(
+    BaseModel
+):
+    constraint: str = "crawler__youtube_channel_update_r_remote_youtube_channel_id_key"
+    update_columns: Annotated[
+        list[str], Field(default_factory=lambda: ["auto_updated_at"])
+    ]
+
+
+class CrawlerYoutubeChannelUpdateRunnerYoutubeChannelObjRelInsertInput(BaseModel):
+    data: CrawlerYoutubeChannelUpdateRunnerYoutubeChannelInsertInput
+    on_conflict: Annotated[
+        CrawlerYoutubeChannelUpdateRunnerYoutubeChannelObjRelInsertInputOnConflict,
+        Field(
+            default_factory=lambda: CrawlerYoutubeChannelUpdateRunnerYoutubeChannelObjRelInsertInputOnConflict()
+        ),
+    ]
+
+
 class YoutubeChannelsInsertInput(BaseModel):
     remote_youtube_channel_id: str
     name: str
     icon_url: str | None
     youtube_channel_handle: str | None
-    auto_updated_at: str | None
+    crawler__youtube_channel_update_runner__youtube_channel: (
+        CrawlerYoutubeChannelUpdateRunnerYoutubeChannelObjRelInsertInput
+    )
 
 
 class UpsertYouTubeChannelsResponseBodyError(BaseModel):
@@ -88,7 +114,13 @@ class YoutubeChannelUpdaterHasura(YoutubeChannelUpdater):
                     name=update_query.name,
                     icon_url=update_query.icon_url,
                     youtube_channel_handle=update_query.youtube_channel_handle,
-                    auto_updated_at=auto_updated_at_aware.isoformat(),
+                    crawler__youtube_channel_update_runner__youtube_channel=CrawlerYoutubeChannelUpdateRunnerYoutubeChannelObjRelInsertInput(
+                        data=(
+                            CrawlerYoutubeChannelUpdateRunnerYoutubeChannelInsertInput(
+                                auto_updated_at=auto_updated_at_aware.isoformat(),
+                            )
+                        ),
+                    ),
                 ),
             )
 
@@ -110,7 +142,6 @@ mutation UpsertYoutubeChannels(
         name
         icon_url
         youtube_channel_handle
-        auto_updated_at
       ]
     }
   ) {
