@@ -5,7 +5,7 @@ import yaml
 from pydantic import BaseModel, Field
 
 from .global_config import GlobalConfig
-from .runner_config.update_youtube_channel_config import UpdateYoutubeChannelConfig
+from .runner_config import UpdateYoutubeChannelConfig
 
 RunnerConfigType = UpdateYoutubeChannelConfig
 
