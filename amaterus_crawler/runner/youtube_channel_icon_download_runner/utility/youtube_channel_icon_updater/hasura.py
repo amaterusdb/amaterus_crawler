@@ -27,30 +27,32 @@ class CrawlerYoutubeChannelIconsInsertInput(BaseModel):
     auto_downloaded_at: str | None
 
 
-class UpsertYouTubeChannelsResponseBodyDataInsertCrawlerYoutubeChannels(BaseModel):
+class UpsertYouTubeChannelIconsResponseBodyDataInsertCrawlerYoutubeChannels(BaseModel):
     affected_rows: int
 
 
-class UpsertYouTubeChannelsResponseBodyDataInsertStorageYoutubeChannelIcons(BaseModel):
+class UpsertYouTubeChannelIconsResponseBodyDataInsertStorageYoutubeChannelIcons(
+    BaseModel
+):
     affected_rows: int
 
 
-class UpsertYouTubeChannelsResponseBodyData(BaseModel):
+class UpsertYouTubeChannelIconsResponseBodyData(BaseModel):
     insert_crawler__youtube_channel_icon_download_runner__youtube_channels: (
-        UpsertYouTubeChannelsResponseBodyDataInsertCrawlerYoutubeChannels
+        UpsertYouTubeChannelIconsResponseBodyDataInsertCrawlerYoutubeChannels
     )
     insert_storage__youtube_channel_icons: (
-        UpsertYouTubeChannelsResponseBodyDataInsertStorageYoutubeChannelIcons
+        UpsertYouTubeChannelIconsResponseBodyDataInsertStorageYoutubeChannelIcons
     )
 
 
-class UpsertYouTubeChannelsResponseBodyError(BaseModel):
+class UpsertYouTubeChannelIconsResponseBodyError(BaseModel):
     message: str
 
 
-class UpsertYouTubeChannelsResponseBody(BaseModel):
-    data: UpsertYouTubeChannelsResponseBodyData | None = None
-    errors: list[UpsertYouTubeChannelsResponseBodyError] | None = None
+class UpsertYouTubeChannelIconsResponseBody(BaseModel):
+    data: UpsertYouTubeChannelIconsResponseBodyData | None = None
+    errors: list[UpsertYouTubeChannelIconsResponseBodyError] | None = None
 
 
 class YoutubeChannelIconUpdaterHasura(YoutubeChannelIconUpdater):
@@ -188,7 +190,7 @@ mutation UpsertYoutubeChannelIcons(
                 "Failed to update youtube channel icons."
             )
 
-        response_body = UpsertYouTubeChannelsResponseBody.model_validate(res.json())
+        response_body = UpsertYouTubeChannelIconsResponseBody.model_validate(res.json())
         if response_body.errors is not None and len(response_body.errors) > 0:
             logger.error(f"Hasura response body: {response_body.model_dump_json()}")
             raise YoutubeChannelIconUpdateError("Hasura error occured.")
