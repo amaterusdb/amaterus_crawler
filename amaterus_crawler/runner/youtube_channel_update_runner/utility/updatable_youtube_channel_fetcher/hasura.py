@@ -1,3 +1,5 @@
+from logging import getLogger
+
 import httpx
 from pydantic import BaseModel
 
@@ -7,6 +9,8 @@ from .base import (
     UpdatableYoutubeChannelFetchError,
     UpdatableYoutubeChannelFetchResult,
 )
+
+logger = getLogger(__name__)
 
 
 class GetYoutubeChannelInfosResponseBodyDataYoutubeChannel(BaseModel):
@@ -18,8 +22,13 @@ class GetYoutubeChannelInfosResponseBodyData(BaseModel):
     youtube_channels: list[GetYoutubeChannelInfosResponseBodyDataYoutubeChannel]
 
 
+class GetYoutubeChannelInfosResponseBodyError(BaseModel):
+    message: str
+
+
 class GetYoutubeChannelInfosResponseBody(BaseModel):
     data: GetYoutubeChannelInfosResponseBodyData
+    errors: list[GetYoutubeChannelInfosResponseBodyError] | None = None
 
 
 class UpdatableYoutubeChannelFetcherHasura(UpdatableYoutubeChannelFetcher):
@@ -100,8 +109,12 @@ query GetUpdatableYoutubeChannels {
                 "Failed to fetch youtube channel ids."
             )
 
-        response = GetYoutubeChannelInfosResponseBody.model_validate(res.json())
-        youtube_channels = response.data.youtube_channels
+        response_body = GetYoutubeChannelInfosResponseBody.model_validate(res.json())
+        if response_body.errors is not None and len(response_body.errors) > 0:
+            logger.error(f"Hasura response body: {response_body.model_dump_json()}")
+            raise UpdatableYoutubeChannelFetchError("Hasura error occured.")
+
+        youtube_channels = response_body.data.youtube_channels
 
         updatable_youtube_channels: list[UpdatableYoutubeChannel] = []
         for youtube_channel in youtube_channels:

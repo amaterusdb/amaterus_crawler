@@ -1,3 +1,6 @@
+from datetime import timezone
+from logging import getLogger
+
 import httpx
 from pydantic import BaseModel, TypeAdapter
 
@@ -7,12 +10,23 @@ from .base import (
     YoutubeChannelUpdater,
 )
 
+logger = getLogger(__name__)
+
 
 class YoutubeChannelsInsertInput(BaseModel):
     remote_youtube_channel_id: str
     name: str
     icon_url: str | None
     youtube_channel_handle: str | None
+    auto_updated_at: str | None
+
+
+class UpsertYouTubeChannelsResponseBodyError(BaseModel):
+    message: str
+
+
+class UpsertYouTubeChannelsResponseBody(BaseModel):
+    errors: list[UpsertYouTubeChannelsResponseBodyError] | None = None
 
 
 class YoutubeChannelUpdaterHasura(YoutubeChannelUpdater):
@@ -64,12 +78,17 @@ class YoutubeChannelUpdaterHasura(YoutubeChannelUpdater):
 
         objects: list[YoutubeChannelsInsertInput] = []
         for update_query in update_queries:
+            # 送信時点でタイムゾーン付きであることを保証する
+            auto_updated_at_aware = update_query.auto_updated_at.astimezone(
+                tz=timezone.utc
+            )
             objects.append(
                 YoutubeChannelsInsertInput(
                     remote_youtube_channel_id=update_query.remote_youtube_channel_id,
                     name=update_query.name,
                     icon_url=update_query.icon_url,
                     youtube_channel_handle=update_query.youtube_channel_handle,
+                    auto_updated_at=auto_updated_at_aware.isoformat(),
                 ),
             )
 
@@ -80,7 +99,9 @@ class YoutubeChannelUpdaterHasura(YoutubeChannelUpdater):
                     headers=headers,
                     json={
                         "query": """
-mutation UpsertYoutubeChannels {
+mutation UpsertYoutubeChannels(
+  $objects: [youtube_channels_insert_input!]!
+) {
   insert_youtube_channels(
     objects: $objects
     on_conflict: {
@@ -89,6 +110,7 @@ mutation UpsertYoutubeChannels {
         name
         icon_url
         youtube_channel_handle
+        auto_updated_at
       ]
     }
   ) {
@@ -107,3 +129,8 @@ mutation UpsertYoutubeChannels {
                 res.raise_for_status()
         except httpx.HTTPError:
             raise YoutubeChannelUpdateError("Failed to update youtube channel infos.")
+
+        response_body = UpsertYouTubeChannelsResponseBody.model_validate(res.json())
+        if response_body.errors is not None and len(response_body.errors) > 0:
+            logger.error(f"Hasura response body: {response_body.model_dump_json()}")
+            raise YoutubeChannelUpdateError("Hasura error occured.")

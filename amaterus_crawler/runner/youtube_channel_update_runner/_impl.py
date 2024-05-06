@@ -1,3 +1,5 @@
+from datetime import datetime, timezone
+
 from ..base import Runner
 from .utility.remote_youtube_channel_fetcher import RemoteYoutubeChannelFetcher
 from .utility.updatable_youtube_channel_fetcher import UpdatableYoutubeChannelFetcher
@@ -48,6 +50,7 @@ class YoutubeChannelUpdateRunner(Runner):
                 remote_youtube_channel_fetch_result.remote_youtube_channels
             )
 
+            now = datetime.now(tz=timezone.utc)
             update_queries: list[YoutubeChannelUpdateQuery] = []
             for remote_youtube_channel in remote_youtube_channels:
                 remote_custom_url = remote_youtube_channel.custom_url
@@ -63,6 +66,7 @@ class YoutubeChannelUpdateRunner(Runner):
                         name=remote_youtube_channel.title,
                         icon_url=remote_youtube_channel.icon_url,
                         youtube_channel_handle=youtube_channel_handle,
+                        auto_updated_at=now,
                     ),
                 )
 

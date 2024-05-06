@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
+from datetime import datetime
 
 
 @dataclass
@@ -19,6 +20,10 @@ class YoutubeChannelUpdateQuery:
     youtube_channel_handle: str | None
     """
     @ を含まないハンドル名
+    """
+    auto_updated_at: datetime | None
+    """
+    クローラによる自動的な情報取得の日時を表すタイムゾーン付き日時
     """
 
 
