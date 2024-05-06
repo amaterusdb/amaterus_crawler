@@ -5,9 +5,9 @@ import yaml
 from pydantic import BaseModel, Field
 
 from .global_config import GlobalConfig
-from .runner_config import UpdateYoutubeChannelConfig
+from .runner_config import DownloadYoutubeChannelIconConfig, UpdateYoutubeChannelConfig
 
-RunnerConfigType = UpdateYoutubeChannelConfig
+RunnerConfigType = UpdateYoutubeChannelConfig | DownloadYoutubeChannelIconConfig
 
 
 class AmaterusCrawlerConfig(BaseModel):
