@@ -75,7 +75,7 @@ class UpdatableYoutubeChannelFetcherHasura(UpdatableYoutubeChannelFetcher):
                     headers=headers,
                     json={
                         "query": """
-query GetYoutubeChannelIds {
+query GetUpdatableYoutubeChannels {
   youtube_channels(
     where: {
       auto_update_enabled: {
@@ -86,7 +86,7 @@ query GetYoutubeChannelIds {
       auto_updated_at: asc_nulls_first
     }
   ) {
-    id
+    remote_youtube_channel_id
     name
   }
 }
