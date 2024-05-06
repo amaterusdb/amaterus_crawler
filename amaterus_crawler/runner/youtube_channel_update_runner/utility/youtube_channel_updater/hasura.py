@@ -47,11 +47,20 @@ class YoutubeChannelsInsertInput(BaseModel):
     )
 
 
+class UpsertYouTubeChannelsResponseBodyDataInsertYoutubeChannels(BaseModel):
+    affected_rows: int
+
+
+class UpsertYouTubeChannelsResponseBodyData(BaseModel):
+    insert_youtube_channels: UpsertYouTubeChannelsResponseBodyDataInsertYoutubeChannels
+
+
 class UpsertYouTubeChannelsResponseBodyError(BaseModel):
     message: str
 
 
 class UpsertYouTubeChannelsResponseBody(BaseModel):
+    data: UpsertYouTubeChannelsResponseBodyData | None = None
     errors: list[UpsertYouTubeChannelsResponseBodyError] | None = None
 
 
