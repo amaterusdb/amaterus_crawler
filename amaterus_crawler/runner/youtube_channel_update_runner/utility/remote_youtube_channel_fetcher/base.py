@@ -16,7 +16,7 @@ class RemoteYoutubeChannel:
     """
     アイコンURL
     """
-    screen_name: str | None
+    custom_url: str | None
     """
     @ を含むハンドル名
     """

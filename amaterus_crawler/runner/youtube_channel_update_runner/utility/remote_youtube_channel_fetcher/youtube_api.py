@@ -111,7 +111,7 @@ class RemoteYoutubeChannelFetcherYoutubeApi(RemoteYoutubeChannelFetcher):
                     channel_id=channel_id,
                     title=title,
                     icon_url=icon_url,
-                    screen_name=custom_url,
+                    custom_url=custom_url,
                 ),
             )
 

@@ -18,7 +18,7 @@ class YoutubeChannelUpdateQuery:
     """
     youtube_channel_handle: str | None
     """
-    @ を含むハンドル名
+    @ を含まないハンドル名
     """
 
 

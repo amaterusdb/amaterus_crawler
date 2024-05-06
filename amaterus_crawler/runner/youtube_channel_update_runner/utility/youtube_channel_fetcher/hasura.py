@@ -56,7 +56,6 @@ query GetYoutubeChannelIds {
     order_by: {
       auto_updated_at: asc_nulls_first
     }
-    limit: 50
   ) {
     id
     name
