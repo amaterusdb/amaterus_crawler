@@ -1,6 +1,5 @@
 from datetime import timezone
 from logging import getLogger
-from typing import Annotated
 
 import httpx
 from pydantic import BaseModel, Field, TypeAdapter
@@ -22,19 +21,18 @@ class CrawlerYoutubeChannelUpdateRunnerYoutubeChannelObjRelInsertInputOnConflict
     BaseModel
 ):
     constraint: str = "crawler__youtube_channel_update_r_remote_youtube_channel_id_key"
-    update_columns: Annotated[
-        list[str], Field(default_factory=lambda: ["auto_updated_at"])
-    ]
+    update_columns: list[str] = Field(default_factory=lambda: ["auto_updated_at"])
 
 
 class CrawlerYoutubeChannelUpdateRunnerYoutubeChannelObjRelInsertInput(BaseModel):
     data: CrawlerYoutubeChannelUpdateRunnerYoutubeChannelInsertInput
-    on_conflict: Annotated[
-        CrawlerYoutubeChannelUpdateRunnerYoutubeChannelObjRelInsertInputOnConflict,
-        Field(
-            default_factory=lambda: CrawlerYoutubeChannelUpdateRunnerYoutubeChannelObjRelInsertInputOnConflict()
-        ),
-    ]
+    on_conflict: (
+        CrawlerYoutubeChannelUpdateRunnerYoutubeChannelObjRelInsertInputOnConflict
+    ) = Field(
+        default_factory=(
+            lambda: CrawlerYoutubeChannelUpdateRunnerYoutubeChannelObjRelInsertInputOnConflict()
+        )
+    )
 
 
 class YoutubeChannelsInsertInput(BaseModel):
@@ -129,6 +127,7 @@ class YoutubeChannelUpdaterHasura(YoutubeChannelUpdater):
                                 auto_updated_at=auto_updated_at_aware.isoformat(),
                             )
                         ),
+                        on_conflict=CrawlerYoutubeChannelUpdateRunnerYoutubeChannelObjRelInsertInputOnConflict(),
                     ),
                 ),
             )

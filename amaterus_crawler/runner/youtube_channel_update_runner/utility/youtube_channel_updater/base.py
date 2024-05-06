@@ -21,7 +21,7 @@ class YoutubeChannelUpdateQuery:
     """
     @ を含まないハンドル名
     """
-    auto_updated_at: datetime | None
+    auto_updated_at: datetime
     """
     クローラによる自動的な情報取得の日時を表すタイムゾーン付き日時
     """

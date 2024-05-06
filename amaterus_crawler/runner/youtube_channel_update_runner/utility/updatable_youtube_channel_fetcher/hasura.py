@@ -122,6 +122,10 @@ query GetUpdatableYoutubeChannels {
             logger.error(f"Hasura response body: {response_body.model_dump_json()}")
             raise UpdatableYoutubeChannelFetchError("Hasura error occured.")
 
+        if response_body.data is None:
+            logger.error(f"Hasura response body: {response_body.model_dump_json()}")
+            raise UpdatableYoutubeChannelFetchError("Hasura error occured.")
+
         crawler_youtube_channels = (
             response_body.data.crawler__youtube_channel_update_runner__youtube_channels
         )
