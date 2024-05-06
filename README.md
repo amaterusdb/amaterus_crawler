@@ -21,6 +21,7 @@ global:
   s3_secret_access_key: "MY_S3_SECRET_ACCESS_KEY"
 
 # TODO: rename runners -> tasks
+# TODO: schedule tasks like cron
 runners:
   - type: update_youtube_channel
     enabled: true
