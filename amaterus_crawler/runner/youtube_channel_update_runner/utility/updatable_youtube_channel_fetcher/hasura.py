@@ -26,29 +26,47 @@ class UpdatableYoutubeChannelFetcherHasura(UpdatableYoutubeChannelFetcher):
     def __init__(
         self,
         hasura_url: str,
-        hasura_access_token: str,
+        hasura_access_token: str | None = None,
+        hasura_admin_secret: str | None = None,
+        hasura_role: str | None = None,
     ):
         self.hasura_url = hasura_url
         self.hasura_access_token = hasura_access_token
+        self.hasura_admin_secret = hasura_admin_secret
+        self.hasura_role = hasura_role
 
     async def fetch_updatable_youtube_channels(
         self,
     ) -> UpdatableYoutubeChannelFetchResult:
         hasura_url = self.hasura_url
         hasura_access_token = self.hasura_access_token
+        hasura_admin_secret = self.hasura_admin_secret
+        hasura_role = self.hasura_role
 
         hasura_graphql_api_url = hasura_url
         if not hasura_graphql_api_url.endswith("/"):
             hasura_graphql_api_url += "/"
         hasura_graphql_api_url += "v1/graphql"
 
+        headers = {}
+        if hasura_access_token is not None:
+            headers += {
+                "Authorization": f"Bearer {hasura_access_token}",
+            }
+        if hasura_admin_secret is not None:
+            headers += {
+                "X-Hasura-Admin-Secret": hasura_admin_secret,
+            }
+        if hasura_role is not None:
+            headers += {
+                "X-Hasura-Role": hasura_role,
+            }
+
         try:
             async with httpx.AsyncClient() as client:
                 res = await client.post(
                     url=hasura_graphql_api_url,
-                    headers={
-                        "Authorization": f"Bearer {hasura_access_token}",
-                    },
+                    headers=headers,
                     json={
                         "query": """
 query GetYoutubeChannelIds {

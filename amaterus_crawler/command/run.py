@@ -37,24 +37,43 @@ async def execute_subcommand_run(args: Namespace) -> None:
     env_hasura_access_token: str | None = (
         os.environ.get("AMATERUS_CRAWLER_HASURA_ACCESS_TOKEN") or None
     )
+    env_hasura_admin_secret: str | None = (
+        os.environ.get("AMATERUS_CRAWLER_HASURA_ADMIN_SECRET") or None
+    )
+    env_hasura_role: str | None = os.environ.get("AMATERUS_CRAWLER_HASURA_ROLE") or None
     env_youtube_api_key: str | None = (
         os.environ.get("AMATERUS_CRAWLER_YOUTUBE_API_KEY") or None
     )
 
     arg_hasura_url: str | None = args.hasura_url or None
     arg_hasura_access_token: str | None = args.hasura_access_token or None
+    arg_hasura_admin_secret: str | None = args.hasura_admin_secret or None
+    arg_hasura_role: str | None = args.hasura_role or None
     arg_youtube_api_key: str | None = args.youtube_api_key or None
 
-    hasura_url = env_hasura_url or arg_hasura_url or config.global_config.hasura_url
+    hasura_url = (
+        env_hasura_url or arg_hasura_url or config.global_config.hasura_url or None
+    )
     hasura_access_token = (
         env_hasura_access_token
         or arg_hasura_access_token
         or config.global_config.hasura_access_token
+        or None
+    )
+    hasura_admin_secret = (
+        env_hasura_admin_secret
+        or arg_hasura_admin_secret
+        or config.global_config.hasura_admin_secret
+        or None
+    )
+    hasura_role = (
+        env_hasura_role or arg_hasura_role or config.global_config.hasura_role or None
     )
     youtube_api_key = (
         env_youtube_api_key
         or arg_youtube_api_key
         or config.global_config.youtube_api_key
+        or None
     )
 
     runners: list[Runner] = []
@@ -63,8 +82,6 @@ async def execute_subcommand_run(args: Namespace) -> None:
         if runner_type == "update_youtube_channel":
             if hasura_url is None:
                 raise SubcommandRunError("hasura_url is None")
-            if hasura_access_token is None:
-                raise SubcommandRunError("hasura_access_token is None")
             if youtube_api_key is None:
                 raise SubcommandRunError("youtube_api_key is None")
 
@@ -73,6 +90,8 @@ async def execute_subcommand_run(args: Namespace) -> None:
                     updatable_youtube_channel_fetcher=UpdatableYoutubeChannelFetcherHasura(
                         hasura_url=hasura_url,
                         hasura_access_token=hasura_access_token,
+                        hasura_admin_secret=hasura_admin_secret,
+                        hasura_role=hasura_role,
                     ),
                     remote_youtube_channel_fetcher=RemoteYoutubeChannelFetcherYoutubeApi(
                         youtube_api_key=youtube_api_key,
@@ -80,6 +99,8 @@ async def execute_subcommand_run(args: Namespace) -> None:
                     youtube_channel_updater=YoutubeChannelUpdaterHasura(
                         hasura_url=hasura_url,
                         hasura_access_token=hasura_access_token,
+                        hasura_admin_secret=hasura_admin_secret,
+                        hasura_role=hasura_role,
                     ),
                 ),
             )
@@ -101,6 +122,14 @@ async def configure_subcommand_run(parser: ArgumentParser) -> None:
     )
     parser.add_argument(
         "--hasura_access_token",
+        type=str,
+    )
+    parser.add_argument(
+        "--hasura_admin_secret",
+        type=str,
+    )
+    parser.add_argument(
+        "--hasura_role",
         type=str,
     )
     parser.add_argument(
