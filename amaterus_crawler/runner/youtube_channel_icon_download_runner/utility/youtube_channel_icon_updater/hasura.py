@@ -27,12 +27,21 @@ class CrawlerYoutubeChannelIconsInsertInput(BaseModel):
     auto_downloaded_at: str | None
 
 
-class UpsertYouTubeChannelsResponseBodyDataInsertYoutubeChannels(BaseModel):
+class UpsertYouTubeChannelsResponseBodyDataInsertCrawlerYoutubeChannels(BaseModel):
+    affected_rows: int
+
+
+class UpsertYouTubeChannelsResponseBodyDataInsertStorageYoutubeChannelIcons(BaseModel):
     affected_rows: int
 
 
 class UpsertYouTubeChannelsResponseBodyData(BaseModel):
-    insert_youtube_channels: UpsertYouTubeChannelsResponseBodyDataInsertYoutubeChannels
+    insert_crawler__youtube_channel_icon_download_runner__youtube_channels: (
+        UpsertYouTubeChannelsResponseBodyDataInsertCrawlerYoutubeChannels
+    )
+    insert_storage__youtube_channel_icons: (
+        UpsertYouTubeChannelsResponseBodyDataInsertStorageYoutubeChannelIcons
+    )
 
 
 class UpsertYouTubeChannelsResponseBodyError(BaseModel):
@@ -136,6 +145,12 @@ mutation UpsertYoutubeChannelIcons(
 ) {
   insert_crawler__youtube_channel_icon_download_runner__youtube_channels(
     objects: $crawler_youtube_channel_objects
+    on_conflict: {
+      constraint: crawler__youtube_channel_icon_dow_remote_youtube_channel_id_key
+      update_columns: [
+        auto_downloaded_at
+      ]
+    }
   ) {
     affected_rows
   }
