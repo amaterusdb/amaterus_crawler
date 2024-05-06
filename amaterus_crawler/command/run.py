@@ -44,12 +44,26 @@ async def execute_subcommand_run(args: Namespace) -> None:
     env_youtube_api_key: str | None = (
         os.environ.get("AMATERUS_CRAWLER_YOUTUBE_API_KEY") or None
     )
+    env_s3_endpoint_url: str | None = (
+        os.environ.get("AMATERUS_CRAWLER_S3_ENDPOINT_URL") or None
+    )
+    env_s3_bucket: str | None = os.environ.get("AMATERUS_CRAWLER_S3_BUCKET") or None
+    env_s3_access_key_id: str | None = (
+        os.environ.get("AMATERUS_CRAWLER_S3_ACCESS_KEY_ID") or None
+    )
+    env_s3_secret_access_key: str | None = (
+        os.environ.get("AMATERUS_CRAWLER_S3_SECRET_ACCESS_KEY") or None
+    )
 
     arg_hasura_url: str | None = args.hasura_url or None
     arg_hasura_access_token: str | None = args.hasura_access_token or None
     arg_hasura_admin_secret: str | None = args.hasura_admin_secret or None
     arg_hasura_role: str | None = args.hasura_role or None
     arg_youtube_api_key: str | None = args.youtube_api_key or None
+    arg_s3_endpoint_url: str | None = args.s3_endpoint_url or None
+    arg_s3_bucket: str | None = args.s3_bucket or None
+    arg_s3_access_key_id: str | None = args.s3_access_key_id or None
+    arg_s3_secret_access_key: str | None = args.s3_secret_access_key or None
 
     hasura_url = (
         env_hasura_url or arg_hasura_url or config.global_config.hasura_url or None
@@ -73,6 +87,25 @@ async def execute_subcommand_run(args: Namespace) -> None:
         env_youtube_api_key
         or arg_youtube_api_key
         or config.global_config.youtube_api_key
+        or None
+    )
+    s3_endpoint_url = (
+        env_s3_endpoint_url
+        or arg_s3_endpoint_url
+        or config.global_config.s3_endpoint_url
+        or None
+    )
+    s3_bucket = env_s3_bucket or arg_s3_bucket or config.global_config.s3_bucket or None
+    s3_access_key_id = (
+        env_s3_access_key_id
+        or arg_s3_access_key_id
+        or config.global_config.s3_access_key_id
+        or None
+    )
+    s3_secret_access_key = (
+        env_s3_secret_access_key
+        or arg_s3_secret_access_key
+        or config.global_config.s3_secret_access_key
         or None
     )
 
@@ -134,6 +167,22 @@ async def configure_subcommand_run(parser: ArgumentParser) -> None:
     )
     parser.add_argument(
         "--youtube_api_key",
+        type=str,
+    )
+    parser.add_argument(
+        "--s3_endpoint_url",
+        type=str,
+    )
+    parser.add_argument(
+        "--s3_bucket",
+        type=str,
+    )
+    parser.add_argument(
+        "--s3_access_key_id",
+        type=str,
+    )
+    parser.add_argument(
+        "--s3_secret_access_key",
         type=str,
     )
 
