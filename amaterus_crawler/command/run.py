@@ -4,6 +4,7 @@ from logging import getLogger
 from pathlib import Path
 
 from ..config.config_parser import parse_amaterus_crawler_config_from_file
+from ..config.runner_config import UpdateYoutubeChannelConfigOptions
 from ..runner import Runner
 from ..runner.youtube_channel_update_runner import YoutubeChannelUpdateRunner
 from ..runner.youtube_channel_update_runner.utility.remote_youtube_channel_fetcher import (
@@ -113,8 +114,22 @@ async def execute_subcommand_run(args: Namespace) -> None:
     for runner_config in config.runner_configs:
         runner_type = runner_config.type
         if runner_type == "update_youtube_channel":
+            options = runner_config.options
+            if options is not None:
+                assert isinstance(options, UpdateYoutubeChannelConfigOptions)
+
+                if options.override_hasura:
+                    hasura_url = options.hasura_url
+                    hasura_access_token = options.hasura_access_token
+                    hasura_admin_secret = options.hasura_admin_secret
+                    hasura_role = options.hasura_role
+
+                if options.override_youtube_api_key:
+                    youtube_api_key = options.youtube_api_key
+
             if hasura_url is None:
                 raise SubcommandRunError("hasura_url is None")
+
             if youtube_api_key is None:
                 raise SubcommandRunError("youtube_api_key is None")
 
