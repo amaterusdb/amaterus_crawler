@@ -1,6 +1,6 @@
 from ..base import Runner
 from .utility.remote_youtube_channel_fetcher import RemoteYoutubeChannelFetcher
-from .utility.youtube_channel_fetcher import UpdatableYoutubeChannelFetcher
+from .utility.updatable_youtube_channel_fetcher import UpdatableYoutubeChannelFetcher
 from .utility.youtube_channel_updater import (
     YoutubeChannelUpdateQuery,
     YoutubeChannelUpdater,

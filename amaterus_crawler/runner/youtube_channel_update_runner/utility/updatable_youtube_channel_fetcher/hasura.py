@@ -22,7 +22,7 @@ class GetYoutubeChannelInfosResponseBody(BaseModel):
     data: GetYoutubeChannelInfosResponseBodyData
 
 
-class YoutubeChannelInfoFetcherHasura(UpdatableYoutubeChannelFetcher):
+class UpdatableYoutubeChannelFetcherHasura(UpdatableYoutubeChannelFetcher):
     def __init__(
         self,
         hasura_url: str,
