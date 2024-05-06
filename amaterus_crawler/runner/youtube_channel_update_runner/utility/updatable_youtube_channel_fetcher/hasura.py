@@ -33,7 +33,7 @@ class GetYoutubeChannelInfosResponseBodyError(BaseModel):
 
 
 class GetYoutubeChannelInfosResponseBody(BaseModel):
-    data: GetYoutubeChannelInfosResponseBodyData
+    data: GetYoutubeChannelInfosResponseBodyData | None = None
     errors: list[GetYoutubeChannelInfosResponseBodyError] | None = None
 
 
