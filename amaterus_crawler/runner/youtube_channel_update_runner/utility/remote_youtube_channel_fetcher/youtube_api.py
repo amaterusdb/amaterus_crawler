@@ -45,14 +45,14 @@ class RemoteYoutubeChannelFetcherYoutubeApi(RemoteYoutubeChannelFetcher):
 
     async def fetch_remote_youtube_channels(
         self,
-        channel_ids: list[str],
+        remote_youtube_channel_ids: list[str],
     ) -> RemoteYoutubeChannelFetchResult:
         youtube_api_key = self.youtube_api_key
 
-        if len(channel_ids) == 0:
+        if len(remote_youtube_channel_ids) == 0:
             raise RemoteYoutubeChannelFetchError("channel_ids is empty.")
 
-        if len(channel_ids) > 50:
+        if len(remote_youtube_channel_ids) > 50:
             raise RemoteYoutubeChannelFetchError("len(channel_ids) > 50")
 
         try:
@@ -62,7 +62,7 @@ class RemoteYoutubeChannelFetcherYoutubeApi(RemoteYoutubeChannelFetcher):
                     params={
                         "key": youtube_api_key,
                         "part": "snippet",
-                        "id": ",".join(channel_ids),
+                        "id": ",".join(remote_youtube_channel_ids),
                     },
                 )
 
