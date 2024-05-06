@@ -55,14 +55,21 @@ class RemoteYoutubeChannelFetcherYoutubeApi(RemoteYoutubeChannelFetcher):
         if len(channel_ids) > 50:
             raise RemoteYoutubeChannelFetchError("len(channel_ids) > 50")
 
-        async with httpx.AsyncClient() as client:
-            channel_api_response = await client.get(
-                "https://www.googleapis.com/youtube/v3/channels",
-                params={
-                    "key": youtube_api_key,
-                    "part": "snippet",
-                    "id": ",".join(channel_ids),
-                },
+        try:
+            async with httpx.AsyncClient() as client:
+                channel_api_response = await client.get(
+                    "https://www.googleapis.com/youtube/v3/channels",
+                    params={
+                        "key": youtube_api_key,
+                        "part": "snippet",
+                        "id": ",".join(channel_ids),
+                    },
+                )
+
+                channel_api_response.raise_for_status()
+        except httpx.HTTPError:
+            raise RemoteYoutubeChannelFetchError(
+                "Failed to fetch YouTube channel data from YouTube Data API."
             )
 
         channel_api_dict = channel_api_response.json()
