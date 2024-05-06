@@ -19,17 +19,17 @@ class YoutubeChannelUpdaterHasura(YoutubeChannelUpdater):
     def __init__(
         self,
         hasura_url: str,
-        access_token: str,
+        hasura_access_token: str,
     ):
         self.hasura_url = hasura_url
-        self.access_token = access_token
+        self.hasura_access_token = hasura_access_token
 
     async def update_youtube_channels(
         self,
         update_queries: list[YoutubeChannelUpdateQuery],
     ) -> None:
         hasura_url = self.hasura_url
-        access_token = self.access_token
+        hasura_access_token = self.hasura_access_token
 
         objects: list[YoutubeChannelsInsertInput] = []
         for update_query in update_queries:
@@ -47,7 +47,7 @@ class YoutubeChannelUpdaterHasura(YoutubeChannelUpdater):
                 res = await client.post(
                     url=hasura_url,
                     headers={
-                        "Authorization": f"Bearer {access_token}",
+                        "Authorization": f"Bearer {hasura_access_token}",
                     },
                     json={
                         "query": """
