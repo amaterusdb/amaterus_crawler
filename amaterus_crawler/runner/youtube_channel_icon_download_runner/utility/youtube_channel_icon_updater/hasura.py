@@ -57,7 +57,7 @@ class YoutubeChannelIconUpdaterHasura(YoutubeChannelIconUpdater):
         self.hasura_admin_secret = hasura_admin_secret
         self.hasura_role = hasura_role
 
-    async def update_youtube_channels(
+    async def update_youtube_channel_icons(
         self,
         update_queries: list[YoutubeChannelIconUpdateQuery],
     ) -> None:

@@ -53,7 +53,7 @@ class DownloadableYoutubeChannelIconFetcherHasura(
         self.hasura_admin_secret = hasura_admin_secret
         self.hasura_role = hasura_role
 
-    async def fetch_updatable_youtube_channels(
+    async def fetch_downloadable_youtube_channel_icons(
         self,
     ) -> DownloadableYoutubeChannelIconFetchResult:
         hasura_url = self.hasura_url
