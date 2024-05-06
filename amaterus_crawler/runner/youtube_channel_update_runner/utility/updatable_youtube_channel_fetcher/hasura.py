@@ -50,17 +50,23 @@ class UpdatableYoutubeChannelFetcherHasura(UpdatableYoutubeChannelFetcher):
 
         headers = {}
         if hasura_access_token is not None:
-            headers += {
-                "Authorization": f"Bearer {hasura_access_token}",
-            }
+            headers.update(
+                {
+                    "Authorization": f"Bearer {hasura_access_token}",
+                }
+            )
         if hasura_admin_secret is not None:
-            headers += {
-                "X-Hasura-Admin-Secret": hasura_admin_secret,
-            }
+            headers.update(
+                {
+                    "X-Hasura-Admin-Secret": hasura_admin_secret,
+                }
+            )
         if hasura_role is not None:
-            headers += {
-                "X-Hasura-Role": hasura_role,
-            }
+            headers.update(
+                {
+                    "X-Hasura-Role": hasura_role,
+                }
+            )
 
         try:
             async with httpx.AsyncClient() as client:
