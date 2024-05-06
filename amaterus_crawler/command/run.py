@@ -4,8 +4,26 @@ from logging import getLogger
 from pathlib import Path
 
 from ..config.config_parser import parse_amaterus_crawler_config_from_file
-from ..config.runner_config import UpdateYoutubeChannelConfigOptions
+from ..config.runner_config import (
+    DownloadYoutubeChannelIconConfigOptions,
+    UpdateYoutubeChannelConfigOptions,
+)
 from ..runner import Runner
+from ..runner.youtube_channel_icon_download_runner import (
+    YoutubeChannelIconDownloadRunner,
+)
+from ..runner.youtube_channel_icon_download_runner.utility.downloadable_youtube_channel_icon_fetcher import (  # noqa: B950
+    DownloadableYoutubeChannelIconFetcherHasura,
+)
+from ..runner.youtube_channel_icon_download_runner.utility.youtube_channel_icon_downloader import (  # noqa: B950
+    YoutubeChannelIconDownloaderYoutubeHttp,
+)
+from ..runner.youtube_channel_icon_download_runner.utility.youtube_channel_icon_updater import (
+    YoutubeChannelIconUpdaterHasura,
+)
+from ..runner.youtube_channel_icon_download_runner.utility.youtube_channel_icon_uploader import (  # noqa: B950
+    YoutubeChannelIconUploaderS3,
+)
 from ..runner.youtube_channel_update_runner import YoutubeChannelUpdateRunner
 from ..runner.youtube_channel_update_runner.utility.remote_youtube_channel_fetcher import (
     RemoteYoutubeChannelFetcherYoutubeApi,
@@ -145,6 +163,63 @@ async def execute_subcommand_run(args: Namespace) -> None:
                         youtube_api_key=youtube_api_key,
                     ),
                     youtube_channel_updater=YoutubeChannelUpdaterHasura(
+                        hasura_url=hasura_url,
+                        hasura_access_token=hasura_access_token,
+                        hasura_admin_secret=hasura_admin_secret,
+                        hasura_role=hasura_role,
+                    ),
+                ),
+            )
+        elif runner_type == "download_youtube_channel_icon":
+            object_key_prefix: str | None = None
+
+            options = runner_config.options
+            if options is not None:
+                assert isinstance(options, DownloadYoutubeChannelIconConfigOptions)
+
+                if options.override_hasura:
+                    hasura_url = options.hasura_url
+                    hasura_access_token = options.hasura_access_token
+                    hasura_admin_secret = options.hasura_admin_secret
+                    hasura_role = options.hasura_role
+
+                if options.override_s3:
+                    s3_endpoint_url = options.s3_endpoint_url
+                    s3_bucket = options.s3_bucket
+                    s3_access_key_id = options.s3_access_key_id
+                    s3_secret_access_key = options.s3_secret_access_key
+
+                object_key_prefix = options.object_key_prefix
+
+            if hasura_url is None:
+                raise SubcommandRunError("hasura_url is None")
+
+            if s3_endpoint_url is None:
+                raise SubcommandRunError("s3_endpoint_url is None")
+            if s3_bucket is None:
+                raise SubcommandRunError("s3_bucket is None")
+            if s3_access_key_id is None:
+                raise SubcommandRunError("s3_access_key_id is None")
+            if s3_secret_access_key is None:
+                raise SubcommandRunError("s3_secret_access_key is None")
+
+            runners.append(
+                YoutubeChannelIconDownloadRunner(
+                    downloadable_youtube_channel_icon_fetcher=DownloadableYoutubeChannelIconFetcherHasura(
+                        hasura_url=hasura_url,
+                        hasura_access_token=hasura_access_token,
+                        hasura_admin_secret=hasura_admin_secret,
+                        hasura_role=hasura_role,
+                    ),
+                    youtube_channel_icon_downloader=YoutubeChannelIconDownloaderYoutubeHttp(),
+                    youtube_channel_icon_uploader=YoutubeChannelIconUploaderS3(
+                        s3_endpoint_url=s3_endpoint_url,
+                        s3_bucket=s3_bucket,
+                        s3_access_key_id=s3_access_key_id,
+                        s3_secret_access_key=s3_secret_access_key,
+                        object_key_prefix=object_key_prefix,
+                    ),
+                    youtube_channel_icon_updater=YoutubeChannelIconUpdaterHasura(
                         hasura_url=hasura_url,
                         hasura_access_token=hasura_access_token,
                         hasura_admin_secret=hasura_admin_secret,
