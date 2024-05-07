@@ -17,24 +17,22 @@ class YoutubeChannel(BaseModel):
     name: str
 
 
-class CrawlerYoutubeChannelUpdateTaskYoutubeChannel(BaseModel):
+class CrawlerYoutubeChannelConfig(BaseModel):
     remote_youtube_channel_id: str
     youtube_channel: YoutubeChannel | None = None
 
 
-class GetYoutubeChannelInfosResponseBodyData(BaseModel):
-    crawler__youtube_channel_update_task__youtube_channels: list[
-        CrawlerYoutubeChannelUpdateTaskYoutubeChannel
-    ]
+class GetUpdatableYoutubeChannelsResponseBodyData(BaseModel):
+    crawler__youtube_channel_configs: list[CrawlerYoutubeChannelConfig]
 
 
-class GetYoutubeChannelInfosResponseBodyError(BaseModel):
+class GetUpdatableYoutubeChannelsResponseBodyError(BaseModel):
     message: str
 
 
-class GetYoutubeChannelInfosResponseBody(BaseModel):
-    data: GetYoutubeChannelInfosResponseBodyData | None = None
-    errors: list[GetYoutubeChannelInfosResponseBodyError] | None = None
+class GetUpdatableYoutubeChannelsResponseBody(BaseModel):
+    data: GetUpdatableYoutubeChannelsResponseBodyData | None = None
+    errors: list[GetUpdatableYoutubeChannelsResponseBodyError] | None = None
 
 
 class UpdatableYoutubeChannelFetcherHasura(UpdatableYoutubeChannelFetcher):
@@ -91,7 +89,7 @@ class UpdatableYoutubeChannelFetcherHasura(UpdatableYoutubeChannelFetcher):
                     json={
                         "query": """
 query GetUpdatableYoutubeChannels {
-  crawler__youtube_channel_update_task__youtube_channels(
+  crawler__youtube_channel_configs(
     where: {
       auto_update_enabled: {
         _eq: true
@@ -114,10 +112,12 @@ query GetUpdatableYoutubeChannels {
                 res.raise_for_status()
         except httpx.HTTPError:
             raise UpdatableYoutubeChannelFetchError(
-                "Failed to fetch youtube channel ids."
+                "Failed to fetch updatable youtube channels."
             )
 
-        response_body = GetYoutubeChannelInfosResponseBody.model_validate(res.json())
+        response_body = GetUpdatableYoutubeChannelsResponseBody.model_validate(
+            res.json()
+        )
         if response_body.errors is not None and len(response_body.errors) > 0:
             logger.error(f"Hasura response body: {response_body.model_dump_json()}")
             raise UpdatableYoutubeChannelFetchError("Hasura error occured.")
@@ -126,9 +126,7 @@ query GetUpdatableYoutubeChannels {
             logger.error(f"Hasura response body: {response_body.model_dump_json()}")
             raise UpdatableYoutubeChannelFetchError("Hasura error occured.")
 
-        crawler_youtube_channels = (
-            response_body.data.crawler__youtube_channel_update_task__youtube_channels
-        )
+        crawler_youtube_channels = response_body.data.crawler__youtube_channel_configs
 
         updatable_youtube_channels: list[UpdatableYoutubeChannel] = []
         for crawler_youtube_channel in crawler_youtube_channels:

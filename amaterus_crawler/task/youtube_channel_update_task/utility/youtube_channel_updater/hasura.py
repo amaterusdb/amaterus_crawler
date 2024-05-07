@@ -13,24 +13,20 @@ from .base import (
 logger = getLogger(__name__)
 
 
-class CrawlerYoutubeChannelUpdateTaskYoutubeChannelInsertInput(BaseModel):
+class CrawlerYoutubeChannelConfigInsertInput(BaseModel):
     auto_updated_at: str | None
 
 
-class CrawlerYoutubeChannelUpdateTaskYoutubeChannelObjRelInsertInputOnConflict(
-    BaseModel
-):
-    constraint: str = "crawler__youtube_channel_update_r_remote_youtube_channel_id_key"
+class CrawlerYoutubeChannelConfigObjRelInsertInputOnConflict(BaseModel):
+    constraint: str = "crawler__youtube_channel_configs_remote_youtube_channel_id_key"
     update_columns: list[str] = Field(default_factory=lambda: ["auto_updated_at"])
 
 
-class CrawlerYoutubeChannelUpdateTaskYoutubeChannelObjRelInsertInput(BaseModel):
-    data: CrawlerYoutubeChannelUpdateTaskYoutubeChannelInsertInput
-    on_conflict: (
-        CrawlerYoutubeChannelUpdateTaskYoutubeChannelObjRelInsertInputOnConflict
-    ) = Field(
+class CrawlerYoutubeChannelConfigObjRelInsertInput(BaseModel):
+    data: CrawlerYoutubeChannelConfigInsertInput
+    on_conflict: CrawlerYoutubeChannelConfigObjRelInsertInputOnConflict = Field(
         default_factory=(
-            lambda: CrawlerYoutubeChannelUpdateTaskYoutubeChannelObjRelInsertInputOnConflict()
+            lambda: CrawlerYoutubeChannelConfigObjRelInsertInputOnConflict()
         )
     )
 
@@ -40,9 +36,7 @@ class YoutubeChannelsInsertInput(BaseModel):
     name: str
     icon_url: str | None
     youtube_channel_handle: str | None
-    crawler__youtube_channel_update_task__youtube_channel: (
-        CrawlerYoutubeChannelUpdateTaskYoutubeChannelObjRelInsertInput
-    )
+    crawler__youtube_channel_config: CrawlerYoutubeChannelConfigObjRelInsertInput
 
 
 class UpsertYouTubeChannelsResponseBodyDataInsertYoutubeChannels(BaseModel):
@@ -121,13 +115,13 @@ class YoutubeChannelUpdaterHasura(YoutubeChannelUpdater):
                     name=update_query.name,
                     icon_url=update_query.icon_url,
                     youtube_channel_handle=update_query.youtube_channel_handle,
-                    crawler__youtube_channel_update_task__youtube_channel=CrawlerYoutubeChannelUpdateTaskYoutubeChannelObjRelInsertInput(
+                    crawler__youtube_channel_config=CrawlerYoutubeChannelConfigObjRelInsertInput(
                         data=(
-                            CrawlerYoutubeChannelUpdateTaskYoutubeChannelInsertInput(
+                            CrawlerYoutubeChannelConfigInsertInput(
                                 auto_updated_at=auto_updated_at_aware.isoformat(),
                             )
                         ),
-                        on_conflict=CrawlerYoutubeChannelUpdateTaskYoutubeChannelObjRelInsertInputOnConflict(),
+                        on_conflict=CrawlerYoutubeChannelConfigObjRelInsertInputOnConflict(),
                     ),
                 ),
             )
