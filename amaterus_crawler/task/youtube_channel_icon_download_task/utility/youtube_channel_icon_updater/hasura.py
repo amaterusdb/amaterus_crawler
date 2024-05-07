@@ -22,15 +22,6 @@ class StorageYoutubeChannelIconInsertInput(BaseModel):
     object_sha256_digest: str | None
 
 
-class CrawlerYoutubeChannelIconsInsertInput(BaseModel):
-    remote_youtube_channel_id: str
-    auto_downloaded_at: str | None
-
-
-class UpsertYouTubeChannelIconsResponseBodyDataInsertCrawlerYoutubeChannels(BaseModel):
-    affected_rows: int
-
-
 class UpsertYouTubeChannelIconsResponseBodyDataInsertStorageYoutubeChannelIcons(
     BaseModel
 ):
@@ -38,9 +29,6 @@ class UpsertYouTubeChannelIconsResponseBodyDataInsertStorageYoutubeChannelIcons(
 
 
 class UpsertYouTubeChannelIconsResponseBodyData(BaseModel):
-    insert_crawler__youtube_channel_icon_download_task__youtube_channels: (
-        UpsertYouTubeChannelIconsResponseBodyDataInsertCrawlerYoutubeChannels
-    )
     insert_storage__youtube_channel_icons: (
         UpsertYouTubeChannelIconsResponseBodyDataInsertStorageYoutubeChannelIcons
     )
@@ -102,9 +90,6 @@ class YoutubeChannelIconUpdaterHasura(YoutubeChannelIconUpdater):
                 }
             )
 
-        crawler_youtube_channel_objects: list[CrawlerYoutubeChannelIconsInsertInput] = (
-            []
-        )
         storage_youtube_channel_icon_objects: list[
             StorageYoutubeChannelIconInsertInput
         ] = []
@@ -117,12 +102,6 @@ class YoutubeChannelIconUpdaterHasura(YoutubeChannelIconUpdater):
                 )
                 downloaded_at_string = downloaded_at_aware.isoformat()
 
-            crawler_youtube_channel_objects.append(
-                CrawlerYoutubeChannelIconsInsertInput(
-                    remote_youtube_channel_id=update_query.remote_youtube_channel_id,
-                    auto_downloaded_at=downloaded_at_string,
-                ),
-            )
             storage_youtube_channel_icon_objects.append(
                 StorageYoutubeChannelIconInsertInput(
                     remote_youtube_channel_id=update_query.remote_youtube_channel_id,
@@ -142,21 +121,8 @@ class YoutubeChannelIconUpdaterHasura(YoutubeChannelIconUpdater):
                     json={
                         "query": """  # noqa: B950
 mutation UpsertYoutubeChannelIcons(
-  $crawler_youtube_channel_objects: [crawler__youtube_channel_icon_download_task__youtube_channels_insert_input!]!
   $storage_youtube_channel_icon_objects: [storage__youtube_channel_icons_insert_input!]!
 ) {
-  insert_crawler__youtube_channel_icon_download_task__youtube_channels(
-    objects: $crawler_youtube_channel_objects
-    on_conflict: {
-      constraint: crawler__youtube_channel_icon_dow_remote_youtube_channel_id_key
-      update_columns: [
-        auto_downloaded_at
-      ]
-    }
-  ) {
-    affected_rows
-  }
-
   insert_storage__youtube_channel_icons(
     objects: $storage_youtube_channel_icon_objects
     on_conflict: {
@@ -174,9 +140,6 @@ mutation UpsertYoutubeChannelIcons(
 }
 """,
                         "variables": {
-                            "crawler_youtube_channel_objects": TypeAdapter(
-                                list[CrawlerYoutubeChannelIconsInsertInput]
-                            ).dump_python(crawler_youtube_channel_objects),
                             "storage_youtube_channel_icon_objects": TypeAdapter(
                                 list[StorageYoutubeChannelIconInsertInput]
                             ).dump_python(storage_youtube_channel_icon_objects),
