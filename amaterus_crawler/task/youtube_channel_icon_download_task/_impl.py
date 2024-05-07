@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from uuid import uuid4
 
-from ..base import Runner
+from ..base import AmaterusCrawlerTask
 from .utility.downloadable_youtube_channel_icon_fetcher import (
     DownloadableYoutubeChannelIconFetcher,
 )
@@ -20,7 +20,7 @@ from .utility.youtube_channel_icon_uploader import (
 )
 
 
-class YoutubeChannelIconDownloadRunner(Runner):
+class YoutubeChannelIconDownloadTask(AmaterusCrawlerTask):
     def __init__(
         self,
         downloadable_youtube_channel_icon_fetcher: DownloadableYoutubeChannelIconFetcher,

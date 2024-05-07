@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 
-from ..base import Runner
+from ..base import AmaterusCrawlerTask
 from .utility.remote_youtube_channel_fetcher import RemoteYoutubeChannelFetcher
 from .utility.updatable_youtube_channel_fetcher import UpdatableYoutubeChannelFetcher
 from .utility.youtube_channel_updater import (
@@ -9,7 +9,7 @@ from .utility.youtube_channel_updater import (
 )
 
 
-class YoutubeChannelUpdateRunner(Runner):
+class YoutubeChannelUpdateTask(AmaterusCrawlerTask):
     def __init__(
         self,
         updatable_youtube_channel_fetcher: UpdatableYoutubeChannelFetcher,

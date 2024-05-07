@@ -5,16 +5,16 @@ import yaml
 from pydantic import BaseModel, Field
 
 from .global_config import GlobalConfig
-from .runner_config import DownloadYoutubeChannelIconConfig, UpdateYoutubeChannelConfig
+from .task_config import DownloadYoutubeChannelIconConfig, UpdateYoutubeChannelConfig
 
-RunnerConfigType = UpdateYoutubeChannelConfig | DownloadYoutubeChannelIconConfig
+TaskConfigType = UpdateYoutubeChannelConfig | DownloadYoutubeChannelIconConfig
 
 
 class AmaterusCrawlerConfig(BaseModel):
     global_config: Annotated[GlobalConfig, Field(alias="global")]
-    runner_configs: Annotated[
-        list[RunnerConfigType],
-        Field(alias="runners", default_factory=lambda: []),
+    task_configs: Annotated[
+        list[TaskConfigType],
+        Field(alias="tasks", default_factory=lambda: []),
     ]
 
 

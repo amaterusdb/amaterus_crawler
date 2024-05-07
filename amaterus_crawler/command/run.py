@@ -4,34 +4,32 @@ from logging import getLogger
 from pathlib import Path
 
 from ..config.config_parser import parse_amaterus_crawler_config_from_file
-from ..config.runner_config import (
+from ..config.task_config import (
     DownloadYoutubeChannelIconConfigOptions,
     UpdateYoutubeChannelConfigOptions,
 )
-from ..runner import Runner
-from ..runner.youtube_channel_icon_download_runner import (
-    YoutubeChannelIconDownloadRunner,
-)
-from ..runner.youtube_channel_icon_download_runner.utility.downloadable_youtube_channel_icon_fetcher import (  # noqa: B950
+from ..task import AmaterusCrawlerTask
+from ..task.youtube_channel_icon_download_task import YoutubeChannelIconDownloadTask
+from ..task.youtube_channel_icon_download_task.utility.downloadable_youtube_channel_icon_fetcher import (  # noqa: B950
     DownloadableYoutubeChannelIconFetcherHasura,
 )
-from ..runner.youtube_channel_icon_download_runner.utility.youtube_channel_icon_downloader import (  # noqa: B950
+from ..task.youtube_channel_icon_download_task.utility.youtube_channel_icon_downloader import (  # noqa: B950
     YoutubeChannelIconDownloaderYoutubeHttp,
 )
-from ..runner.youtube_channel_icon_download_runner.utility.youtube_channel_icon_updater import (
+from ..task.youtube_channel_icon_download_task.utility.youtube_channel_icon_updater import (
     YoutubeChannelIconUpdaterHasura,
 )
-from ..runner.youtube_channel_icon_download_runner.utility.youtube_channel_icon_uploader import (  # noqa: B950
+from ..task.youtube_channel_icon_download_task.utility.youtube_channel_icon_uploader import (  # noqa: B950
     YoutubeChannelIconUploaderS3,
 )
-from ..runner.youtube_channel_update_runner import YoutubeChannelUpdateRunner
-from ..runner.youtube_channel_update_runner.utility.remote_youtube_channel_fetcher import (
+from ..task.youtube_channel_update_task import YoutubeChannelUpdateTask
+from ..task.youtube_channel_update_task.utility.remote_youtube_channel_fetcher import (
     RemoteYoutubeChannelFetcherYoutubeApi,
 )
-from ..runner.youtube_channel_update_runner.utility.updatable_youtube_channel_fetcher import (
+from ..task.youtube_channel_update_task.utility.updatable_youtube_channel_fetcher import (
     UpdatableYoutubeChannelFetcherHasura,
 )
-from ..runner.youtube_channel_update_runner.utility.youtube_channel_updater import (
+from ..task.youtube_channel_update_task.utility.youtube_channel_updater import (
     YoutubeChannelUpdaterHasura,
 )
 
@@ -128,11 +126,11 @@ async def execute_subcommand_run(args: Namespace) -> None:
         or None
     )
 
-    runners: list[Runner] = []
-    for runner_config in config.runner_configs:
-        runner_type = runner_config.type
-        if runner_type == "update_youtube_channel":
-            options = runner_config.options
+    tasks: list[AmaterusCrawlerTask] = []
+    for task_config in config.task_configs:
+        task_type = task_config.type
+        if task_type == "update_youtube_channel":
+            options = task_config.options
             if options is not None:
                 assert isinstance(options, UpdateYoutubeChannelConfigOptions)
 
@@ -151,8 +149,8 @@ async def execute_subcommand_run(args: Namespace) -> None:
             if youtube_api_key is None:
                 raise SubcommandRunError("youtube_api_key is None")
 
-            runners.append(
-                YoutubeChannelUpdateRunner(
+            tasks.append(
+                YoutubeChannelUpdateTask(
                     updatable_youtube_channel_fetcher=UpdatableYoutubeChannelFetcherHasura(
                         hasura_url=hasura_url,
                         hasura_access_token=hasura_access_token,
@@ -170,10 +168,10 @@ async def execute_subcommand_run(args: Namespace) -> None:
                     ),
                 ),
             )
-        elif runner_type == "download_youtube_channel_icon":
+        elif task_type == "download_youtube_channel_icon":
             object_key_prefix: str | None = None
 
-            options = runner_config.options
+            options = task_config.options
             if options is not None:
                 assert isinstance(options, DownloadYoutubeChannelIconConfigOptions)
 
@@ -203,8 +201,8 @@ async def execute_subcommand_run(args: Namespace) -> None:
             if s3_secret_access_key is None:
                 raise SubcommandRunError("s3_secret_access_key is None")
 
-            runners.append(
-                YoutubeChannelIconDownloadRunner(
+            tasks.append(
+                YoutubeChannelIconDownloadTask(
                     downloadable_youtube_channel_icon_fetcher=DownloadableYoutubeChannelIconFetcherHasura(
                         hasura_url=hasura_url,
                         hasura_access_token=hasura_access_token,
@@ -228,8 +226,8 @@ async def execute_subcommand_run(args: Namespace) -> None:
                 ),
             )
 
-    for runner in runners:
-        await runner.run()
+    for task in tasks:
+        await task.run()
 
 
 async def configure_subcommand_run(parser: ArgumentParser) -> None:

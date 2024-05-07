@@ -17,14 +17,14 @@ class YoutubeChannel(BaseModel):
     name: str
 
 
-class CrawlerYoutubeChannelUpdateRunnerYoutubeChannel(BaseModel):
+class CrawlerYoutubeChannelUpdateTaskYoutubeChannel(BaseModel):
     remote_youtube_channel_id: str
     youtube_channel: YoutubeChannel | None = None
 
 
 class GetYoutubeChannelInfosResponseBodyData(BaseModel):
     crawler__youtube_channel_update_runner__youtube_channels: list[
-        CrawlerYoutubeChannelUpdateRunnerYoutubeChannel
+        CrawlerYoutubeChannelUpdateTaskYoutubeChannel
     ]
 
 
