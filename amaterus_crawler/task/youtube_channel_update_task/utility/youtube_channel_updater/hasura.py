@@ -40,7 +40,7 @@ class YoutubeChannelsInsertInput(BaseModel):
     name: str
     icon_url: str | None
     youtube_channel_handle: str | None
-    crawler__youtube_channel_update_runner__youtube_channel: (
+    crawler__youtube_channel_update_task__youtube_channel: (
         CrawlerYoutubeChannelUpdateTaskYoutubeChannelObjRelInsertInput
     )
 
@@ -121,7 +121,7 @@ class YoutubeChannelUpdaterHasura(YoutubeChannelUpdater):
                     name=update_query.name,
                     icon_url=update_query.icon_url,
                     youtube_channel_handle=update_query.youtube_channel_handle,
-                    crawler__youtube_channel_update_runner__youtube_channel=CrawlerYoutubeChannelUpdateTaskYoutubeChannelObjRelInsertInput(
+                    crawler__youtube_channel_update_task__youtube_channel=CrawlerYoutubeChannelUpdateTaskYoutubeChannelObjRelInsertInput(
                         data=(
                             CrawlerYoutubeChannelUpdateTaskYoutubeChannelInsertInput(
                                 auto_updated_at=auto_updated_at_aware.isoformat(),

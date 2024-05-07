@@ -38,7 +38,7 @@ class UpsertYouTubeChannelIconsResponseBodyDataInsertStorageYoutubeChannelIcons(
 
 
 class UpsertYouTubeChannelIconsResponseBodyData(BaseModel):
-    insert_crawler__youtube_channel_icon_download_runner__youtube_channels: (
+    insert_crawler__youtube_channel_icon_download_task__youtube_channels: (
         UpsertYouTubeChannelIconsResponseBodyDataInsertCrawlerYoutubeChannels
     )
     insert_storage__youtube_channel_icons: (
@@ -142,10 +142,10 @@ class YoutubeChannelIconUpdaterHasura(YoutubeChannelIconUpdater):
                     json={
                         "query": """  # noqa: B950
 mutation UpsertYoutubeChannelIcons(
-  $crawler_youtube_channel_objects: [crawler__youtube_channel_icon_download_runner__youtube_channels_insert_input!]!
+  $crawler_youtube_channel_objects: [crawler__youtube_channel_icon_download_task__youtube_channels_insert_input!]!
   $storage_youtube_channel_icon_objects: [storage__youtube_channel_icons_insert_input!]!
 ) {
-  insert_crawler__youtube_channel_icon_download_runner__youtube_channels(
+  insert_crawler__youtube_channel_icon_download_task__youtube_channels(
     objects: $crawler_youtube_channel_objects
     on_conflict: {
       constraint: crawler__youtube_channel_icon_dow_remote_youtube_channel_id_key

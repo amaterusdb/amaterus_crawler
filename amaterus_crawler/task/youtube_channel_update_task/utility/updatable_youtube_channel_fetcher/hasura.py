@@ -23,7 +23,7 @@ class CrawlerYoutubeChannelUpdateTaskYoutubeChannel(BaseModel):
 
 
 class GetYoutubeChannelInfosResponseBodyData(BaseModel):
-    crawler__youtube_channel_update_runner__youtube_channels: list[
+    crawler__youtube_channel_update_task__youtube_channels: list[
         CrawlerYoutubeChannelUpdateTaskYoutubeChannel
     ]
 
@@ -91,7 +91,7 @@ class UpdatableYoutubeChannelFetcherHasura(UpdatableYoutubeChannelFetcher):
                     json={
                         "query": """
 query GetUpdatableYoutubeChannels {
-  crawler__youtube_channel_update_runner__youtube_channels(
+  crawler__youtube_channel_update_task__youtube_channels(
     where: {
       auto_update_enabled: {
         _eq: true
@@ -127,7 +127,7 @@ query GetUpdatableYoutubeChannels {
             raise UpdatableYoutubeChannelFetchError("Hasura error occured.")
 
         crawler_youtube_channels = (
-            response_body.data.crawler__youtube_channel_update_runner__youtube_channels
+            response_body.data.crawler__youtube_channel_update_task__youtube_channels
         )
 
         updatable_youtube_channels: list[UpdatableYoutubeChannel] = []

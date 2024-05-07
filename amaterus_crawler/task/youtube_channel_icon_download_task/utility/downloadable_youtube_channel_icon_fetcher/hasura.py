@@ -24,7 +24,7 @@ class CrawlerYoutubeChannel(BaseModel):
 
 
 class GetDownloadableYoutubeChannelIconsResponseBodyData(BaseModel):
-    crawler__youtube_channel_icon_download_runner__youtube_channels: list[
+    crawler__youtube_channel_icon_download_task__youtube_channels: list[
         CrawlerYoutubeChannel
     ]
 
@@ -94,7 +94,7 @@ class DownloadableYoutubeChannelIconFetcherHasura(
                     json={
                         "query": """
 query GetDownloadableYoutubeChannelIcons {
-  crawler__youtube_channel_icon_download_runner__youtube_channels(
+  crawler__youtube_channel_icon_download_task__youtube_channels(
     where: {
       auto_download_enabled: {
         _eq: true
@@ -140,7 +140,7 @@ query GetDownloadableYoutubeChannelIcons {
             raise DownloadableYoutubeChannelIconFetchError("Hasura error occured.")
 
         crawler_youtube_channels = (
-            response_body.data.crawler__youtube_channel_icon_download_runner__youtube_channels
+            response_body.data.crawler__youtube_channel_icon_download_task__youtube_channels
         )
 
         downloadable_youtube_channel_icons: list[DownloadableYoutubeChannelIcon] = []
