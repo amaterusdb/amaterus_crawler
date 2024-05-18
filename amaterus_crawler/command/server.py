@@ -94,8 +94,13 @@ async def execute_subcommand_server(
     if hasura_role is not None:
         graphql_client_headers["X-Hasura-Role"] = hasura_role
 
+    hasura_graphql_api_url = hasura_url
+    if not hasura_graphql_api_url.endswith("/"):
+        hasura_graphql_api_url += "/"
+    hasura_graphql_api_url += "v1/graphql"
+
     graphql_client = Client(
-        url=hasura_url,
+        url=hasura_graphql_api_url,
         headers=graphql_client_headers,
     )
 
