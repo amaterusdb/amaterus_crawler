@@ -1,5 +1,3 @@
-from datetime import datetime, timezone
-
 from fastapi import APIRouter, HTTPException
 
 from ....graphql_client import Client, GraphQLClientError

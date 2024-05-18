@@ -5,6 +5,7 @@ import yaml
 from pydantic import BaseModel, Field
 
 from .global_config import GlobalConfig
+from .server_config import ServerConfig
 from .task_config import DownloadYoutubeChannelIconConfig, UpdateYoutubeChannelConfig
 
 TaskConfigType = UpdateYoutubeChannelConfig | DownloadYoutubeChannelIconConfig
@@ -12,6 +13,7 @@ TaskConfigType = UpdateYoutubeChannelConfig | DownloadYoutubeChannelIconConfig
 
 class AmaterusCrawlerConfig(BaseModel):
     global_config: Annotated[GlobalConfig, Field(alias="global")]
+    server_config: Annotated[ServerConfig, Field(alias="server")]
     task_configs: Annotated[
         list[TaskConfigType],
         Field(alias="tasks", default_factory=lambda: []),

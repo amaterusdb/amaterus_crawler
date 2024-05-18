@@ -4,7 +4,7 @@ from argparse import ArgumentParser
 from logging import getLogger
 
 from . import __version__ as APP_VERSION
-from .command.run import configure_subcommand_run
+from .command import configure_subcommand_run, configure_subcommand_server
 
 logger = getLogger(__name__)
 
@@ -26,6 +26,9 @@ async def main() -> None:
 
     subparser_run = subparsers.add_parser("run")
     await configure_subcommand_run(parser=subparser_run)
+
+    subparser_server = subparsers.add_parser("server")
+    await configure_subcommand_server(parser=subparser_server)
 
     args = parser.parse_args()
     if hasattr(args, "handler"):
