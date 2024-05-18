@@ -2480,4 +2480,4 @@ secretstorage = ["cffi", "secretstorage"]
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.11"
-content-hash = "7f90c5f2974b96438a3f6f3dbc8594494e5c34a605292bfa1b848a3feca5c3ac"
+content-hash = "dae094757f603d1fa98d324bbdf707c190d51611157428582260789028aa15c7"
