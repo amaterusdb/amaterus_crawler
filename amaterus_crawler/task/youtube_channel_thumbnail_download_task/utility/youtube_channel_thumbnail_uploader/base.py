@@ -2,13 +2,13 @@ from abc import ABC, abstractmethod
 from typing import BinaryIO
 
 
-class YoutubeChannelIconUploadError(Exception):
+class YoutubeChannelThumbnailUploadError(Exception):
     pass
 
 
-class YoutubeChannelIconUploader(ABC):
+class YoutubeChannelThumbnailUploader(ABC):
     @abstractmethod
-    async def upload_youtube_channel_icon(
+    async def upload_youtube_channel_thumbnail(
         self,
         object_key: str,
         content_type: str,

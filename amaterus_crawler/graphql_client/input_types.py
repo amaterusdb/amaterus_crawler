@@ -465,12 +465,15 @@ class youtube_channel_thumbnail_objects_bool_exp(BaseModel):
     id: Optional["uuid_comparison_exp"] = None
     object_key: Optional["String_comparison_exp"] = None
     object_size: Optional["Int_comparison_exp"] = None
+    remote_youtube_channel_thumbnail_url: Optional["String_comparison_exp"] = None
     sha_256_digest: Optional["String_comparison_exp"] = Field(
         alias="sha256_digest", default=None
     )
     updated_at: Optional["timestamptz_comparison_exp"] = None
-    youtube_channel_thumbnail: Optional["youtube_channel_thumbnails_bool_exp"] = None
-    youtube_channel_thumbnail_id: Optional["uuid_comparison_exp"] = None
+    youtube_channel_thumbnails: Optional["youtube_channel_thumbnails_bool_exp"] = None
+    youtube_channel_thumbnails_aggregate: Optional[
+        "youtube_channel_thumbnails_aggregate_bool_exp"
+    ] = None
 
 
 class youtube_channel_thumbnail_objects_insert_input(BaseModel):
@@ -478,11 +481,11 @@ class youtube_channel_thumbnail_objects_insert_input(BaseModel):
     fetched_at: Optional[Any] = None
     object_key: Optional[str] = None
     object_size: Optional[int] = None
+    remote_youtube_channel_thumbnail_url: Optional[str] = None
     sha_256_digest: Optional[str] = Field(alias="sha256_digest", default=None)
-    youtube_channel_thumbnail: Optional[
-        "youtube_channel_thumbnails_obj_rel_insert_input"
+    youtube_channel_thumbnails: Optional[
+        "youtube_channel_thumbnails_arr_rel_insert_input"
     ] = None
-    youtube_channel_thumbnail_id: Optional[Any] = None
 
 
 class youtube_channel_thumbnail_objects_obj_rel_insert_input(BaseModel):
@@ -505,10 +508,12 @@ class youtube_channel_thumbnail_objects_order_by(BaseModel):
     id: Optional[order_by] = None
     object_key: Optional[order_by] = None
     object_size: Optional[order_by] = None
+    remote_youtube_channel_thumbnail_url: Optional[order_by] = None
     sha_256_digest: Optional[order_by] = Field(alias="sha256_digest", default=None)
     updated_at: Optional[order_by] = None
-    youtube_channel_thumbnail: Optional["youtube_channel_thumbnails_order_by"] = None
-    youtube_channel_thumbnail_id: Optional[order_by] = None
+    youtube_channel_thumbnails_aggregate: Optional[
+        "youtube_channel_thumbnails_aggregate_order_by"
+    ] = None
 
 
 class youtube_channel_thumbnail_objects_stream_cursor_input(BaseModel):
@@ -523,9 +528,9 @@ class youtube_channel_thumbnail_objects_stream_cursor_value_input(BaseModel):
     id: Optional[Any] = None
     object_key: Optional[str] = None
     object_size: Optional[int] = None
+    remote_youtube_channel_thumbnail_url: Optional[str] = None
     sha_256_digest: Optional[str] = Field(alias="sha256_digest", default=None)
     updated_at: Optional[Any] = None
-    youtube_channel_thumbnail_id: Optional[Any] = None
 
 
 class youtube_channel_thumbnails_aggregate_bool_exp(BaseModel):

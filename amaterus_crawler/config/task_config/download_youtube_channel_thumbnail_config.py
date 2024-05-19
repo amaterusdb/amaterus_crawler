@@ -3,7 +3,7 @@ from typing import Literal
 from pydantic import BaseModel
 
 
-class DownloadYoutubeChannelIconConfigOptions(BaseModel):
+class DownloadYoutubeChannelThumbnailConfigOptions(BaseModel):
     override_hasura: bool = False
     hasura_url: str | None = None
     hasura_access_token: str | None = None
@@ -19,7 +19,7 @@ class DownloadYoutubeChannelIconConfigOptions(BaseModel):
     object_key_prefix: str | None = None
 
 
-class DownloadYoutubeChannelIconConfig(BaseModel):
-    type: Literal["download_youtube_channel_icon"]
+class DownloadYoutubeChannelThumbnailConfig(BaseModel):
+    type: Literal["download_youtube_channel_thumbnail"]
     enabled: bool
-    options: DownloadYoutubeChannelIconConfigOptions | None = None
+    options: DownloadYoutubeChannelThumbnailConfigOptions | None = None

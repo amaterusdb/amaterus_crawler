@@ -11,6 +11,10 @@ from .create_youtube_channel_details import (
     CreateYoutubeChannelDetails,
     CreateYoutubeChannelDetailsInsertYoutubeChannelDetails,
 )
+from .create_youtube_channel_thumbnail_object import (
+    CreateYoutubeChannelThumbnailObject,
+    CreateYoutubeChannelThumbnailObjectInsertYoutubeChannelThumbnailObjectsOne,
+)
 from .enums import (
     cursor_ordering,
     order_by,
@@ -39,6 +43,11 @@ from .exceptions import (
     GraphQLClientGraphQLMultiError,
     GraphQLClientHttpError,
     GraphQLClientInvalidResponseError,
+)
+from .get_downloadable_youtube_channel_thumbnails import (
+    GetDownloadableYoutubeChannelThumbnails,
+    GetDownloadableYoutubeChannelThumbnailsYoutubeChannelThumbnails,
+    GetDownloadableYoutubeChannelThumbnailsYoutubeChannelThumbnailsYoutubeChannel,
 )
 from .get_updatable_youtube_channels import (
     GetUpdatableYoutubeChannels,
@@ -142,6 +151,11 @@ __all__ = [
     "CreateYoutubeChannelDetails",
     "CreateYoutubeChannelDetailsInsertYoutubeChannelDetails",
     "CreateYoutubeChannelInsertYoutubeChannelsOne",
+    "CreateYoutubeChannelThumbnailObject",
+    "CreateYoutubeChannelThumbnailObjectInsertYoutubeChannelThumbnailObjectsOne",
+    "GetDownloadableYoutubeChannelThumbnails",
+    "GetDownloadableYoutubeChannelThumbnailsYoutubeChannelThumbnails",
+    "GetDownloadableYoutubeChannelThumbnailsYoutubeChannelThumbnailsYoutubeChannel",
     "GetUpdatableYoutubeChannels",
     "GetUpdatableYoutubeChannelsYoutubeChannels",
     "GraphQLClientError",

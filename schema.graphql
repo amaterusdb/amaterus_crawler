@@ -1802,12 +1802,45 @@ type youtube_channel_thumbnail_objects {
   id: uuid!
   object_key: String!
   object_size: Int!
+  remote_youtube_channel_thumbnail_url: String!
   sha256_digest: String!
   updated_at: timestamptz!
 
-  """An object relationship"""
-  youtube_channel_thumbnail: youtube_channel_thumbnails!
-  youtube_channel_thumbnail_id: uuid!
+  """An array relationship"""
+  youtube_channel_thumbnails(
+    """distinct select on columns"""
+    distinct_on: [youtube_channel_thumbnails_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [youtube_channel_thumbnails_order_by!]
+
+    """filter the rows returned"""
+    where: youtube_channel_thumbnails_bool_exp
+  ): [youtube_channel_thumbnails!]!
+
+  """An aggregate relationship"""
+  youtube_channel_thumbnails_aggregate(
+    """distinct select on columns"""
+    distinct_on: [youtube_channel_thumbnails_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [youtube_channel_thumbnails_order_by!]
+
+    """filter the rows returned"""
+    where: youtube_channel_thumbnails_bool_exp
+  ): youtube_channel_thumbnails_aggregate!
 }
 
 """
@@ -1853,10 +1886,11 @@ input youtube_channel_thumbnail_objects_bool_exp {
   id: uuid_comparison_exp
   object_key: String_comparison_exp
   object_size: Int_comparison_exp
+  remote_youtube_channel_thumbnail_url: String_comparison_exp
   sha256_digest: String_comparison_exp
   updated_at: timestamptz_comparison_exp
-  youtube_channel_thumbnail: youtube_channel_thumbnails_bool_exp
-  youtube_channel_thumbnail_id: uuid_comparison_exp
+  youtube_channel_thumbnails: youtube_channel_thumbnails_bool_exp
+  youtube_channel_thumbnails_aggregate: youtube_channel_thumbnails_aggregate_bool_exp
 }
 
 """
@@ -1864,14 +1898,14 @@ unique or primary key constraints on table "youtube_channel_thumbnail_objects"
 """
 enum youtube_channel_thumbnail_objects_constraint {
   """
-  unique or primary key constraint on columns "youtube_channel_thumbnail_id"
-  """
-  youtube_channel_thumbnail_obje_youtube_channel_thumbnail_id_key
-
-  """
   unique or primary key constraint on columns "id"
   """
   youtube_channel_thumbnail_objects_pkey
+
+  """
+  unique or primary key constraint on columns "remote_youtube_channel_thumbnail_url"
+  """
+  youtube_channel_thumbnail_objects_remote_youtube_channel_thumbn
 }
 
 """
@@ -1882,9 +1916,9 @@ input youtube_channel_thumbnail_objects_insert_input {
   fetched_at: timestamptz
   object_key: String
   object_size: Int
+  remote_youtube_channel_thumbnail_url: String
   sha256_digest: String
-  youtube_channel_thumbnail: youtube_channel_thumbnails_obj_rel_insert_input
-  youtube_channel_thumbnail_id: uuid
+  youtube_channel_thumbnails: youtube_channel_thumbnails_arr_rel_insert_input
 }
 
 """aggregate max on columns"""
@@ -1895,9 +1929,9 @@ type youtube_channel_thumbnail_objects_max_fields {
   id: uuid
   object_key: String
   object_size: Int
+  remote_youtube_channel_thumbnail_url: String
   sha256_digest: String
   updated_at: timestamptz
-  youtube_channel_thumbnail_id: uuid
 }
 
 """aggregate min on columns"""
@@ -1908,9 +1942,9 @@ type youtube_channel_thumbnail_objects_min_fields {
   id: uuid
   object_key: String
   object_size: Int
+  remote_youtube_channel_thumbnail_url: String
   sha256_digest: String
   updated_at: timestamptz
-  youtube_channel_thumbnail_id: uuid
 }
 
 """
@@ -1953,10 +1987,10 @@ input youtube_channel_thumbnail_objects_order_by {
   id: order_by
   object_key: order_by
   object_size: order_by
+  remote_youtube_channel_thumbnail_url: order_by
   sha256_digest: order_by
   updated_at: order_by
-  youtube_channel_thumbnail: youtube_channel_thumbnails_order_by
-  youtube_channel_thumbnail_id: order_by
+  youtube_channel_thumbnails_aggregate: youtube_channel_thumbnails_aggregate_order_by
 }
 
 """
@@ -1982,13 +2016,13 @@ enum youtube_channel_thumbnail_objects_select_column {
   object_size
 
   """column name"""
+  remote_youtube_channel_thumbnail_url
+
+  """column name"""
   sha256_digest
 
   """column name"""
   updated_at
-
-  """column name"""
-  youtube_channel_thumbnail_id
 }
 
 """aggregate stddev on columns"""
@@ -2025,9 +2059,9 @@ input youtube_channel_thumbnail_objects_stream_cursor_value_input {
   id: uuid
   object_key: String
   object_size: Int
+  remote_youtube_channel_thumbnail_url: String
   sha256_digest: String
   updated_at: timestamptz
-  youtube_channel_thumbnail_id: uuid
 }
 
 """aggregate sum on columns"""

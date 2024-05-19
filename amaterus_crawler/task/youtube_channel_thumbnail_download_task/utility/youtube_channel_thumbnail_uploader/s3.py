@@ -3,10 +3,10 @@ from typing import BinaryIO
 import boto3
 import botocore.exceptions
 
-from .base import YoutubeChannelIconUploader, YoutubeChannelIconUploadError
+from .base import YoutubeChannelThumbnailUploader, YoutubeChannelThumbnailUploadError
 
 
-class YoutubeChannelIconUploaderS3(YoutubeChannelIconUploader):
+class YoutubeChannelThumbnailUploaderS3(YoutubeChannelThumbnailUploader):
     def __init__(
         self,
         s3_endpoint_url: str,
@@ -21,7 +21,7 @@ class YoutubeChannelIconUploaderS3(YoutubeChannelIconUploader):
         self.s3_secret_access_key = s3_secret_access_key
         self.object_key_prefix = object_key_prefix
 
-    async def upload_youtube_channel_icon(
+    async def upload_youtube_channel_thumbnail(
         self,
         object_key: str,
         content_type: str,
@@ -56,4 +56,4 @@ class YoutubeChannelIconUploaderS3(YoutubeChannelIconUploader):
                 },
             )
         except botocore.exceptions.ClientError:
-            raise YoutubeChannelIconUploadError("S3 errored.")
+            raise YoutubeChannelThumbnailUploadError("S3 errored.")

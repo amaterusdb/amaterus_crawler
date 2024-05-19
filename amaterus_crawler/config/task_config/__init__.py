@@ -1,6 +1,6 @@
-from .download_youtube_channel_icon_config import (
-    DownloadYoutubeChannelIconConfig,
-    DownloadYoutubeChannelIconConfigOptions,
+from .download_youtube_channel_thumbnail_config import (
+    DownloadYoutubeChannelThumbnailConfig,
+    DownloadYoutubeChannelThumbnailConfigOptions,
 )
 from .update_youtube_channel_config import (
     UpdateYoutubeChannelConfig,
@@ -8,8 +8,8 @@ from .update_youtube_channel_config import (
 )
 
 __all__ = [
-    "DownloadYoutubeChannelIconConfig",
-    "DownloadYoutubeChannelIconConfigOptions",
+    "DownloadYoutubeChannelThumbnailConfig",
+    "DownloadYoutubeChannelThumbnailConfigOptions",
     "UpdateYoutubeChannelConfig",
     "UpdateYoutubeChannelConfigOptions",
 ]

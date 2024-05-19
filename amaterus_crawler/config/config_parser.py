@@ -6,9 +6,12 @@ from pydantic import BaseModel, Field
 
 from .global_config import GlobalConfig
 from .server_config import ServerConfig
-from .task_config import DownloadYoutubeChannelIconConfig, UpdateYoutubeChannelConfig
+from .task_config import (
+    DownloadYoutubeChannelThumbnailConfig,
+    UpdateYoutubeChannelConfig,
+)
 
-TaskConfigType = UpdateYoutubeChannelConfig | DownloadYoutubeChannelIconConfig
+TaskConfigType = UpdateYoutubeChannelConfig | DownloadYoutubeChannelThumbnailConfig
 
 
 class AmaterusCrawlerConfig(BaseModel):

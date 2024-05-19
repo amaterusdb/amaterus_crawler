@@ -7,31 +7,32 @@ from typing import AsyncIterator
 import httpx
 
 from .base import (
-    YoutubeChannelIconDownloader,
-    YoutubeChannelIconDownloadError,
-    YoutubeChannelIconDownloadResult,
+    YoutubeChannelThumbnailDownloader,
+    YoutubeChannelThumbnailDownloadError,
+    YoutubeChannelThumbnailDownloadResult,
 )
 
 logger = getLogger(__name__)
 
 
-class YoutubeChannelIconDownloaderYoutubeHttp(YoutubeChannelIconDownloader):
+class YoutubeChannelThumbnailDownloaderYoutubeHttp(YoutubeChannelThumbnailDownloader):
     @asynccontextmanager
-    async def download_youtube_channel_icon(
+    async def download_youtube_channel_thumbnail(
         self,
-        youtube_channel_icon_url: str,
-    ) -> AsyncIterator[YoutubeChannelIconDownloadResult]:
+        youtube_channel_thumbnail_url: str,
+    ) -> AsyncIterator[YoutubeChannelThumbnailDownloadResult]:
         async with AsyncExitStack() as exit_stack:
             temp_icon_fileobj = exit_stack.enter_context(tempfile.TemporaryFile())
             sha256_hash = hashlib.sha256()
+            size = 0
 
             async with httpx.AsyncClient() as client:
                 try:
                     async with client.stream(
-                        method="GET", url=youtube_channel_icon_url
+                        method="GET", url=youtube_channel_thumbnail_url
                     ) as response:
                         if "Content-Type" not in response.headers:
-                            raise YoutubeChannelIconDownloadError(
+                            raise YoutubeChannelThumbnailDownloadError(
                                 "No Content-Type response header."
                             )
 
@@ -40,18 +41,20 @@ class YoutubeChannelIconDownloaderYoutubeHttp(YoutubeChannelIconDownloader):
                         async for chunk in response.aiter_bytes():
                             temp_icon_fileobj.write(chunk)
                             sha256_hash.update(chunk)
+                            size += len(chunk)
                 except httpx.HTTPError as err:
                     logger.error(err)
-                    raise YoutubeChannelIconDownloadError("httpx error occured.")
+                    raise YoutubeChannelThumbnailDownloadError("httpx error occured.")
 
             sha256_digest = sha256_hash.hexdigest()
 
             temp_icon_fileobj.flush()
             temp_icon_fileobj.seek(0)
 
-            yield YoutubeChannelIconDownloadResult(
-                youtube_channel_icon_url=youtube_channel_icon_url,
+            yield YoutubeChannelThumbnailDownloadResult(
+                youtube_channel_thumbnail_url=youtube_channel_thumbnail_url,
                 content_type=content_type,
                 sha256_digest=sha256_digest,
+                size=size,
                 binaryio=temp_icon_fileobj,
             )

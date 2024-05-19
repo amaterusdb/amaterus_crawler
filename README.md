@@ -29,10 +29,10 @@ tasks:
   - type: update_youtube_channel
     enabled: true
 
-  - type: download_youtube_channel_icon
+  - type: download_youtube_channel_thumbnail
     enabled: true
     options:
-      object_key_prefix: youtube_channel_icons/
+      object_key_prefix: youtube_channel_thumbnails/
 ```
 
 ## GraphQL Code Generation

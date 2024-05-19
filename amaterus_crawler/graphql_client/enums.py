@@ -77,10 +77,10 @@ class youtube_channel_details_update_column(str, Enum):
 
 
 class youtube_channel_thumbnail_objects_constraint(str, Enum):
-    youtube_channel_thumbnail_obje_youtube_channel_thumbnail_id_key = (
-        "youtube_channel_thumbnail_obje_youtube_channel_thumbnail_id_key"
-    )
     youtube_channel_thumbnail_objects_pkey = "youtube_channel_thumbnail_objects_pkey"
+    youtube_channel_thumbnail_objects_remote_youtube_channel_thumbn = (
+        "youtube_channel_thumbnail_objects_remote_youtube_channel_thumbn"
+    )
 
 
 class youtube_channel_thumbnail_objects_select_column(str, Enum):
@@ -90,9 +90,9 @@ class youtube_channel_thumbnail_objects_select_column(str, Enum):
     id = "id"
     object_key = "object_key"
     object_size = "object_size"
+    remote_youtube_channel_thumbnail_url = "remote_youtube_channel_thumbnail_url"
     sha256_digest = "sha256_digest"
     updated_at = "updated_at"
-    youtube_channel_thumbnail_id = "youtube_channel_thumbnail_id"
 
 
 class youtube_channel_thumbnail_objects_update_column(str, Enum):
