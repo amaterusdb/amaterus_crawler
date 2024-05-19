@@ -6,6 +6,7 @@ from pathlib import Path
 from ..config.config_parser import parse_amaterus_crawler_config_from_file
 from ..config.task_config import (
     DownloadYoutubeChannelThumbnailConfigOptions,
+    DownloadYoutubeVideoConfigOptions,
     DownloadYoutubeVideoThumbnailConfigOptions,
     UpdateYoutubeChannelConfigOptions,
 )
@@ -46,6 +47,13 @@ from ..task.youtube_video_detail_update_task import (
     UpdatableYoutubeVideoFetcherHasura,
     YoutubeVideoDetailCreatorHasura,
     YoutubeVideoDetailUpdateTask,
+)
+from ..task.youtube_video_download_task import (
+    DownloadableYoutubeVideoFetcherHasura,
+    YoutubeVideoDownloaderYoutubeHttp,
+    YoutubeVideoDownloadTask,
+    YoutubeVideoObjectCreatorHasura,
+    YoutubeVideoUploaderS3,
 )
 from ..task.youtube_video_thumbnail_download_task import (
     DownloadableYoutubeVideoThumbnailFetcherHasura,
@@ -405,6 +413,66 @@ async def execute_subcommand_run(args: Namespace) -> None:
                         object_key_prefix=object_key_prefix,
                     ),
                     youtube_video_thumbnail_object_creator=YoutubeVideoThumbnailObjectCreatorHasura(
+                        graphql_client=graphql_client,
+                    ),
+                ),
+            )
+
+        elif task_type == "download_youtube_video":
+            options = task_config.options
+            if options is not None:
+                assert isinstance(options, DownloadYoutubeVideoConfigOptions)
+
+                if options.override_hasura:
+                    hasura_url = options.hasura_url
+                    hasura_access_token = options.hasura_access_token
+                    hasura_admin_secret = options.hasura_admin_secret
+                    hasura_role = options.hasura_role
+
+                if options.override_s3:
+                    s3_endpoint_url = options.s3_endpoint_url
+                    s3_bucket = options.s3_bucket
+                    s3_access_key_id = options.s3_access_key_id
+                    s3_secret_access_key = options.s3_secret_access_key
+
+                object_key_prefix = options.object_key_prefix
+
+            if hasura_url is None:
+                raise SubcommandRunError("hasura_url is None")
+
+            if s3_endpoint_url is None:
+                raise SubcommandRunError("s3_endpoint_url is None")
+            if s3_bucket is None:
+                raise SubcommandRunError("s3_bucket is None")
+            if s3_access_key_id is None:
+                raise SubcommandRunError("s3_access_key_id is None")
+            if s3_secret_access_key is None:
+                raise SubcommandRunError("s3_secret_access_key is None")
+
+            hasura_graphql_api_url = hasura_url
+            if not hasura_graphql_api_url.endswith("/"):
+                hasura_graphql_api_url += "/"
+            hasura_graphql_api_url += "v1/graphql"
+
+            graphql_client = Client(
+                url=hasura_graphql_api_url,
+                headers=graphql_client_headers,
+            )
+
+            tasks.append(
+                YoutubeVideoDownloadTask(
+                    downloadable_youtube_video_fetcher=DownloadableYoutubeVideoFetcherHasura(
+                        graphql_client=graphql_client,
+                    ),
+                    youtube_video_downloader=YoutubeVideoDownloaderYoutubeHttp(),
+                    youtube_video_uploader=YoutubeVideoUploaderS3(
+                        s3_endpoint_url=s3_endpoint_url,
+                        s3_bucket=s3_bucket,
+                        s3_access_key_id=s3_access_key_id,
+                        s3_secret_access_key=s3_secret_access_key,
+                        object_key_prefix=object_key_prefix,
+                    ),
+                    youtube_video_object_creator=YoutubeVideoObjectCreatorHasura(
                         graphql_client=graphql_client,
                     ),
                 ),

@@ -1,0 +1,16 @@
+query GetDownloadableYoutubeVideos {
+  youtube_videos(
+    where: {
+      enabled: {
+        _eq: true
+      }
+      # youtube_video_objects が null
+      _not: {
+        youtube_video_objects: {
+        }
+      }
+    }
+  ) {
+    remote_youtube_video_id
+  }
+}

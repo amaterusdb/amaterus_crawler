@@ -8,6 +8,7 @@ from .global_config import GlobalConfig
 from .server_config import ServerConfig
 from .task_config import (
     DownloadYoutubeChannelThumbnailConfig,
+    DownloadYoutubeVideoConfig,
     DownloadYoutubeVideoThumbnailConfig,
     SearchYoutubeChannelVideoConfig,
     UpdateYoutubeChannelConfig,
@@ -20,6 +21,7 @@ TaskConfigType = (
     | SearchYoutubeChannelVideoConfig
     | UpdateYoutubeVideoDetailConfig
     | DownloadYoutubeVideoThumbnailConfig
+    | DownloadYoutubeVideoConfig
 )
 
 

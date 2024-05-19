@@ -8,6 +8,7 @@ from .create_youtube_channel import CreateYoutubeChannel
 from .create_youtube_channel_details import CreateYoutubeChannelDetails
 from .create_youtube_channel_thumbnail_object import CreateYoutubeChannelThumbnailObject
 from .create_youtube_video_details import CreateYoutubeVideoDetails
+from .create_youtube_video_object import CreateYoutubeVideoObject
 from .create_youtube_video_thumbnail_object import CreateYoutubeVideoThumbnailObject
 from .get_downloadable_youtube_channel_thumbnails import (
     GetDownloadableYoutubeChannelThumbnails,
@@ -15,6 +16,7 @@ from .get_downloadable_youtube_channel_thumbnails import (
 from .get_downloadable_youtube_video_thumbnails import (
     GetDownloadableYoutubeVideoThumbnails,
 )
+from .get_downloadable_youtube_videos import GetDownloadableYoutubeVideos
 from .get_updatable_youtube_channels import GetUpdatableYoutubeChannels
 from .get_updatable_youtube_videos import GetUpdatableYoutubeVideos
 from .input_types import (
@@ -144,6 +146,44 @@ class Client(AsyncBaseClient):
         data = self.get_data(response)
         return CreateYoutubeVideoDetails.model_validate(data)
 
+    async def create_youtube_video_object(
+        self,
+        remote_youtube_video_id: str,
+        fetched_at: Any,
+        object_key: str,
+        sha_256_digest: str,
+        object_size: int,
+        content_type: str,
+        **kwargs: Any
+    ) -> CreateYoutubeVideoObject:
+        query = gql(
+            """
+            mutation CreateYoutubeVideoObject($remote_youtube_video_id: String!, $fetched_at: timestamptz!, $object_key: String!, $sha256_digest: String!, $object_size: Int!, $content_type: String!) {
+              insert_youtube_video_objects_one(
+                object: {remote_youtube_video_id: $remote_youtube_video_id, fetched_at: $fetched_at, object_key: $object_key, sha256_digest: $sha256_digest, object_size: $object_size, content_type: $content_type}
+              ) {
+                id
+              }
+            }
+            """
+        )
+        variables: Dict[str, object] = {
+            "remote_youtube_video_id": remote_youtube_video_id,
+            "fetched_at": fetched_at,
+            "object_key": object_key,
+            "sha256_digest": sha_256_digest,
+            "object_size": object_size,
+            "content_type": content_type,
+        }
+        response = await self.execute(
+            query=query,
+            operation_name="CreateYoutubeVideoObject",
+            variables=variables,
+            **kwargs
+        )
+        data = self.get_data(response)
+        return CreateYoutubeVideoObject.model_validate(data)
+
     async def create_youtube_video_thumbnail_object(
         self,
         remote_youtube_video_thumbnail_url: str,
@@ -241,6 +281,28 @@ class Client(AsyncBaseClient):
         )
         data = self.get_data(response)
         return GetDownloadableYoutubeVideoThumbnails.model_validate(data)
+
+    async def get_downloadable_youtube_videos(
+        self, **kwargs: Any
+    ) -> GetDownloadableYoutubeVideos:
+        query = gql(
+            """
+            query GetDownloadableYoutubeVideos {
+              youtube_videos(where: {enabled: {_eq: true}, _not: {youtube_video_objects: {}}}) {
+                remote_youtube_video_id
+              }
+            }
+            """
+        )
+        variables: Dict[str, object] = {}
+        response = await self.execute(
+            query=query,
+            operation_name="GetDownloadableYoutubeVideos",
+            variables=variables,
+            **kwargs
+        )
+        data = self.get_data(response)
+        return GetDownloadableYoutubeVideos.model_validate(data)
 
     async def get_updatable_youtube_channels(
         self, **kwargs: Any

@@ -218,6 +218,26 @@ class youtube_video_details_update_column(str, Enum):
     last_fetched_at = "last_fetched_at"
 
 
+class youtube_video_objects_constraint(str, Enum):
+    youtube_video_objects_pkey = "youtube_video_objects_pkey"
+
+
+class youtube_video_objects_select_column(str, Enum):
+    content_type = "content_type"
+    created_at = "created_at"
+    fetched_at = "fetched_at"
+    id = "id"
+    object_key = "object_key"
+    object_size = "object_size"
+    remote_youtube_video_id = "remote_youtube_video_id"
+    sha256_digest = "sha256_digest"
+    updated_at = "updated_at"
+
+
+class youtube_video_objects_update_column(str, Enum):
+    _PLACEHOLDER = "_PLACEHOLDER"
+
+
 class youtube_video_thumbnail_objects_constraint(str, Enum):
     youtube_video_thumbnail_objects_pkey = "youtube_video_thumbnail_objects_pkey"
 
