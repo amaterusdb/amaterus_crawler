@@ -1,10 +1,10 @@
 mutation CreateYoutubeChannelDetails(
-  $objects: [youtube_channels_insert_input!]!
+  $objects: [youtube_channel_details_insert_input!]!
 ) {
-  insert_youtube_channels(
+  insert_youtube_channel_details(
     objects: $objects
     on_conflict: {
-      constraint: youtube_channels_remote_youtube_channel_id_key
+      constraint: youtube_channel_details_remote_youtube_channel_id_title_descrip
       update_columns: [
         last_fetched_at
       ]

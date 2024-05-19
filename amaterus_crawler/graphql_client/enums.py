@@ -55,8 +55,8 @@ class youtube_channel_detail_thumbnails_update_column(str, Enum):
 
 class youtube_channel_details_constraint(str, Enum):
     youtube_channel_details_pkey = "youtube_channel_details_pkey"
-    youtube_channel_details_title_description_published_at_custom_u = (
-        "youtube_channel_details_title_description_published_at_custom_u"
+    youtube_channel_details_remote_youtube_channel_id_title_descrip = (
+        "youtube_channel_details_remote_youtube_channel_id_title_descrip"
     )
 
 
@@ -67,9 +67,9 @@ class youtube_channel_details_select_column(str, Enum):
     id = "id"
     last_fetched_at = "last_fetched_at"
     published_at = "published_at"
+    remote_youtube_channel_id = "remote_youtube_channel_id"
     title = "title"
     updated_at = "updated_at"
-    youtube_channel_id = "youtube_channel_id"
 
 
 class youtube_channel_details_update_column(str, Enum):
@@ -100,10 +100,10 @@ class youtube_channel_thumbnail_objects_update_column(str, Enum):
 
 
 class youtube_channel_thumbnails_constraint(str, Enum):
-    youtube_channel_thumbnails_key_url_width_height_youtube_channel = (
-        "youtube_channel_thumbnails_key_url_width_height_youtube_channel"
-    )
     youtube_channel_thumbnails_pkey = "youtube_channel_thumbnails_pkey"
+    youtube_channel_thumbnails_remote_youtube_channel_id_key_url_wi = (
+        "youtube_channel_thumbnails_remote_youtube_channel_id_key_url_wi"
+    )
 
 
 class youtube_channel_thumbnails_select_column(str, Enum):
@@ -112,10 +112,10 @@ class youtube_channel_thumbnails_select_column(str, Enum):
     id = "id"
     key = "key"
     last_fetched_at = "last_fetched_at"
+    remote_youtube_channel_id = "remote_youtube_channel_id"
     updated_at = "updated_at"
     url = "url"
     width = "width"
-    youtube_channel_id = "youtube_channel_id"
 
 
 class youtube_channel_thumbnails_update_column(str, Enum):

@@ -7,7 +7,7 @@ from .async_base_client import AsyncBaseClient
 from .create_youtube_channel import CreateYoutubeChannel
 from .create_youtube_channel_details import CreateYoutubeChannelDetails
 from .get_updatable_youtube_channels import GetUpdatableYoutubeChannels
-from .input_types import youtube_channels_insert_input
+from .input_types import youtube_channel_details_insert_input
 
 
 def gql(q: str) -> str:
@@ -42,14 +42,14 @@ class Client(AsyncBaseClient):
         return CreateYoutubeChannel.model_validate(data)
 
     async def create_youtube_channel_details(
-        self, objects: List[youtube_channels_insert_input], **kwargs: Any
+        self, objects: List[youtube_channel_details_insert_input], **kwargs: Any
     ) -> CreateYoutubeChannelDetails:
         query = gql(
             """
-            mutation CreateYoutubeChannelDetails($objects: [youtube_channels_insert_input!]!) {
-              insert_youtube_channels(
+            mutation CreateYoutubeChannelDetails($objects: [youtube_channel_details_insert_input!]!) {
+              insert_youtube_channel_details(
                 objects: $objects
-                on_conflict: {constraint: youtube_channels_remote_youtube_channel_id_key, update_columns: [last_fetched_at]}
+                on_conflict: {constraint: youtube_channel_details_remote_youtube_channel_id_title_descrip, update_columns: [last_fetched_at]}
               ) {
                 affected_rows
               }

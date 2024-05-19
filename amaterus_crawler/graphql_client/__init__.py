@@ -9,7 +9,7 @@ from .create_youtube_channel import (
 )
 from .create_youtube_channel_details import (
     CreateYoutubeChannelDetails,
-    CreateYoutubeChannelDetailsInsertYoutubeChannels,
+    CreateYoutubeChannelDetailsInsertYoutubeChannelDetails,
 )
 from .enums import (
     cursor_ordering,
@@ -140,7 +140,7 @@ __all__ = [
     "Client",
     "CreateYoutubeChannel",
     "CreateYoutubeChannelDetails",
-    "CreateYoutubeChannelDetailsInsertYoutubeChannels",
+    "CreateYoutubeChannelDetailsInsertYoutubeChannelDetails",
     "CreateYoutubeChannelInsertYoutubeChannelsOne",
     "GetUpdatableYoutubeChannels",
     "GetUpdatableYoutubeChannelsYoutubeChannels",

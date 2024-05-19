@@ -12,12 +12,7 @@ from .....graphql_client import (
     youtube_channel_detail_thumbnails_constraint,
     youtube_channel_detail_thumbnails_insert_input,
     youtube_channel_detail_thumbnails_on_conflict,
-    youtube_channel_detail_thumbnails_update_column,
-    youtube_channel_details_arr_rel_insert_input,
-    youtube_channel_details_constraint,
     youtube_channel_details_insert_input,
-    youtube_channel_details_on_conflict,
-    youtube_channel_details_update_column,
     youtube_channel_thumbnails_constraint,
     youtube_channel_thumbnails_insert_input,
     youtube_channel_thumbnails_obj_rel_insert_input,
@@ -94,7 +89,7 @@ class YoutubeChannelUpdaterHasura(YoutubeChannelUpdater):
     ) -> None:
         graphql_client = self.graphql_client
 
-        objects: list[youtube_channels_insert_input] = []
+        objects: list[youtube_channel_details_insert_input] = []
         for update_query in update_queries:
             # 送信時点でタイムゾーン付きであることを保証する
             fetched_at_aware = update_query.fetched_at.astimezone(tz=timezone.utc)
@@ -109,25 +104,14 @@ class YoutubeChannelUpdaterHasura(YoutubeChannelUpdater):
                         youtube_channel_thumbnail=youtube_channel_thumbnails_obj_rel_insert_input(
                             data=youtube_channel_thumbnails_insert_input(
                                 last_fetched_at=fetched_at_aware.isoformat(),
-                                youtube_channel=youtube_channels_obj_rel_insert_input(
-                                    data=youtube_channels_insert_input(
-                                        remote_youtube_channel_id=update_query.remote_youtube_channel_id,
-                                        last_fetched_at=fetched_at_aware.isoformat(),
-                                    ),
-                                    on_conflict=youtube_channels_on_conflict(
-                                        constraint=youtube_channels_constraint.youtube_channels_remote_youtube_channel_id_key,
-                                        update_columns=[
-                                            youtube_channels_update_column.last_fetched_at,
-                                        ],
-                                    ),
-                                ),
+                                remote_youtube_channel_id=update_query.remote_youtube_channel_id,
                                 key=thumbnail.key,
                                 url=thumbnail.url,
                                 width=thumbnail.width,
                                 height=thumbnail.height,
                             ),
                             on_conflict=youtube_channel_thumbnails_on_conflict(
-                                constraint=youtube_channel_thumbnails_constraint.youtube_channel_thumbnails_key_url_width_height_youtube_channel,
+                                constraint=youtube_channel_thumbnails_constraint.youtube_channel_thumbnails_remote_youtube_channel_id_key_url_wi,
                                 update_columns=[
                                     youtube_channel_thumbnails_update_column.last_fetched_at,
                                 ],
@@ -137,37 +121,35 @@ class YoutubeChannelUpdaterHasura(YoutubeChannelUpdater):
                 )
 
             objects.append(
-                youtube_channels_insert_input(
-                    remote_youtube_channel_id=update_query.remote_youtube_channel_id,
+                youtube_channel_details_insert_input(
                     last_fetched_at=fetched_at_aware.isoformat(),
-                    youtube_channel_details=youtube_channel_details_arr_rel_insert_input(
+                    title=update_query.title,
+                    description=update_query.description,
+                    published_at=published_at_aware.isoformat(),
+                    custom_url=update_query.custom_url,
+                    youtube_channel_detail_logs=youtube_channel_detail_logs_arr_rel_insert_input(
                         data=[
-                            youtube_channel_details_insert_input(
-                                last_fetched_at=fetched_at_aware.isoformat(),
-                                title=update_query.title,
-                                description=update_query.description,
-                                published_at=published_at_aware.isoformat(),
-                                custom_url=update_query.custom_url,
-                                youtube_channel_detail_logs=youtube_channel_detail_logs_arr_rel_insert_input(
-                                    data=[
-                                        youtube_channel_detail_logs_insert_input(
-                                            fetched_at=fetched_at_aware.isoformat(),
-                                        ),
-                                    ],
-                                ),
-                                youtube_channel_detail_thumbnails=youtube_channel_detail_thumbnails_arr_rel_insert_input(
-                                    data=detail_thumbnail_objects,
-                                    on_conflict=youtube_channel_detail_thumbnails_on_conflict(
-                                        constraint=youtube_channel_detail_thumbnails_constraint.youtube_channel_detail_thumbnails_youtube_channel_detail_id_you,
-                                        update_columns=[],
-                                    ),
-                                ),
+                            youtube_channel_detail_logs_insert_input(
+                                fetched_at=fetched_at_aware.isoformat(),
                             ),
                         ],
-                        on_conflict=youtube_channel_details_on_conflict(
-                            constraint=youtube_channel_details_constraint.youtube_channel_details_title_description_published_at_custom_u,
+                    ),
+                    youtube_channel_detail_thumbnails=youtube_channel_detail_thumbnails_arr_rel_insert_input(
+                        data=detail_thumbnail_objects,
+                        on_conflict=youtube_channel_detail_thumbnails_on_conflict(
+                            constraint=youtube_channel_detail_thumbnails_constraint.youtube_channel_detail_thumbnails_youtube_channel_detail_id_you,
+                            update_columns=[],
+                        ),
+                    ),
+                    youtube_channel=youtube_channels_obj_rel_insert_input(
+                        data=youtube_channels_insert_input(
+                            remote_youtube_channel_id=update_query.remote_youtube_channel_id,
+                            last_fetched_at=fetched_at_aware.isoformat(),
+                        ),
+                        on_conflict=youtube_channels_on_conflict(
+                            constraint=youtube_channels_constraint.youtube_channels_remote_youtube_channel_id_key,
                             update_columns=[
-                                youtube_channel_details_update_column.last_fetched_at,
+                                youtube_channels_update_column.last_fetched_at,
                             ],
                         ),
                     ),

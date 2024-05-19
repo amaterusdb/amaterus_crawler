@@ -7,12 +7,12 @@ from .base_model import BaseModel
 
 
 class CreateYoutubeChannelDetails(BaseModel):
-    insert_youtube_channels: Optional[
-        "CreateYoutubeChannelDetailsInsertYoutubeChannels"
+    insert_youtube_channel_details: Optional[
+        "CreateYoutubeChannelDetailsInsertYoutubeChannelDetails"
     ]
 
 
-class CreateYoutubeChannelDetailsInsertYoutubeChannels(BaseModel):
+class CreateYoutubeChannelDetailsInsertYoutubeChannelDetails(BaseModel):
     affected_rows: int
 
 
