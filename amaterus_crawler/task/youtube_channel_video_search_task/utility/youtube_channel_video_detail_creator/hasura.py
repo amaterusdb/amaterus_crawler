@@ -108,6 +108,7 @@ class YoutubeVideoDetailCreatorHasura(YoutubeVideoDetailCreator):
                     privacy_status=create_query.privacy_status,
                     upload_status=create_query.upload_status,
                     live_broadcast_content=create_query.live_broadcast_content,
+                    has_live_streaming_details=create_query.has_live_streaming_details,
                     scheduled_start_time=scheduled_start_time_aware_string,
                     scheduled_end_time=scheduled_end_time_aware_string,
                     actual_start_time=actual_start_time_aware_string,

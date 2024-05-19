@@ -368,6 +368,34 @@ type mutation_root {
   ): [youtube_channels_mutation_response]
 
   """
+  update data of the table: "youtube_video_details"
+  """
+  update_youtube_video_details(
+    """sets the columns of the filtered rows to the given values"""
+    _set: youtube_video_details_set_input
+
+    """filter the rows which have to be updated"""
+    where: youtube_video_details_bool_exp!
+  ): youtube_video_details_mutation_response
+
+  """
+  update single row of the table: "youtube_video_details"
+  """
+  update_youtube_video_details_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: youtube_video_details_set_input
+    pk_columns: youtube_video_details_pk_columns_input!
+  ): youtube_video_details
+
+  """
+  update multiples rows of table: "youtube_video_details"
+  """
+  update_youtube_video_details_many(
+    """updates to execute, in order"""
+    updates: [youtube_video_details_updates!]!
+  ): [youtube_video_details_mutation_response]
+
+  """
   update data of the table: "youtube_videos"
   """
   update_youtube_videos(
@@ -3136,6 +3164,7 @@ type youtube_video_details {
   actual_start_time: timestamptz
   created_at: timestamptz!
   description: String!
+  has_live_streaming_details: Boolean!
   id: uuid!
   last_fetched_at: timestamptz!
   live_broadcast_content: String!
@@ -3165,7 +3194,23 @@ type youtube_video_details_aggregate {
 }
 
 input youtube_video_details_aggregate_bool_exp {
+  bool_and: youtube_video_details_aggregate_bool_exp_bool_and
+  bool_or: youtube_video_details_aggregate_bool_exp_bool_or
   count: youtube_video_details_aggregate_bool_exp_count
+}
+
+input youtube_video_details_aggregate_bool_exp_bool_and {
+  arguments: youtube_video_details_select_column_youtube_video_details_aggregate_bool_exp_bool_and_arguments_columns!
+  distinct: Boolean
+  filter: youtube_video_details_bool_exp
+  predicate: Boolean_comparison_exp!
+}
+
+input youtube_video_details_aggregate_bool_exp_bool_or {
+  arguments: youtube_video_details_select_column_youtube_video_details_aggregate_bool_exp_bool_or_arguments_columns!
+  distinct: Boolean
+  filter: youtube_video_details_bool_exp
+  predicate: Boolean_comparison_exp!
 }
 
 input youtube_video_details_aggregate_bool_exp_count {
@@ -3214,6 +3259,7 @@ input youtube_video_details_bool_exp {
   actual_start_time: timestamptz_comparison_exp
   created_at: timestamptz_comparison_exp
   description: String_comparison_exp
+  has_live_streaming_details: Boolean_comparison_exp
   id: uuid_comparison_exp
   last_fetched_at: timestamptz_comparison_exp
   live_broadcast_content: String_comparison_exp
@@ -3235,14 +3281,14 @@ unique or primary key constraints on table "youtube_video_details"
 """
 enum youtube_video_details_constraint {
   """
+  unique or primary key constraint on columns "upload_status", "published_at", "has_live_streaming_details", "actual_end_time", "scheduled_end_time", "scheduled_start_time", "description", "live_broadcast_content", "remote_youtube_channel_id", "title", "privacy_status", "remote_youtube_video_id", "actual_start_time"
+  """
+  youtube_video_details_actual_end_time_remote_youtube_channel_id
+
+  """
   unique or primary key constraint on columns "id"
   """
   youtube_video_details_pkey
-
-  """
-  unique or primary key constraint on columns "upload_status", "published_at", "actual_end_time", "scheduled_end_time", "scheduled_start_time", "description", "live_broadcast_content", "remote_youtube_channel_id", "title", "privacy_status", "remote_youtube_video_id", "actual_start_time"
-  """
-  youtube_video_details_remote_youtube_channel_id_remote_yout_key
 }
 
 """
@@ -3252,6 +3298,7 @@ input youtube_video_details_insert_input {
   actual_end_time: timestamptz
   actual_start_time: timestamptz
   description: String
+  has_live_streaming_details: Boolean
   last_fetched_at: timestamptz
   live_broadcast_content: String
   privacy_status: String
@@ -3376,6 +3423,7 @@ input youtube_video_details_order_by {
   actual_start_time: order_by
   created_at: order_by
   description: order_by
+  has_live_streaming_details: order_by
   id: order_by
   last_fetched_at: order_by
   live_broadcast_content: order_by
@@ -3390,6 +3438,11 @@ input youtube_video_details_order_by {
   upload_status: order_by
   youtube_channel: youtube_channels_order_by
   youtube_video: youtube_videos_order_by
+}
+
+"""primary key columns input for table: youtube_video_details"""
+input youtube_video_details_pk_columns_input {
+  id: uuid!
 }
 
 """
@@ -3407,6 +3460,9 @@ enum youtube_video_details_select_column {
 
   """column name"""
   description
+
+  """column name"""
+  has_live_streaming_details
 
   """column name"""
   id
@@ -3446,6 +3502,29 @@ enum youtube_video_details_select_column {
 }
 
 """
+select "youtube_video_details_aggregate_bool_exp_bool_and_arguments_columns" columns of table "youtube_video_details"
+"""
+enum youtube_video_details_select_column_youtube_video_details_aggregate_bool_exp_bool_and_arguments_columns {
+  """column name"""
+  has_live_streaming_details
+}
+
+"""
+select "youtube_video_details_aggregate_bool_exp_bool_or_arguments_columns" columns of table "youtube_video_details"
+"""
+enum youtube_video_details_select_column_youtube_video_details_aggregate_bool_exp_bool_or_arguments_columns {
+  """column name"""
+  has_live_streaming_details
+}
+
+"""
+input type for updating data in table "youtube_video_details"
+"""
+input youtube_video_details_set_input {
+  last_fetched_at: timestamptz
+}
+
+"""
 Streaming cursor of the table "youtube_video_details"
 """
 input youtube_video_details_stream_cursor_input {
@@ -3462,6 +3541,7 @@ input youtube_video_details_stream_cursor_value_input {
   actual_start_time: timestamptz
   created_at: timestamptz
   description: String
+  has_live_streaming_details: Boolean
   id: uuid
   last_fetched_at: timestamptz
   live_broadcast_content: String
@@ -3477,11 +3557,19 @@ input youtube_video_details_stream_cursor_value_input {
 }
 
 """
-placeholder for update columns of table "youtube_video_details" (current role has no relevant permissions)
+update columns of table "youtube_video_details"
 """
 enum youtube_video_details_update_column {
-  """placeholder (do not use)"""
-  _PLACEHOLDER
+  """column name"""
+  last_fetched_at
+}
+
+input youtube_video_details_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: youtube_video_details_set_input
+
+  """filter the rows which have to be updated"""
+  where: youtube_video_details_bool_exp!
 }
 
 """

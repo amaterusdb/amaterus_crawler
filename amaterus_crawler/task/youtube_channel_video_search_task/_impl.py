@@ -98,6 +98,7 @@ class YoutubeChannelVideoSearchTask(AmaterusCrawlerTask):
                         privacy_status=remote_youtube_channel_video_detail.privacy_status,
                         upload_status=remote_youtube_channel_video_detail.upload_status,
                         live_broadcast_content=remote_youtube_channel_video_detail.live_broadcast_content,
+                        has_live_streaming_details=remote_youtube_channel_video_detail.has_live_streaming_details,
                         scheduled_start_time=remote_youtube_channel_video_detail.scheduled_start_time,
                         scheduled_end_time=remote_youtube_channel_video_detail.scheduled_end_time,
                         actual_start_time=remote_youtube_channel_video_detail.actual_start_time,
@@ -106,6 +107,7 @@ class YoutubeChannelVideoSearchTask(AmaterusCrawlerTask):
                         fetched_at=fetched_at_aware,
                     )
                 )
+
                 await youtube_video_detail_creator.create_youtube_video_details(
                     create_queries=youtube_video_detail_create_queries,
                 )

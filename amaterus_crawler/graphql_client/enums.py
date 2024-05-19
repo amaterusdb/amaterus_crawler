@@ -146,10 +146,10 @@ class youtube_channels_update_column(str, Enum):
 
 
 class youtube_video_details_constraint(str, Enum):
-    youtube_video_details_pkey = "youtube_video_details_pkey"
-    youtube_video_details_remote_youtube_channel_id_remote_yout_key = (
-        "youtube_video_details_remote_youtube_channel_id_remote_yout_key"
+    youtube_video_details_actual_end_time_remote_youtube_channel_id = (
+        "youtube_video_details_actual_end_time_remote_youtube_channel_id"
     )
+    youtube_video_details_pkey = "youtube_video_details_pkey"
 
 
 class youtube_video_details_select_column(str, Enum):
@@ -157,6 +157,7 @@ class youtube_video_details_select_column(str, Enum):
     actual_start_time = "actual_start_time"
     created_at = "created_at"
     description = "description"
+    has_live_streaming_details = "has_live_streaming_details"
     id = "id"
     last_fetched_at = "last_fetched_at"
     live_broadcast_content = "live_broadcast_content"
@@ -171,8 +172,20 @@ class youtube_video_details_select_column(str, Enum):
     upload_status = "upload_status"
 
 
+class youtube_video_details_select_column_youtube_video_details_aggregate_bool_exp_bool_and_arguments_columns(
+    str, Enum
+):
+    has_live_streaming_details = "has_live_streaming_details"
+
+
+class youtube_video_details_select_column_youtube_video_details_aggregate_bool_exp_bool_or_arguments_columns(
+    str, Enum
+):
+    has_live_streaming_details = "has_live_streaming_details"
+
+
 class youtube_video_details_update_column(str, Enum):
-    _PLACEHOLDER = "_PLACEHOLDER"
+    last_fetched_at = "last_fetched_at"
 
 
 class youtube_videos_constraint(str, Enum):

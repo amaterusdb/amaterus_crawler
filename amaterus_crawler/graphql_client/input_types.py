@@ -27,6 +27,8 @@ from .enums import (
     youtube_channels_update_column,
     youtube_video_details_constraint,
     youtube_video_details_select_column,
+    youtube_video_details_select_column_youtube_video_details_aggregate_bool_exp_bool_and_arguments_columns,
+    youtube_video_details_select_column_youtube_video_details_aggregate_bool_exp_bool_or_arguments_columns,
     youtube_video_details_update_column,
     youtube_videos_constraint,
     youtube_videos_update_column,
@@ -839,7 +841,23 @@ class youtube_channels_updates(BaseModel):
 
 
 class youtube_video_details_aggregate_bool_exp(BaseModel):
+    bool_and: Optional["youtube_video_details_aggregate_bool_exp_bool_and"] = None
+    bool_or: Optional["youtube_video_details_aggregate_bool_exp_bool_or"] = None
     count: Optional["youtube_video_details_aggregate_bool_exp_count"] = None
+
+
+class youtube_video_details_aggregate_bool_exp_bool_and(BaseModel):
+    arguments: youtube_video_details_select_column_youtube_video_details_aggregate_bool_exp_bool_and_arguments_columns
+    distinct: Optional[bool] = None
+    filter: Optional["youtube_video_details_bool_exp"] = None
+    predicate: "Boolean_comparison_exp"
+
+
+class youtube_video_details_aggregate_bool_exp_bool_or(BaseModel):
+    arguments: youtube_video_details_select_column_youtube_video_details_aggregate_bool_exp_bool_or_arguments_columns
+    distinct: Optional[bool] = None
+    filter: Optional["youtube_video_details_bool_exp"] = None
+    predicate: "Boolean_comparison_exp"
 
 
 class youtube_video_details_aggregate_bool_exp_count(BaseModel):
@@ -872,6 +890,7 @@ class youtube_video_details_bool_exp(BaseModel):
     actual_start_time: Optional["timestamptz_comparison_exp"] = None
     created_at: Optional["timestamptz_comparison_exp"] = None
     description: Optional["String_comparison_exp"] = None
+    has_live_streaming_details: Optional["Boolean_comparison_exp"] = None
     id: Optional["uuid_comparison_exp"] = None
     last_fetched_at: Optional["timestamptz_comparison_exp"] = None
     live_broadcast_content: Optional["String_comparison_exp"] = None
@@ -892,6 +911,7 @@ class youtube_video_details_insert_input(BaseModel):
     actual_end_time: Optional[Any] = None
     actual_start_time: Optional[Any] = None
     description: Optional[str] = None
+    has_live_streaming_details: Optional[bool] = None
     last_fetched_at: Optional[Any] = None
     live_broadcast_content: Optional[str] = None
     privacy_status: Optional[str] = None
@@ -957,6 +977,7 @@ class youtube_video_details_order_by(BaseModel):
     actual_start_time: Optional[order_by] = None
     created_at: Optional[order_by] = None
     description: Optional[order_by] = None
+    has_live_streaming_details: Optional[order_by] = None
     id: Optional[order_by] = None
     last_fetched_at: Optional[order_by] = None
     live_broadcast_content: Optional[order_by] = None
@@ -973,6 +994,14 @@ class youtube_video_details_order_by(BaseModel):
     youtube_video: Optional["youtube_videos_order_by"] = None
 
 
+class youtube_video_details_pk_columns_input(BaseModel):
+    id: Any
+
+
+class youtube_video_details_set_input(BaseModel):
+    last_fetched_at: Optional[Any] = None
+
+
 class youtube_video_details_stream_cursor_input(BaseModel):
     initial_value: "youtube_video_details_stream_cursor_value_input"
     ordering: Optional[cursor_ordering] = None
@@ -983,6 +1012,7 @@ class youtube_video_details_stream_cursor_value_input(BaseModel):
     actual_start_time: Optional[Any] = None
     created_at: Optional[Any] = None
     description: Optional[str] = None
+    has_live_streaming_details: Optional[bool] = None
     id: Optional[Any] = None
     last_fetched_at: Optional[Any] = None
     live_broadcast_content: Optional[str] = None
@@ -995,6 +1025,11 @@ class youtube_video_details_stream_cursor_value_input(BaseModel):
     title: Optional[str] = None
     updated_at: Optional[Any] = None
     upload_status: Optional[str] = None
+
+
+class youtube_video_details_updates(BaseModel):
+    set: Optional["youtube_video_details_set_input"] = Field(alias="_set", default=None)
+    where: "youtube_video_details_bool_exp"
 
 
 class youtube_videos_bool_exp(BaseModel):

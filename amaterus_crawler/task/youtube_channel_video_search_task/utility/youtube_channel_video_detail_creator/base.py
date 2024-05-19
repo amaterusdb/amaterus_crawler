@@ -57,6 +57,7 @@ class YoutubeVideoDetailCreateQuery:
     """
     配信の状態
     """
+    has_live_streaming_details: bool
     scheduled_start_time: datetime | None
     """
     配信のスケジュールされた開始日時
