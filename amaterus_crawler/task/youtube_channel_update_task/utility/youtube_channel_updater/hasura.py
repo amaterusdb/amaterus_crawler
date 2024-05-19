@@ -136,6 +136,7 @@ class YoutubeChannelUpdaterHasura(YoutubeChannelUpdater):
             objects.append(
                 youtube_channels_insert_input(
                     remote_youtube_channel_id=update_query.remote_youtube_channel_id,
+                    last_fetched_at=fetched_at_aware.isoformat(),
                     youtube_channel_details=youtube_channel_details_arr_rel_insert_input(
                         data=[
                             youtube_channel_details_insert_input(
