@@ -1681,6 +1681,58 @@ class youtube_video_thumbnails_max_order_by(BaseModel):
     width: Optional[order_by] = None
 
 
+class youtube_video_thumbnails_max_width_bool_exp(BaseModel):
+    and_: Optional[List["youtube_video_thumbnails_max_width_bool_exp"]] = Field(
+        alias="_and", default=None
+    )
+    not_: Optional["youtube_video_thumbnails_max_width_bool_exp"] = Field(
+        alias="_not", default=None
+    )
+    or_: Optional[List["youtube_video_thumbnails_max_width_bool_exp"]] = Field(
+        alias="_or", default=None
+    )
+    height: Optional["Int_comparison_exp"] = None
+    key: Optional["String_comparison_exp"] = None
+    last_fetched_at: Optional["timestamptz_comparison_exp"] = None
+    remote_youtube_video_id: Optional["String_comparison_exp"] = None
+    url: Optional["String_comparison_exp"] = None
+    width: Optional["Int_comparison_exp"] = None
+    youtube_video: Optional["youtube_videos_bool_exp"] = None
+    youtube_video_thumbnail_objects: Optional[
+        "youtube_video_thumbnail_objects_bool_exp"
+    ] = None
+    youtube_video_thumbnail_objects_aggregate: Optional[
+        "youtube_video_thumbnail_objects_aggregate_bool_exp"
+    ] = None
+
+
+class youtube_video_thumbnails_max_width_order_by(BaseModel):
+    height: Optional[order_by] = None
+    key: Optional[order_by] = None
+    last_fetched_at: Optional[order_by] = None
+    remote_youtube_video_id: Optional[order_by] = None
+    url: Optional[order_by] = None
+    width: Optional[order_by] = None
+    youtube_video: Optional["youtube_videos_order_by"] = None
+    youtube_video_thumbnail_objects_aggregate: Optional[
+        "youtube_video_thumbnail_objects_aggregate_order_by"
+    ] = None
+
+
+class youtube_video_thumbnails_max_width_stream_cursor_input(BaseModel):
+    initial_value: "youtube_video_thumbnails_max_width_stream_cursor_value_input"
+    ordering: Optional[cursor_ordering] = None
+
+
+class youtube_video_thumbnails_max_width_stream_cursor_value_input(BaseModel):
+    height: Optional[int] = None
+    key: Optional[str] = None
+    last_fetched_at: Optional[Any] = None
+    remote_youtube_video_id: Optional[str] = None
+    url: Optional[str] = None
+    width: Optional[int] = None
+
+
 class youtube_video_thumbnails_min_order_by(BaseModel):
     created_at: Optional[order_by] = None
     height: Optional[order_by] = None

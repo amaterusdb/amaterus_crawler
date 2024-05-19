@@ -265,6 +265,15 @@ class youtube_video_thumbnails_constraint(str, Enum):
     )
 
 
+class youtube_video_thumbnails_max_width_select_column(str, Enum):
+    height = "height"
+    key = "key"
+    last_fetched_at = "last_fetched_at"
+    remote_youtube_video_id = "remote_youtube_video_id"
+    url = "url"
+    width = "width"
+
+
 class youtube_video_thumbnails_select_column(str, Enum):
     created_at = "created_at"
     height = "height"

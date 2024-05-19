@@ -1085,6 +1085,46 @@ type query_root {
   youtube_video_thumbnails_by_pk(id: uuid!): youtube_video_thumbnails
 
   """
+  fetch data from the table: "youtube_video_thumbnails_max_width"
+  """
+  youtube_video_thumbnails_max_width(
+    """distinct select on columns"""
+    distinct_on: [youtube_video_thumbnails_max_width_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [youtube_video_thumbnails_max_width_order_by!]
+
+    """filter the rows returned"""
+    where: youtube_video_thumbnails_max_width_bool_exp
+  ): [youtube_video_thumbnails_max_width!]!
+
+  """
+  fetch aggregated fields from the table: "youtube_video_thumbnails_max_width"
+  """
+  youtube_video_thumbnails_max_width_aggregate(
+    """distinct select on columns"""
+    distinct_on: [youtube_video_thumbnails_max_width_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [youtube_video_thumbnails_max_width_order_by!]
+
+    """filter the rows returned"""
+    where: youtube_video_thumbnails_max_width_bool_exp
+  ): youtube_video_thumbnails_max_width_aggregate!
+
+  """
   fetch data from the table: "youtube_videos"
   """
   youtube_videos(
@@ -1782,6 +1822,60 @@ type subscription_root {
   fetch data from the table: "youtube_video_thumbnails" using primary key columns
   """
   youtube_video_thumbnails_by_pk(id: uuid!): youtube_video_thumbnails
+
+  """
+  fetch data from the table: "youtube_video_thumbnails_max_width"
+  """
+  youtube_video_thumbnails_max_width(
+    """distinct select on columns"""
+    distinct_on: [youtube_video_thumbnails_max_width_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [youtube_video_thumbnails_max_width_order_by!]
+
+    """filter the rows returned"""
+    where: youtube_video_thumbnails_max_width_bool_exp
+  ): [youtube_video_thumbnails_max_width!]!
+
+  """
+  fetch aggregated fields from the table: "youtube_video_thumbnails_max_width"
+  """
+  youtube_video_thumbnails_max_width_aggregate(
+    """distinct select on columns"""
+    distinct_on: [youtube_video_thumbnails_max_width_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [youtube_video_thumbnails_max_width_order_by!]
+
+    """filter the rows returned"""
+    where: youtube_video_thumbnails_max_width_bool_exp
+  ): youtube_video_thumbnails_max_width_aggregate!
+
+  """
+  fetch data from the table in a streaming manner: "youtube_video_thumbnails_max_width"
+  """
+  youtube_video_thumbnails_max_width_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [youtube_video_thumbnails_max_width_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: youtube_video_thumbnails_max_width_bool_exp
+  ): [youtube_video_thumbnails_max_width!]!
 
   """
   fetch data from the table in a streaming manner: "youtube_video_thumbnails"
@@ -5742,6 +5836,226 @@ input youtube_video_thumbnails_max_order_by {
   updated_at: order_by
   url: order_by
   width: order_by
+}
+
+"""
+columns and relationships of "youtube_video_thumbnails_max_width"
+"""
+type youtube_video_thumbnails_max_width {
+  height: Int
+  key: String
+  last_fetched_at: timestamptz
+  remote_youtube_video_id: String
+  url: String
+  width: Int
+
+  """An object relationship"""
+  youtube_video: youtube_videos
+
+  """An array relationship"""
+  youtube_video_thumbnail_objects(
+    """distinct select on columns"""
+    distinct_on: [youtube_video_thumbnail_objects_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [youtube_video_thumbnail_objects_order_by!]
+
+    """filter the rows returned"""
+    where: youtube_video_thumbnail_objects_bool_exp
+  ): [youtube_video_thumbnail_objects!]!
+
+  """An aggregate relationship"""
+  youtube_video_thumbnail_objects_aggregate(
+    """distinct select on columns"""
+    distinct_on: [youtube_video_thumbnail_objects_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [youtube_video_thumbnail_objects_order_by!]
+
+    """filter the rows returned"""
+    where: youtube_video_thumbnail_objects_bool_exp
+  ): youtube_video_thumbnail_objects_aggregate!
+}
+
+"""
+aggregated selection of "youtube_video_thumbnails_max_width"
+"""
+type youtube_video_thumbnails_max_width_aggregate {
+  aggregate: youtube_video_thumbnails_max_width_aggregate_fields
+  nodes: [youtube_video_thumbnails_max_width!]!
+}
+
+"""
+aggregate fields of "youtube_video_thumbnails_max_width"
+"""
+type youtube_video_thumbnails_max_width_aggregate_fields {
+  avg: youtube_video_thumbnails_max_width_avg_fields
+  count(columns: [youtube_video_thumbnails_max_width_select_column!], distinct: Boolean): Int!
+  max: youtube_video_thumbnails_max_width_max_fields
+  min: youtube_video_thumbnails_max_width_min_fields
+  stddev: youtube_video_thumbnails_max_width_stddev_fields
+  stddev_pop: youtube_video_thumbnails_max_width_stddev_pop_fields
+  stddev_samp: youtube_video_thumbnails_max_width_stddev_samp_fields
+  sum: youtube_video_thumbnails_max_width_sum_fields
+  var_pop: youtube_video_thumbnails_max_width_var_pop_fields
+  var_samp: youtube_video_thumbnails_max_width_var_samp_fields
+  variance: youtube_video_thumbnails_max_width_variance_fields
+}
+
+"""aggregate avg on columns"""
+type youtube_video_thumbnails_max_width_avg_fields {
+  height: Float
+  width: Float
+}
+
+"""
+Boolean expression to filter rows from the table "youtube_video_thumbnails_max_width". All fields are combined with a logical 'AND'.
+"""
+input youtube_video_thumbnails_max_width_bool_exp {
+  _and: [youtube_video_thumbnails_max_width_bool_exp!]
+  _not: youtube_video_thumbnails_max_width_bool_exp
+  _or: [youtube_video_thumbnails_max_width_bool_exp!]
+  height: Int_comparison_exp
+  key: String_comparison_exp
+  last_fetched_at: timestamptz_comparison_exp
+  remote_youtube_video_id: String_comparison_exp
+  url: String_comparison_exp
+  width: Int_comparison_exp
+  youtube_video: youtube_videos_bool_exp
+  youtube_video_thumbnail_objects: youtube_video_thumbnail_objects_bool_exp
+  youtube_video_thumbnail_objects_aggregate: youtube_video_thumbnail_objects_aggregate_bool_exp
+}
+
+"""aggregate max on columns"""
+type youtube_video_thumbnails_max_width_max_fields {
+  height: Int
+  key: String
+  last_fetched_at: timestamptz
+  remote_youtube_video_id: String
+  url: String
+  width: Int
+}
+
+"""aggregate min on columns"""
+type youtube_video_thumbnails_max_width_min_fields {
+  height: Int
+  key: String
+  last_fetched_at: timestamptz
+  remote_youtube_video_id: String
+  url: String
+  width: Int
+}
+
+"""
+Ordering options when selecting data from "youtube_video_thumbnails_max_width".
+"""
+input youtube_video_thumbnails_max_width_order_by {
+  height: order_by
+  key: order_by
+  last_fetched_at: order_by
+  remote_youtube_video_id: order_by
+  url: order_by
+  width: order_by
+  youtube_video: youtube_videos_order_by
+  youtube_video_thumbnail_objects_aggregate: youtube_video_thumbnail_objects_aggregate_order_by
+}
+
+"""
+select columns of table "youtube_video_thumbnails_max_width"
+"""
+enum youtube_video_thumbnails_max_width_select_column {
+  """column name"""
+  height
+
+  """column name"""
+  key
+
+  """column name"""
+  last_fetched_at
+
+  """column name"""
+  remote_youtube_video_id
+
+  """column name"""
+  url
+
+  """column name"""
+  width
+}
+
+"""aggregate stddev on columns"""
+type youtube_video_thumbnails_max_width_stddev_fields {
+  height: Float
+  width: Float
+}
+
+"""aggregate stddev_pop on columns"""
+type youtube_video_thumbnails_max_width_stddev_pop_fields {
+  height: Float
+  width: Float
+}
+
+"""aggregate stddev_samp on columns"""
+type youtube_video_thumbnails_max_width_stddev_samp_fields {
+  height: Float
+  width: Float
+}
+
+"""
+Streaming cursor of the table "youtube_video_thumbnails_max_width"
+"""
+input youtube_video_thumbnails_max_width_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: youtube_video_thumbnails_max_width_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input youtube_video_thumbnails_max_width_stream_cursor_value_input {
+  height: Int
+  key: String
+  last_fetched_at: timestamptz
+  remote_youtube_video_id: String
+  url: String
+  width: Int
+}
+
+"""aggregate sum on columns"""
+type youtube_video_thumbnails_max_width_sum_fields {
+  height: Int
+  width: Int
+}
+
+"""aggregate var_pop on columns"""
+type youtube_video_thumbnails_max_width_var_pop_fields {
+  height: Float
+  width: Float
+}
+
+"""aggregate var_samp on columns"""
+type youtube_video_thumbnails_max_width_var_samp_fields {
+  height: Float
+  width: Float
+}
+
+"""aggregate variance on columns"""
+type youtube_video_thumbnails_max_width_variance_fields {
+  height: Float
+  width: Float
 }
 
 """aggregate min on columns"""
