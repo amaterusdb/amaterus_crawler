@@ -258,7 +258,7 @@ class Client(AsyncBaseClient):
         query = gql(
             """
             query GetDownloadableYoutubeVideoThumbnails {
-              youtube_video_thumbnails(
+              youtube_video_thumbnails: youtube_video_thumbnails_max_width(
                 where: {youtube_video: {enabled: {_eq: true}}, _not: {youtube_video_thumbnail_objects: {}}}
               ) {
                 url

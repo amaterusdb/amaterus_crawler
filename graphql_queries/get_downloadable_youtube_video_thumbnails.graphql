@@ -1,5 +1,5 @@
 query GetDownloadableYoutubeVideoThumbnails {
-  youtube_video_thumbnails(
+  youtube_video_thumbnails: youtube_video_thumbnails_max_width(
     where: {
       youtube_video: {
         enabled: {
