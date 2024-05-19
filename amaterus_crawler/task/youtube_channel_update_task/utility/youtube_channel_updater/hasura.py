@@ -9,7 +9,10 @@ from .....graphql_client import (
     youtube_channel_detail_logs_arr_rel_insert_input,
     youtube_channel_detail_logs_insert_input,
     youtube_channel_detail_thumbnails_arr_rel_insert_input,
+    youtube_channel_detail_thumbnails_constraint,
     youtube_channel_detail_thumbnails_insert_input,
+    youtube_channel_detail_thumbnails_on_conflict,
+    youtube_channel_detail_thumbnails_update_column,
     youtube_channel_details_arr_rel_insert_input,
     youtube_channel_details_constraint,
     youtube_channel_details_insert_input,
@@ -154,6 +157,10 @@ class YoutubeChannelUpdaterHasura(YoutubeChannelUpdater):
                                 ),
                                 youtube_channel_detail_thumbnails=youtube_channel_detail_thumbnails_arr_rel_insert_input(
                                     data=detail_thumbnail_objects,
+                                    on_conflict=youtube_channel_detail_thumbnails_on_conflict(
+                                        constraint=youtube_channel_detail_thumbnails_constraint.youtube_channel_detail_thumbnails_youtube_channel_detail_id_you,
+                                        update_columns=[],
+                                    ),
                                 ),
                             ),
                         ],
