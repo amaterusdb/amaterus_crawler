@@ -36,6 +36,9 @@ from .enums import (
     youtube_video_details_select_column_youtube_video_details_aggregate_bool_exp_bool_and_arguments_columns,
     youtube_video_details_select_column_youtube_video_details_aggregate_bool_exp_bool_or_arguments_columns,
     youtube_video_details_update_column,
+    youtube_video_thumbnail_objects_constraint,
+    youtube_video_thumbnail_objects_select_column,
+    youtube_video_thumbnail_objects_update_column,
     youtube_video_thumbnails_constraint,
     youtube_video_thumbnails_select_column,
     youtube_video_thumbnails_update_column,
@@ -1257,6 +1260,171 @@ class youtube_video_details_updates(BaseModel):
     where: "youtube_video_details_bool_exp"
 
 
+class youtube_video_thumbnail_objects_aggregate_bool_exp(BaseModel):
+    count: Optional["youtube_video_thumbnail_objects_aggregate_bool_exp_count"] = None
+
+
+class youtube_video_thumbnail_objects_aggregate_bool_exp_count(BaseModel):
+    arguments: Optional[List[youtube_video_thumbnail_objects_select_column]] = None
+    distinct: Optional[bool] = None
+    filter: Optional["youtube_video_thumbnail_objects_bool_exp"] = None
+    predicate: "Int_comparison_exp"
+
+
+class youtube_video_thumbnail_objects_aggregate_order_by(BaseModel):
+    avg: Optional["youtube_video_thumbnail_objects_avg_order_by"] = None
+    count: Optional[order_by] = None
+    max: Optional["youtube_video_thumbnail_objects_max_order_by"] = None
+    min: Optional["youtube_video_thumbnail_objects_min_order_by"] = None
+    stddev: Optional["youtube_video_thumbnail_objects_stddev_order_by"] = None
+    stddev_pop: Optional["youtube_video_thumbnail_objects_stddev_pop_order_by"] = None
+    stddev_samp: Optional["youtube_video_thumbnail_objects_stddev_samp_order_by"] = None
+    sum: Optional["youtube_video_thumbnail_objects_sum_order_by"] = None
+    var_pop: Optional["youtube_video_thumbnail_objects_var_pop_order_by"] = None
+    var_samp: Optional["youtube_video_thumbnail_objects_var_samp_order_by"] = None
+    variance: Optional["youtube_video_thumbnail_objects_variance_order_by"] = None
+
+
+class youtube_video_thumbnail_objects_arr_rel_insert_input(BaseModel):
+    data: List["youtube_video_thumbnail_objects_insert_input"]
+    on_conflict: Optional["youtube_video_thumbnail_objects_on_conflict"] = None
+
+
+class youtube_video_thumbnail_objects_avg_order_by(BaseModel):
+    object_size: Optional[order_by] = None
+
+
+class youtube_video_thumbnail_objects_bool_exp(BaseModel):
+    and_: Optional[List["youtube_video_thumbnail_objects_bool_exp"]] = Field(
+        alias="_and", default=None
+    )
+    not_: Optional["youtube_video_thumbnail_objects_bool_exp"] = Field(
+        alias="_not", default=None
+    )
+    or_: Optional[List["youtube_video_thumbnail_objects_bool_exp"]] = Field(
+        alias="_or", default=None
+    )
+    content_type: Optional["String_comparison_exp"] = None
+    created_at: Optional["timestamptz_comparison_exp"] = None
+    fetched_at: Optional["timestamptz_comparison_exp"] = None
+    id: Optional["uuid_comparison_exp"] = None
+    object_key: Optional["String_comparison_exp"] = None
+    object_size: Optional["Int_comparison_exp"] = None
+    remote_youtube_video_thumbnail_url: Optional["String_comparison_exp"] = None
+    sha_256_digest: Optional["String_comparison_exp"] = Field(
+        alias="sha256_digest", default=None
+    )
+    updated_at: Optional["timestamptz_comparison_exp"] = None
+    youtube_video_thumbnails: Optional["youtube_video_thumbnails_bool_exp"] = None
+    youtube_video_thumbnails_aggregate: Optional[
+        "youtube_video_thumbnails_aggregate_bool_exp"
+    ] = None
+
+
+class youtube_video_thumbnail_objects_insert_input(BaseModel):
+    content_type: Optional[str] = None
+    fetched_at: Optional[Any] = None
+    object_key: Optional[str] = None
+    object_size: Optional[int] = None
+    remote_youtube_video_thumbnail_url: Optional[str] = None
+    sha_256_digest: Optional[str] = Field(alias="sha256_digest", default=None)
+    youtube_video_thumbnails: Optional[
+        "youtube_video_thumbnails_arr_rel_insert_input"
+    ] = None
+
+
+class youtube_video_thumbnail_objects_max_order_by(BaseModel):
+    content_type: Optional[order_by] = None
+    created_at: Optional[order_by] = None
+    fetched_at: Optional[order_by] = None
+    id: Optional[order_by] = None
+    object_key: Optional[order_by] = None
+    object_size: Optional[order_by] = None
+    remote_youtube_video_thumbnail_url: Optional[order_by] = None
+    sha_256_digest: Optional[order_by] = Field(alias="sha256_digest", default=None)
+    updated_at: Optional[order_by] = None
+
+
+class youtube_video_thumbnail_objects_min_order_by(BaseModel):
+    content_type: Optional[order_by] = None
+    created_at: Optional[order_by] = None
+    fetched_at: Optional[order_by] = None
+    id: Optional[order_by] = None
+    object_key: Optional[order_by] = None
+    object_size: Optional[order_by] = None
+    remote_youtube_video_thumbnail_url: Optional[order_by] = None
+    sha_256_digest: Optional[order_by] = Field(alias="sha256_digest", default=None)
+    updated_at: Optional[order_by] = None
+
+
+class youtube_video_thumbnail_objects_on_conflict(BaseModel):
+    constraint: youtube_video_thumbnail_objects_constraint
+    update_columns: List[youtube_video_thumbnail_objects_update_column] = Field(
+        default_factory=lambda: []
+    )
+    where: Optional["youtube_video_thumbnail_objects_bool_exp"] = None
+
+
+class youtube_video_thumbnail_objects_order_by(BaseModel):
+    content_type: Optional[order_by] = None
+    created_at: Optional[order_by] = None
+    fetched_at: Optional[order_by] = None
+    id: Optional[order_by] = None
+    object_key: Optional[order_by] = None
+    object_size: Optional[order_by] = None
+    remote_youtube_video_thumbnail_url: Optional[order_by] = None
+    sha_256_digest: Optional[order_by] = Field(alias="sha256_digest", default=None)
+    updated_at: Optional[order_by] = None
+    youtube_video_thumbnails_aggregate: Optional[
+        "youtube_video_thumbnails_aggregate_order_by"
+    ] = None
+
+
+class youtube_video_thumbnail_objects_stddev_order_by(BaseModel):
+    object_size: Optional[order_by] = None
+
+
+class youtube_video_thumbnail_objects_stddev_pop_order_by(BaseModel):
+    object_size: Optional[order_by] = None
+
+
+class youtube_video_thumbnail_objects_stddev_samp_order_by(BaseModel):
+    object_size: Optional[order_by] = None
+
+
+class youtube_video_thumbnail_objects_stream_cursor_input(BaseModel):
+    initial_value: "youtube_video_thumbnail_objects_stream_cursor_value_input"
+    ordering: Optional[cursor_ordering] = None
+
+
+class youtube_video_thumbnail_objects_stream_cursor_value_input(BaseModel):
+    content_type: Optional[str] = None
+    created_at: Optional[Any] = None
+    fetched_at: Optional[Any] = None
+    id: Optional[Any] = None
+    object_key: Optional[str] = None
+    object_size: Optional[int] = None
+    remote_youtube_video_thumbnail_url: Optional[str] = None
+    sha_256_digest: Optional[str] = Field(alias="sha256_digest", default=None)
+    updated_at: Optional[Any] = None
+
+
+class youtube_video_thumbnail_objects_sum_order_by(BaseModel):
+    object_size: Optional[order_by] = None
+
+
+class youtube_video_thumbnail_objects_var_pop_order_by(BaseModel):
+    object_size: Optional[order_by] = None
+
+
+class youtube_video_thumbnail_objects_var_samp_order_by(BaseModel):
+    object_size: Optional[order_by] = None
+
+
+class youtube_video_thumbnail_objects_variance_order_by(BaseModel):
+    object_size: Optional[order_by] = None
+
+
 class youtube_video_thumbnails_aggregate_bool_exp(BaseModel):
     count: Optional["youtube_video_thumbnails_aggregate_bool_exp_count"] = None
 
@@ -1318,6 +1486,12 @@ class youtube_video_thumbnails_bool_exp(BaseModel):
     youtube_video_detail_thumbnails_aggregate: Optional[
         "youtube_video_detail_thumbnails_aggregate_bool_exp"
     ] = None
+    youtube_video_thumbnail_objects: Optional[
+        "youtube_video_thumbnail_objects_bool_exp"
+    ] = None
+    youtube_video_thumbnail_objects_aggregate: Optional[
+        "youtube_video_thumbnail_objects_aggregate_bool_exp"
+    ] = None
 
 
 class youtube_video_thumbnails_insert_input(BaseModel):
@@ -1330,6 +1504,9 @@ class youtube_video_thumbnails_insert_input(BaseModel):
     youtube_video: Optional["youtube_videos_obj_rel_insert_input"] = None
     youtube_video_detail_thumbnails: Optional[
         "youtube_video_detail_thumbnails_arr_rel_insert_input"
+    ] = None
+    youtube_video_thumbnail_objects: Optional[
+        "youtube_video_thumbnail_objects_arr_rel_insert_input"
     ] = None
 
 
@@ -1383,6 +1560,9 @@ class youtube_video_thumbnails_order_by(BaseModel):
     youtube_video: Optional["youtube_videos_order_by"] = None
     youtube_video_detail_thumbnails_aggregate: Optional[
         "youtube_video_detail_thumbnails_aggregate_order_by"
+    ] = None
+    youtube_video_thumbnail_objects_aggregate: Optional[
+        "youtube_video_thumbnail_objects_aggregate_order_by"
     ] = None
 
 
