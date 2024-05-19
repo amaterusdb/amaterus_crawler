@@ -31,17 +31,20 @@ from ..task.youtube_channel_update_task.utility.youtube_channel_updater import (
     YoutubeChannelUpdaterHasura,
 )
 from ..task.youtube_channel_video_search_task import (
-    RemoteYoutubeChannelVideoDetailFetcherYoutubeApi,
+    RemoteYoutubeChannelVideoSearcherYoutubeApi,
 )
 from ..task.youtube_channel_video_search_task import (
     UpdatableYoutubeChannelFetcherHasura as UpdatableYoutubeChannelFetcherHasuraVS,
 )
 from ..task.youtube_channel_video_search_task import (
     YoutubeChannelVideoSearchTask,
-    YoutubeVideoDetailCreatorHasura,
+    YoutubeVideoUpserterHasura,
 )
-from ..task.youtube_channel_video_search_task.utility.remote_youtube_channel_video_searcher.youtube_api import (  # noqa: B950
-    RemoteYoutubeChannelVideoSearcherYoutubeApi,
+from ..task.youtube_video_detail_update_task import (
+    RemoteYoutubeVideoDetailFetcherYoutubeApi,
+    UpdatableYoutubeVideoFetcherHasura,
+    YoutubeVideoDetailCreatorHasura,
+    YoutubeVideoDetailUpdateTask,
 )
 
 logger = getLogger(__name__)
@@ -291,7 +294,47 @@ async def execute_subcommand_run(args: Namespace) -> None:
                     remote_youtube_channel_video_searcher=RemoteYoutubeChannelVideoSearcherYoutubeApi(
                         youtube_api_key=youtube_api_key,
                     ),
-                    remote_youtube_channel_video_detail_fetcher=RemoteYoutubeChannelVideoDetailFetcherYoutubeApi(
+                    youtube_video_upserter=YoutubeVideoUpserterHasura(
+                        graphql_client=graphql_client,
+                    ),
+                ),
+            )
+        elif task_type == "update_youtube_video_detail":
+            options = task_config.options
+            if options is not None:
+                assert isinstance(options, SearchYoutubeChannelVideoConfigOptions)
+
+                if options.override_hasura:
+                    hasura_url = options.hasura_url
+                    hasura_access_token = options.hasura_access_token
+                    hasura_admin_secret = options.hasura_admin_secret
+                    hasura_role = options.hasura_role
+
+                if options.override_youtube_api_key:
+                    youtube_api_key = options.youtube_api_key
+
+            if hasura_url is None:
+                raise SubcommandRunError("hasura_url is None")
+
+            if youtube_api_key is None:
+                raise SubcommandRunError("youtube_api_key is None")
+
+            hasura_graphql_api_url = hasura_url
+            if not hasura_graphql_api_url.endswith("/"):
+                hasura_graphql_api_url += "/"
+            hasura_graphql_api_url += "v1/graphql"
+
+            graphql_client = Client(
+                url=hasura_graphql_api_url,
+                headers=graphql_client_headers,
+            )
+
+            tasks.append(
+                YoutubeVideoDetailUpdateTask(
+                    updatable_youtube_video_fetcher=UpdatableYoutubeVideoFetcherHasura(
+                        graphql_client=graphql_client,
+                    ),
+                    remote_youtube_video_detail_fetcher=RemoteYoutubeVideoDetailFetcherYoutubeApi(
                         youtube_api_key=youtube_api_key,
                     ),
                     youtube_video_detail_creator=YoutubeVideoDetailCreatorHasura(

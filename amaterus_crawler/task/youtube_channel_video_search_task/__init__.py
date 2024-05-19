@@ -1,9 +1,9 @@
 from ._impl import YoutubeChannelVideoSearchTask
-from .utility.remote_youtube_channel_video_detail_fetcher import (
-    RemoteYoutubeChannelVideoDetailFetcher,
-    RemoteYoutubeChannelVideoDetailFetchError,
-    RemoteYoutubeChannelVideoDetailFetcherYoutubeApi,
-    RemoteYoutubeChannelVideoDetailFetchResult,
+from .utility.remote_youtube_channel_video_searcher import (
+    RemoteYoutubeChannelVideoSearcher,
+    RemoteYoutubeChannelVideoSearchError,
+    RemoteYoutubeChannelVideoSearcherYoutubeApi,
+    RemoteYoutubeChannelVideoSearchResult,
 )
 from .utility.updatable_youtube_channel_fetcher import (
     UpdatableYoutubeChannelFetcher,
@@ -11,25 +11,25 @@ from .utility.updatable_youtube_channel_fetcher import (
     UpdatableYoutubeChannelFetchError,
     UpdatableYoutubeChannelFetchResult,
 )
-from .utility.youtube_channel_video_detail_creator import (
-    YoutubeVideoDetailCreateError,
-    YoutubeVideoDetailCreateQuery,
-    YoutubeVideoDetailCreator,
-    YoutubeVideoDetailCreatorHasura,
+from .utility.youtube_video_upserter import (
+    YoutubeVideoUpserter,
+    YoutubeVideoUpserterHasura,
+    YoutubeVideoUpsertError,
+    YoutubeVideoUpsertQuery,
 )
 
 __all__ = [
     "YoutubeChannelVideoSearchTask",
-    "RemoteYoutubeChannelVideoDetailFetcher",
-    "RemoteYoutubeChannelVideoDetailFetchError",
-    "RemoteYoutubeChannelVideoDetailFetcherYoutubeApi",
-    "RemoteYoutubeChannelVideoDetailFetchResult",
     "UpdatableYoutubeChannelFetcher",
     "UpdatableYoutubeChannelFetcherHasura",
     "UpdatableYoutubeChannelFetchError",
     "UpdatableYoutubeChannelFetchResult",
-    "YoutubeVideoDetailCreateError",
-    "YoutubeVideoDetailCreateQuery",
-    "YoutubeVideoDetailCreator",
-    "YoutubeVideoDetailCreatorHasura",
+    "RemoteYoutubeChannelVideoSearcher",
+    "RemoteYoutubeChannelVideoSearcherYoutubeApi",
+    "RemoteYoutubeChannelVideoSearchError",
+    "RemoteYoutubeChannelVideoSearchResult",
+    "YoutubeVideoUpsertQuery",
+    "YoutubeVideoUpsertError",
+    "YoutubeVideoUpserter",
+    "YoutubeVideoUpserterHasura",
 ]

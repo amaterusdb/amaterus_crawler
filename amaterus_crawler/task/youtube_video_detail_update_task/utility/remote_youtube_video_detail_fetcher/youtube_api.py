@@ -5,11 +5,11 @@ import httpx
 from pydantic import BaseModel
 
 from .base import (
-    RemoteYoutubeChannelVideoDetail,
-    RemoteYoutubeChannelVideoDetailFetcher,
-    RemoteYoutubeChannelVideoDetailFetchError,
-    RemoteYoutubeChannelVideoDetailFetchResult,
-    RemoteYoutubeChannelVideoDetailThumbnail,
+    RemoteYoutubeVideoDetail,
+    RemoteYoutubeVideoDetailFetcher,
+    RemoteYoutubeVideoDetailFetchError,
+    RemoteYoutubeVideoDetailFetchResult,
+    RemoteYoutubeVideoDetailThumbnail,
 )
 
 
@@ -60,28 +60,26 @@ class YoutubeVideoApiResult(BaseModel):
     items: list[YoutubeVideoApiResultItem]
 
 
-class RemoteYoutubeChannelVideoDetailFetcherYoutubeApi(
-    RemoteYoutubeChannelVideoDetailFetcher
-):
+class RemoteYoutubeVideoDetailFetcherYoutubeApi(RemoteYoutubeVideoDetailFetcher):
     def __init__(
         self,
         youtube_api_key: str,
     ) -> None:
         self.youtube_api_key = youtube_api_key
 
-    async def fetch_remote_youtube_channel_video_details(
+    async def fetch_remote_youtube_video_details(
         self,
         remote_youtube_video_ids: list[str],
-    ) -> RemoteYoutubeChannelVideoDetailFetchResult:
+    ) -> RemoteYoutubeVideoDetailFetchResult:
         youtube_api_key = self.youtube_api_key
 
         if len(remote_youtube_video_ids) == 0:
-            raise RemoteYoutubeChannelVideoDetailFetchError(
+            raise RemoteYoutubeVideoDetailFetchError(
                 "remote_youtube_video_ids is empty."
             )
 
         if len(remote_youtube_video_ids) > 50:
-            raise RemoteYoutubeChannelVideoDetailFetchError(
+            raise RemoteYoutubeVideoDetailFetchError(
                 "len(remote_youtube_video_ids) > 50"
             )
 
@@ -98,32 +96,28 @@ class RemoteYoutubeChannelVideoDetailFetcherYoutubeApi(
 
                 video_api_response.raise_for_status()
         except httpx.HTTPError:
-            raise RemoteYoutubeChannelVideoDetailFetchError(
+            raise RemoteYoutubeVideoDetailFetchError(
                 "Failed to fetch YouTube video data from YouTube Data API."
             )
 
         video_api_dict = video_api_response.json()
         video_api_data = YoutubeVideoApiResult.model_validate(video_api_dict)
 
-        channel_video_list_items = video_api_data.items
-        if len(channel_video_list_items) == 0:
-            raise RemoteYoutubeChannelVideoDetailFetchError(
+        video_list_items = video_api_data.items
+        if len(video_list_items) == 0:
+            raise RemoteYoutubeVideoDetailFetchError(
                 "channel_video_list_items is empty."
             )
 
-        remote_youtube_channel_videos: list[RemoteYoutubeChannelVideoDetail] = []
-        for channel_video in channel_video_list_items:
+        remote_youtube_video_details: list[RemoteYoutubeVideoDetail] = []
+        for channel_video in video_list_items:
             remote_youtube_video_id = channel_video.id
 
             if channel_video.snippet is None:
-                raise RemoteYoutubeChannelVideoDetailFetchError(
-                    "channel.snippet is None."
-                )
+                raise RemoteYoutubeVideoDetailFetchError("channel.snippet is None.")
 
             if channel_video.status is None:
-                raise RemoteYoutubeChannelVideoDetailFetchError(
-                    "channel.status is None."
-                )
+                raise RemoteYoutubeVideoDetailFetchError("channel.status is None.")
 
             privacy_status = channel_video.status.privacyStatus
             upload_status = channel_video.status.uploadStatus
@@ -131,11 +125,11 @@ class RemoteYoutubeChannelVideoDetailFetcherYoutubeApi(
             live_broadcast_content = channel_video.snippet.liveBroadcastContent
 
             thumbnails = channel_video.snippet.thumbnails
-            thumbnail_objects: list[RemoteYoutubeChannelVideoDetailThumbnail] = []
+            thumbnail_objects: list[RemoteYoutubeVideoDetailThumbnail] = []
 
             if thumbnails.maxres is not None:
                 thumbnail_objects.append(
-                    RemoteYoutubeChannelVideoDetailThumbnail(
+                    RemoteYoutubeVideoDetailThumbnail(
                         key="maxres",
                         url=thumbnails.maxres.url,
                         width=thumbnails.maxres.width,
@@ -145,7 +139,7 @@ class RemoteYoutubeChannelVideoDetailFetcherYoutubeApi(
 
             if thumbnails.standard is not None:
                 thumbnail_objects.append(
-                    RemoteYoutubeChannelVideoDetailThumbnail(
+                    RemoteYoutubeVideoDetailThumbnail(
                         key="standard",
                         url=thumbnails.standard.url,
                         width=thumbnails.standard.width,
@@ -155,7 +149,7 @@ class RemoteYoutubeChannelVideoDetailFetcherYoutubeApi(
 
             if thumbnails.high is not None:
                 thumbnail_objects.append(
-                    RemoteYoutubeChannelVideoDetailThumbnail(
+                    RemoteYoutubeVideoDetailThumbnail(
                         key="high",
                         url=thumbnails.high.url,
                         width=thumbnails.high.width,
@@ -165,7 +159,7 @@ class RemoteYoutubeChannelVideoDetailFetcherYoutubeApi(
 
             if thumbnails.medium is not None:
                 thumbnail_objects.append(
-                    RemoteYoutubeChannelVideoDetailThumbnail(
+                    RemoteYoutubeVideoDetailThumbnail(
                         key="medium",
                         url=thumbnails.medium.url,
                         width=thumbnails.medium.width,
@@ -175,7 +169,7 @@ class RemoteYoutubeChannelVideoDetailFetcherYoutubeApi(
 
             if thumbnails.default is not None:
                 thumbnail_objects.append(
-                    RemoteYoutubeChannelVideoDetailThumbnail(
+                    RemoteYoutubeVideoDetailThumbnail(
                         key="default",
                         url=thumbnails.default.url,
                         width=thumbnails.default.width,
@@ -197,8 +191,8 @@ class RemoteYoutubeChannelVideoDetailFetcherYoutubeApi(
                 actual_start_time = liveStreamingDetails.actualStartTime
                 actual_end_time = liveStreamingDetails.actualEndTime
 
-            remote_youtube_channel_videos.append(
-                RemoteYoutubeChannelVideoDetail(
+            remote_youtube_video_details.append(
+                RemoteYoutubeVideoDetail(
                     remote_youtube_channel_id=channel_video.snippet.channelId,
                     remote_youtube_video_id=remote_youtube_video_id,
                     title=channel_video.snippet.title,
@@ -218,6 +212,6 @@ class RemoteYoutubeChannelVideoDetailFetcherYoutubeApi(
                 ),
             )
 
-        return RemoteYoutubeChannelVideoDetailFetchResult(
-            remote_youtube_channel_video_details=remote_youtube_channel_videos,
+        return RemoteYoutubeVideoDetailFetchResult(
+            remote_youtube_video_details=remote_youtube_video_details,
         )

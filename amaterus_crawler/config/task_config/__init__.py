@@ -10,6 +10,10 @@ from .update_youtube_channel_config import (
     UpdateYoutubeChannelConfig,
     UpdateYoutubeChannelConfigOptions,
 )
+from .update_youtube_video_detail_config import (
+    UpdateYoutubeVideoDetailConfig,
+    UpdateYoutubeVideoDetailConfigOptions,
+)
 
 __all__ = [
     "DownloadYoutubeChannelThumbnailConfig",
@@ -18,4 +22,6 @@ __all__ = [
     "UpdateYoutubeChannelConfigOptions",
     "SearchYoutubeChannelVideoConfig",
     "SearchYoutubeChannelVideoConfigOptions",
+    "UpdateYoutubeVideoDetailConfig",
+    "UpdateYoutubeVideoDetailConfigOptions",
 ]

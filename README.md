@@ -33,6 +33,12 @@ tasks:
     enabled: true
     options:
       object_key_prefix: youtube_channel_thumbnails/
+
+  - type: search_youtube_channel_video
+    enabled: true
+
+  - type: update_youtube_video_detail
+    enabled: true
 ```
 
 ## GraphQL Code Generation

@@ -12,10 +12,13 @@ from .get_downloadable_youtube_channel_thumbnails import (
     GetDownloadableYoutubeChannelThumbnails,
 )
 from .get_updatable_youtube_channels import GetUpdatableYoutubeChannels
+from .get_updatable_youtube_videos import GetUpdatableYoutubeVideos
 from .input_types import (
     youtube_channel_details_insert_input,
     youtube_video_details_insert_input,
+    youtube_videos_insert_input,
 )
+from .upsert_youtube_videos import UpsertYoutubeVideos
 
 
 def gql(q: str) -> str:
@@ -192,3 +195,54 @@ class Client(AsyncBaseClient):
         )
         data = self.get_data(response)
         return GetUpdatableYoutubeChannels.model_validate(data)
+
+    async def get_updatable_youtube_videos(
+        self, **kwargs: Any
+    ) -> GetUpdatableYoutubeVideos:
+        query = gql(
+            """
+            query GetUpdatableYoutubeVideos {
+              youtube_videos(
+                where: {enabled: {_eq: true}}
+                order_by: {last_fetched_at: asc_nulls_first}
+                limit: 50
+              ) {
+                remote_youtube_video_id
+              }
+            }
+            """
+        )
+        variables: Dict[str, object] = {}
+        response = await self.execute(
+            query=query,
+            operation_name="GetUpdatableYoutubeVideos",
+            variables=variables,
+            **kwargs
+        )
+        data = self.get_data(response)
+        return GetUpdatableYoutubeVideos.model_validate(data)
+
+    async def upsert_youtube_videos(
+        self, objects: List[youtube_videos_insert_input], **kwargs: Any
+    ) -> UpsertYoutubeVideos:
+        query = gql(
+            """
+            mutation UpsertYoutubeVideos($objects: [youtube_videos_insert_input!]!) {
+              insert_youtube_videos(
+                objects: $objects
+                on_conflict: {constraint: youtube_videos_remote_youtube_video_id_key, update_columns: []}
+              ) {
+                affected_rows
+              }
+            }
+            """
+        )
+        variables: Dict[str, object] = {"objects": objects}
+        response = await self.execute(
+            query=query,
+            operation_name="UpsertYoutubeVideos",
+            variables=variables,
+            **kwargs
+        )
+        data = self.get_data(response)
+        return UpsertYoutubeVideos.model_validate(data)

@@ -68,6 +68,10 @@ from .get_updatable_youtube_channels import (
     GetUpdatableYoutubeChannels,
     GetUpdatableYoutubeChannelsYoutubeChannels,
 )
+from .get_updatable_youtube_videos import (
+    GetUpdatableYoutubeVideos,
+    GetUpdatableYoutubeVideosYoutubeVideos,
+)
 from .input_types import (
     Boolean_comparison_exp,
     Int_comparison_exp,
@@ -196,6 +200,10 @@ from .input_types import (
     youtube_videos_stream_cursor_value_input,
     youtube_videos_updates,
 )
+from .upsert_youtube_videos import (
+    UpsertYoutubeVideos,
+    UpsertYoutubeVideosInsertYoutubeVideos,
+)
 
 __all__ = [
     "AsyncBaseClient",
@@ -215,6 +223,8 @@ __all__ = [
     "GetDownloadableYoutubeChannelThumbnailsYoutubeChannelThumbnailsYoutubeChannel",
     "GetUpdatableYoutubeChannels",
     "GetUpdatableYoutubeChannelsYoutubeChannels",
+    "GetUpdatableYoutubeVideos",
+    "GetUpdatableYoutubeVideosYoutubeVideos",
     "GraphQLClientError",
     "GraphQLClientGraphQLError",
     "GraphQLClientGraphQLMultiError",
@@ -223,6 +233,8 @@ __all__ = [
     "Int_comparison_exp",
     "String_comparison_exp",
     "Upload",
+    "UpsertYoutubeVideos",
+    "UpsertYoutubeVideosInsertYoutubeVideos",
     "cursor_ordering",
     "order_by",
     "timestamptz_comparison_exp",

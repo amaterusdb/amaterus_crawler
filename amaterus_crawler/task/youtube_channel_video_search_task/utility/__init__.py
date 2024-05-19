@@ -1,9 +1,3 @@
-from .remote_youtube_channel_video_detail_fetcher import (
-    RemoteYoutubeChannelVideoDetailFetcher,
-    RemoteYoutubeChannelVideoDetailFetchError,
-    RemoteYoutubeChannelVideoDetailFetcherYoutubeApi,
-    RemoteYoutubeChannelVideoDetailFetchResult,
-)
 from .remote_youtube_channel_video_searcher import (
     RemoteYoutubeChannelVideoSearcher,
     RemoteYoutubeChannelVideoSearchError,
@@ -16,11 +10,11 @@ from .updatable_youtube_channel_fetcher import (
     UpdatableYoutubeChannelFetchError,
     UpdatableYoutubeChannelFetchResult,
 )
-from .youtube_channel_video_detail_creator import (
-    YoutubeVideoDetailCreateError,
-    YoutubeVideoDetailCreateQuery,
-    YoutubeVideoDetailCreator,
-    YoutubeVideoDetailCreatorHasura,
+from .youtube_video_upserter import (
+    YoutubeVideoUpserter,
+    YoutubeVideoUpserterHasura,
+    YoutubeVideoUpsertError,
+    YoutubeVideoUpsertQuery,
 )
 
 __all__ = [
@@ -28,16 +22,12 @@ __all__ = [
     "RemoteYoutubeChannelVideoSearchError",
     "RemoteYoutubeChannelVideoSearcherYoutubeApi",
     "RemoteYoutubeChannelVideoSearchResult",
-    "RemoteYoutubeChannelVideoDetailFetcher",
-    "RemoteYoutubeChannelVideoDetailFetchError",
-    "RemoteYoutubeChannelVideoDetailFetcherYoutubeApi",
-    "RemoteYoutubeChannelVideoDetailFetchResult",
     "UpdatableYoutubeChannelFetchResult",
     "UpdatableYoutubeChannelFetcher",
     "UpdatableYoutubeChannelFetcherHasura",
     "UpdatableYoutubeChannelFetchError",
-    "YoutubeVideoDetailCreateError",
-    "YoutubeVideoDetailCreateQuery",
-    "YoutubeVideoDetailCreator",
-    "YoutubeVideoDetailCreatorHasura",
+    "YoutubeVideoUpsertError",
+    "YoutubeVideoUpsertQuery",
+    "YoutubeVideoUpserter",
+    "YoutubeVideoUpserterHasura",
 ]

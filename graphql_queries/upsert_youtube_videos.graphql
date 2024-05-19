@@ -1,0 +1,14 @@
+mutation UpsertYoutubeVideos(
+  $objects: [youtube_videos_insert_input!]!
+) {
+  insert_youtube_videos(
+    objects: $objects
+    on_conflict: {
+      constraint: youtube_videos_remote_youtube_video_id_key
+      update_columns: [
+      ]
+    }
+  ) {
+    affected_rows
+  }
+}

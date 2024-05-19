@@ -10,12 +10,14 @@ from .task_config import (
     DownloadYoutubeChannelThumbnailConfig,
     SearchYoutubeChannelVideoConfig,
     UpdateYoutubeChannelConfig,
+    UpdateYoutubeVideoDetailConfig,
 )
 
 TaskConfigType = (
     UpdateYoutubeChannelConfig
     | DownloadYoutubeChannelThumbnailConfig
     | SearchYoutubeChannelVideoConfig
+    | UpdateYoutubeVideoDetailConfig
 )
 
 

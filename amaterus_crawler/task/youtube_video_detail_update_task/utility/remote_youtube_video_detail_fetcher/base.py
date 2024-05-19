@@ -4,7 +4,7 @@ from datetime import datetime
 
 
 @dataclass
-class RemoteYoutubeChannelVideoDetailThumbnail:
+class RemoteYoutubeVideoDetailThumbnail:
     key: str
     """
     サムネイルの種類
@@ -24,7 +24,7 @@ class RemoteYoutubeChannelVideoDetailThumbnail:
 
 
 @dataclass
-class RemoteYoutubeChannelVideoDetail:
+class RemoteYoutubeVideoDetail:
     remote_youtube_channel_id: str
     """
     チャンネルID
@@ -62,24 +62,24 @@ class RemoteYoutubeChannelVideoDetail:
     scheduled_end_time: datetime | None
     actual_start_time: datetime | None
     actual_end_time: datetime | None
-    thumbnails: list[RemoteYoutubeChannelVideoDetailThumbnail]
+    thumbnails: list[RemoteYoutubeVideoDetailThumbnail]
     """
     動画のサムネイル
     """
 
 
 @dataclass
-class RemoteYoutubeChannelVideoDetailFetchResult:
-    remote_youtube_channel_video_details: list[RemoteYoutubeChannelVideoDetail]
+class RemoteYoutubeVideoDetailFetchResult:
+    remote_youtube_video_details: list[RemoteYoutubeVideoDetail]
 
 
-class RemoteYoutubeChannelVideoDetailFetchError(Exception):
+class RemoteYoutubeVideoDetailFetchError(Exception):
     pass
 
 
-class RemoteYoutubeChannelVideoDetailFetcher(ABC):
+class RemoteYoutubeVideoDetailFetcher(ABC):
     @abstractmethod
-    async def fetch_remote_youtube_channel_video_details(
+    async def fetch_remote_youtube_video_details(
         self,
         remote_youtube_video_ids: list[str],
-    ) -> RemoteYoutubeChannelVideoDetailFetchResult: ...
+    ) -> RemoteYoutubeVideoDetailFetchResult: ...

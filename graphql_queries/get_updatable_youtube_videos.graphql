@@ -1,0 +1,15 @@
+query GetUpdatableYoutubeVideos {
+  youtube_videos(
+    where: {
+      enabled: {
+        _eq: true
+      }
+    }
+    order_by: {
+      last_fetched_at: asc_nulls_first
+    }
+    limit: 50
+  ) {
+    remote_youtube_video_id
+  }
+}
