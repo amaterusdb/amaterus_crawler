@@ -4823,7 +4823,7 @@ type youtube_video_objects {
   updated_at: timestamptz!
 
   """An object relationship"""
-  youtube_video: youtube_videos!
+  youtube_video: youtube_videos
 }
 
 """
