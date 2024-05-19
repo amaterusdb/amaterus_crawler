@@ -25,6 +25,11 @@ from .enums import (
     youtube_channel_thumbnails_update_column,
     youtube_channels_constraint,
     youtube_channels_update_column,
+    youtube_video_details_constraint,
+    youtube_video_details_select_column,
+    youtube_video_details_update_column,
+    youtube_videos_constraint,
+    youtube_videos_update_column,
 )
 
 
@@ -831,3 +836,241 @@ class youtube_channels_stream_cursor_value_input(BaseModel):
 class youtube_channels_updates(BaseModel):
     set: Optional["youtube_channels_set_input"] = Field(alias="_set", default=None)
     where: "youtube_channels_bool_exp"
+
+
+class youtube_video_details_aggregate_bool_exp(BaseModel):
+    count: Optional["youtube_video_details_aggregate_bool_exp_count"] = None
+
+
+class youtube_video_details_aggregate_bool_exp_count(BaseModel):
+    arguments: Optional[List[youtube_video_details_select_column]] = None
+    distinct: Optional[bool] = None
+    filter: Optional["youtube_video_details_bool_exp"] = None
+    predicate: "Int_comparison_exp"
+
+
+class youtube_video_details_aggregate_order_by(BaseModel):
+    count: Optional[order_by] = None
+    max: Optional["youtube_video_details_max_order_by"] = None
+    min: Optional["youtube_video_details_min_order_by"] = None
+
+
+class youtube_video_details_arr_rel_insert_input(BaseModel):
+    data: List["youtube_video_details_insert_input"]
+    on_conflict: Optional["youtube_video_details_on_conflict"] = None
+
+
+class youtube_video_details_bool_exp(BaseModel):
+    and_: Optional[List["youtube_video_details_bool_exp"]] = Field(
+        alias="_and", default=None
+    )
+    not_: Optional["youtube_video_details_bool_exp"] = Field(alias="_not", default=None)
+    or_: Optional[List["youtube_video_details_bool_exp"]] = Field(
+        alias="_or", default=None
+    )
+    actual_end_time: Optional["timestamptz_comparison_exp"] = None
+    actual_start_time: Optional["timestamptz_comparison_exp"] = None
+    created_at: Optional["timestamptz_comparison_exp"] = None
+    description: Optional["String_comparison_exp"] = None
+    id: Optional["uuid_comparison_exp"] = None
+    last_fetched_at: Optional["timestamptz_comparison_exp"] = None
+    live_broadcast_content: Optional["String_comparison_exp"] = None
+    privacy_status: Optional["String_comparison_exp"] = None
+    published_at: Optional["timestamptz_comparison_exp"] = None
+    remote_youtube_channel_id: Optional["String_comparison_exp"] = None
+    remote_youtube_video_id: Optional["String_comparison_exp"] = None
+    scheduled_end_time: Optional["timestamptz_comparison_exp"] = None
+    scheduled_start_time: Optional["timestamptz_comparison_exp"] = None
+    title: Optional["String_comparison_exp"] = None
+    updated_at: Optional["timestamptz_comparison_exp"] = None
+    upload_status: Optional["String_comparison_exp"] = None
+    youtube_channel: Optional["youtube_channels_bool_exp"] = None
+    youtube_video: Optional["youtube_videos_bool_exp"] = None
+
+
+class youtube_video_details_insert_input(BaseModel):
+    actual_end_time: Optional[Any] = None
+    actual_start_time: Optional[Any] = None
+    description: Optional[str] = None
+    last_fetched_at: Optional[Any] = None
+    live_broadcast_content: Optional[str] = None
+    privacy_status: Optional[str] = None
+    published_at: Optional[Any] = None
+    remote_youtube_channel_id: Optional[str] = None
+    remote_youtube_video_id: Optional[str] = None
+    scheduled_end_time: Optional[Any] = None
+    scheduled_start_time: Optional[Any] = None
+    title: Optional[str] = None
+    upload_status: Optional[str] = None
+    youtube_channel: Optional["youtube_channels_obj_rel_insert_input"] = None
+    youtube_video: Optional["youtube_videos_obj_rel_insert_input"] = None
+
+
+class youtube_video_details_max_order_by(BaseModel):
+    actual_end_time: Optional[order_by] = None
+    actual_start_time: Optional[order_by] = None
+    created_at: Optional[order_by] = None
+    description: Optional[order_by] = None
+    id: Optional[order_by] = None
+    last_fetched_at: Optional[order_by] = None
+    live_broadcast_content: Optional[order_by] = None
+    privacy_status: Optional[order_by] = None
+    published_at: Optional[order_by] = None
+    remote_youtube_channel_id: Optional[order_by] = None
+    remote_youtube_video_id: Optional[order_by] = None
+    scheduled_end_time: Optional[order_by] = None
+    scheduled_start_time: Optional[order_by] = None
+    title: Optional[order_by] = None
+    updated_at: Optional[order_by] = None
+    upload_status: Optional[order_by] = None
+
+
+class youtube_video_details_min_order_by(BaseModel):
+    actual_end_time: Optional[order_by] = None
+    actual_start_time: Optional[order_by] = None
+    created_at: Optional[order_by] = None
+    description: Optional[order_by] = None
+    id: Optional[order_by] = None
+    last_fetched_at: Optional[order_by] = None
+    live_broadcast_content: Optional[order_by] = None
+    privacy_status: Optional[order_by] = None
+    published_at: Optional[order_by] = None
+    remote_youtube_channel_id: Optional[order_by] = None
+    remote_youtube_video_id: Optional[order_by] = None
+    scheduled_end_time: Optional[order_by] = None
+    scheduled_start_time: Optional[order_by] = None
+    title: Optional[order_by] = None
+    updated_at: Optional[order_by] = None
+    upload_status: Optional[order_by] = None
+
+
+class youtube_video_details_on_conflict(BaseModel):
+    constraint: youtube_video_details_constraint
+    update_columns: List[youtube_video_details_update_column] = Field(
+        default_factory=lambda: []
+    )
+    where: Optional["youtube_video_details_bool_exp"] = None
+
+
+class youtube_video_details_order_by(BaseModel):
+    actual_end_time: Optional[order_by] = None
+    actual_start_time: Optional[order_by] = None
+    created_at: Optional[order_by] = None
+    description: Optional[order_by] = None
+    id: Optional[order_by] = None
+    last_fetched_at: Optional[order_by] = None
+    live_broadcast_content: Optional[order_by] = None
+    privacy_status: Optional[order_by] = None
+    published_at: Optional[order_by] = None
+    remote_youtube_channel_id: Optional[order_by] = None
+    remote_youtube_video_id: Optional[order_by] = None
+    scheduled_end_time: Optional[order_by] = None
+    scheduled_start_time: Optional[order_by] = None
+    title: Optional[order_by] = None
+    updated_at: Optional[order_by] = None
+    upload_status: Optional[order_by] = None
+    youtube_channel: Optional["youtube_channels_order_by"] = None
+    youtube_video: Optional["youtube_videos_order_by"] = None
+
+
+class youtube_video_details_stream_cursor_input(BaseModel):
+    initial_value: "youtube_video_details_stream_cursor_value_input"
+    ordering: Optional[cursor_ordering] = None
+
+
+class youtube_video_details_stream_cursor_value_input(BaseModel):
+    actual_end_time: Optional[Any] = None
+    actual_start_time: Optional[Any] = None
+    created_at: Optional[Any] = None
+    description: Optional[str] = None
+    id: Optional[Any] = None
+    last_fetched_at: Optional[Any] = None
+    live_broadcast_content: Optional[str] = None
+    privacy_status: Optional[str] = None
+    published_at: Optional[Any] = None
+    remote_youtube_channel_id: Optional[str] = None
+    remote_youtube_video_id: Optional[str] = None
+    scheduled_end_time: Optional[Any] = None
+    scheduled_start_time: Optional[Any] = None
+    title: Optional[str] = None
+    updated_at: Optional[Any] = None
+    upload_status: Optional[str] = None
+
+
+class youtube_videos_bool_exp(BaseModel):
+    and_: Optional[List["youtube_videos_bool_exp"]] = Field(alias="_and", default=None)
+    not_: Optional["youtube_videos_bool_exp"] = Field(alias="_not", default=None)
+    or_: Optional[List["youtube_videos_bool_exp"]] = Field(alias="_or", default=None)
+    created_at: Optional["timestamptz_comparison_exp"] = None
+    enabled: Optional["Boolean_comparison_exp"] = None
+    id: Optional["uuid_comparison_exp"] = None
+    last_fetched_at: Optional["timestamptz_comparison_exp"] = None
+    registered_at: Optional["timestamptz_comparison_exp"] = None
+    remote_youtube_video_id: Optional["String_comparison_exp"] = None
+    updated_at: Optional["timestamptz_comparison_exp"] = None
+    youtube_video_details: Optional["youtube_video_details_bool_exp"] = None
+    youtube_video_details_aggregate: Optional[
+        "youtube_video_details_aggregate_bool_exp"
+    ] = None
+
+
+class youtube_videos_insert_input(BaseModel):
+    enabled: Optional[bool] = None
+    last_fetched_at: Optional[Any] = None
+    registered_at: Optional[Any] = None
+    remote_youtube_video_id: Optional[str] = None
+    youtube_video_details: Optional["youtube_video_details_arr_rel_insert_input"] = None
+
+
+class youtube_videos_obj_rel_insert_input(BaseModel):
+    data: "youtube_videos_insert_input"
+    on_conflict: Optional["youtube_videos_on_conflict"] = None
+
+
+class youtube_videos_on_conflict(BaseModel):
+    constraint: youtube_videos_constraint
+    update_columns: List[youtube_videos_update_column] = Field(
+        default_factory=lambda: []
+    )
+    where: Optional["youtube_videos_bool_exp"] = None
+
+
+class youtube_videos_order_by(BaseModel):
+    created_at: Optional[order_by] = None
+    enabled: Optional[order_by] = None
+    id: Optional[order_by] = None
+    last_fetched_at: Optional[order_by] = None
+    registered_at: Optional[order_by] = None
+    remote_youtube_video_id: Optional[order_by] = None
+    updated_at: Optional[order_by] = None
+    youtube_video_details_aggregate: Optional[
+        "youtube_video_details_aggregate_order_by"
+    ] = None
+
+
+class youtube_videos_pk_columns_input(BaseModel):
+    id: Any
+
+
+class youtube_videos_set_input(BaseModel):
+    last_fetched_at: Optional[Any] = None
+
+
+class youtube_videos_stream_cursor_input(BaseModel):
+    initial_value: "youtube_videos_stream_cursor_value_input"
+    ordering: Optional[cursor_ordering] = None
+
+
+class youtube_videos_stream_cursor_value_input(BaseModel):
+    created_at: Optional[Any] = None
+    enabled: Optional[bool] = None
+    id: Optional[Any] = None
+    last_fetched_at: Optional[Any] = None
+    registered_at: Optional[Any] = None
+    remote_youtube_video_id: Optional[str] = None
+    updated_at: Optional[Any] = None
+
+
+class youtube_videos_updates(BaseModel):
+    set: Optional["youtube_videos_set_input"] = Field(alias="_set", default=None)
+    where: "youtube_videos_bool_exp"

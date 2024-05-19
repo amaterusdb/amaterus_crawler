@@ -7,11 +7,15 @@ from .async_base_client import AsyncBaseClient
 from .create_youtube_channel import CreateYoutubeChannel
 from .create_youtube_channel_details import CreateYoutubeChannelDetails
 from .create_youtube_channel_thumbnail_object import CreateYoutubeChannelThumbnailObject
+from .create_youtube_video_details import CreateYoutubeVideoDetails
 from .get_downloadable_youtube_channel_thumbnails import (
     GetDownloadableYoutubeChannelThumbnails,
 )
 from .get_updatable_youtube_channels import GetUpdatableYoutubeChannels
-from .input_types import youtube_channel_details_insert_input
+from .input_types import (
+    youtube_channel_details_insert_input,
+    youtube_video_details_insert_input,
+)
 
 
 def gql(q: str) -> str:
@@ -107,6 +111,28 @@ class Client(AsyncBaseClient):
         )
         data = self.get_data(response)
         return CreateYoutubeChannelThumbnailObject.model_validate(data)
+
+    async def create_youtube_video_details(
+        self, objects: List[youtube_video_details_insert_input], **kwargs: Any
+    ) -> CreateYoutubeVideoDetails:
+        query = gql(
+            """
+            mutation CreateYoutubeVideoDetails($objects: [youtube_video_details_insert_input!]!) {
+              insert_youtube_video_details(objects: $objects) {
+                affected_rows
+              }
+            }
+            """
+        )
+        variables: Dict[str, object] = {"objects": objects}
+        response = await self.execute(
+            query=query,
+            operation_name="CreateYoutubeVideoDetails",
+            variables=variables,
+            **kwargs
+        )
+        data = self.get_data(response)
+        return CreateYoutubeVideoDetails.model_validate(data)
 
     async def get_downloadable_youtube_channel_thumbnails(
         self, **kwargs: Any

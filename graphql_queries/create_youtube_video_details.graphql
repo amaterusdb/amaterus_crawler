@@ -1,0 +1,9 @@
+mutation CreateYoutubeVideoDetails(
+  $objects: [youtube_video_details_insert_input!]!
+) {
+  insert_youtube_video_details(
+    objects: $objects
+  ) {
+    affected_rows
+  }
+}

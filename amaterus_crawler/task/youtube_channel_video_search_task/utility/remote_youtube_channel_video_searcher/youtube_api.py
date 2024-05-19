@@ -1,5 +1,3 @@
-from datetime import datetime, timezone
-
 import httpx
 from pydantic import BaseModel
 
@@ -13,9 +11,6 @@ from .base import (
 
 class YoutubeSearchApiResultItemSnippet(BaseModel):
     channelId: str
-    channelTitle: str
-    title: str
-    publishedAt: datetime
 
 
 class YoutubeSearchApiResultItemId(BaseModel):
@@ -79,20 +74,13 @@ class RemoteYoutubeChannelVideoSearcherYoutubeApi(RemoteYoutubeChannelVideoSearc
 
         remote_youtube_channel_videos: list[RemoteYoutubeChannelVideo] = []
         for channel_video in channel_video_list_items:
-            remote_youtube_video_id = channel_video.id.videoId
-
             if channel_video.snippet is None:
                 raise RemoteYoutubeChannelVideoSearchError("channel.snippet is None.")
 
             remote_youtube_channel_videos.append(
                 RemoteYoutubeChannelVideo(
                     remote_youtube_channel_id=channel_video.snippet.channelId,
-                    channel_title=channel_video.snippet.channelTitle,
-                    remote_youtube_video_id=remote_youtube_video_id,
-                    title=channel_video.snippet.title,
-                    published_at=channel_video.snippet.publishedAt.astimezone(
-                        tz=timezone.utc
-                    ),
+                    remote_youtube_video_id=channel_video.id.videoId,
                 ),
             )
 

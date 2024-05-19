@@ -3,6 +3,13 @@ from argparse import ArgumentParser, Namespace
 from logging import getLogger
 from pathlib import Path
 
+from amaterus_crawler.config.task_config.search_youtube_channel_video_config import (
+    SearchYoutubeChannelVideoConfigOptions,
+)
+from amaterus_crawler.task.youtube_channel_video_search_task.utility.remote_youtube_channel_video_searcher.youtube_api import (  # noqa: B950
+    RemoteYoutubeChannelVideoSearcherYoutubeApi,
+)
+
 from ..config.config_parser import parse_amaterus_crawler_config_from_file
 from ..config.task_config import (
     DownloadYoutubeChannelThumbnailConfigOptions,
@@ -21,11 +28,21 @@ from ..task.youtube_channel_update_task import YoutubeChannelUpdateTask
 from ..task.youtube_channel_update_task.utility.remote_youtube_channel_fetcher import (
     RemoteYoutubeChannelFetcherYoutubeApi,
 )
-from ..task.youtube_channel_update_task.utility.updatable_youtube_channel_fetcher import (
-    UpdatableYoutubeChannelFetcherHasura,
+from ..task.youtube_channel_update_task.utility.updatable_youtube_channel_fetcher import (  # noqa: B950
+    UpdatableYoutubeChannelFetcherHasura as UpdatableYoutubeChannelFetcherHasuraCU,
 )
 from ..task.youtube_channel_update_task.utility.youtube_channel_updater import (
     YoutubeChannelUpdaterHasura,
+)
+from ..task.youtube_channel_video_search_task import (
+    RemoteYoutubeChannelVideoDetailFetcherYoutubeApi,
+)
+from ..task.youtube_channel_video_search_task import (
+    UpdatableYoutubeChannelFetcherHasura as UpdatableYoutubeChannelFetcherHasuraVS,
+)
+from ..task.youtube_channel_video_search_task import (
+    YoutubeChannelVideoSearchTask,
+    YoutubeVideoDetailCreatorHasura,
 )
 
 logger = getLogger(__name__)
@@ -165,7 +182,7 @@ async def execute_subcommand_run(args: Namespace) -> None:
 
             tasks.append(
                 YoutubeChannelUpdateTask(
-                    updatable_youtube_channel_fetcher=UpdatableYoutubeChannelFetcherHasura(
+                    updatable_youtube_channel_fetcher=UpdatableYoutubeChannelFetcherHasuraCU(
                         graphql_client=graphql_client,
                     ),
                     remote_youtube_channel_fetcher=RemoteYoutubeChannelFetcherYoutubeApi(
@@ -233,6 +250,52 @@ async def execute_subcommand_run(args: Namespace) -> None:
                         object_key_prefix=object_key_prefix,
                     ),
                     youtube_channel_thumbnail_object_creator=YoutubeChannelThumbnailObjectCreatorHasura(
+                        graphql_client=graphql_client,
+                    ),
+                ),
+            )
+        elif task_type == "search_youtube_channel_video":
+            options = task_config.options
+            if options is not None:
+                assert isinstance(options, SearchYoutubeChannelVideoConfigOptions)
+
+                if options.override_hasura:
+                    hasura_url = options.hasura_url
+                    hasura_access_token = options.hasura_access_token
+                    hasura_admin_secret = options.hasura_admin_secret
+                    hasura_role = options.hasura_role
+
+                if options.override_youtube_api_key:
+                    youtube_api_key = options.youtube_api_key
+
+            if hasura_url is None:
+                raise SubcommandRunError("hasura_url is None")
+
+            if youtube_api_key is None:
+                raise SubcommandRunError("youtube_api_key is None")
+
+            hasura_graphql_api_url = hasura_url
+            if not hasura_graphql_api_url.endswith("/"):
+                hasura_graphql_api_url += "/"
+            hasura_graphql_api_url += "v1/graphql"
+
+            graphql_client = Client(
+                url=hasura_graphql_api_url,
+                headers=graphql_client_headers,
+            )
+
+            tasks.append(
+                YoutubeChannelVideoSearchTask(
+                    updatable_youtube_channel_fetcher=UpdatableYoutubeChannelFetcherHasuraVS(
+                        graphql_client=graphql_client,
+                    ),
+                    remote_youtube_channel_video_searcher=RemoteYoutubeChannelVideoSearcherYoutubeApi(
+                        youtube_api_key=youtube_api_key,
+                    ),
+                    remote_youtube_channel_video_detail_fetcher=RemoteYoutubeChannelVideoDetailFetcherYoutubeApi(
+                        youtube_api_key=youtube_api_key,
+                    ),
+                    youtube_video_detail_creator=YoutubeVideoDetailCreatorHasura(
                         graphql_client=graphql_client,
                     ),
                 ),

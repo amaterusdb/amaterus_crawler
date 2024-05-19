@@ -143,3 +143,54 @@ class youtube_channels_update_column(str, Enum):
     enabled = "enabled"
     last_fetched_at = "last_fetched_at"
     registered_at = "registered_at"
+
+
+class youtube_video_details_constraint(str, Enum):
+    youtube_video_details_pkey = "youtube_video_details_pkey"
+    youtube_video_details_remote_youtube_channel_id_remote_yout_key = (
+        "youtube_video_details_remote_youtube_channel_id_remote_yout_key"
+    )
+
+
+class youtube_video_details_select_column(str, Enum):
+    actual_end_time = "actual_end_time"
+    actual_start_time = "actual_start_time"
+    created_at = "created_at"
+    description = "description"
+    id = "id"
+    last_fetched_at = "last_fetched_at"
+    live_broadcast_content = "live_broadcast_content"
+    privacy_status = "privacy_status"
+    published_at = "published_at"
+    remote_youtube_channel_id = "remote_youtube_channel_id"
+    remote_youtube_video_id = "remote_youtube_video_id"
+    scheduled_end_time = "scheduled_end_time"
+    scheduled_start_time = "scheduled_start_time"
+    title = "title"
+    updated_at = "updated_at"
+    upload_status = "upload_status"
+
+
+class youtube_video_details_update_column(str, Enum):
+    _PLACEHOLDER = "_PLACEHOLDER"
+
+
+class youtube_videos_constraint(str, Enum):
+    youtube_videos_pkey = "youtube_videos_pkey"
+    youtube_videos_remote_youtube_video_id_key = (
+        "youtube_videos_remote_youtube_video_id_key"
+    )
+
+
+class youtube_videos_select_column(str, Enum):
+    created_at = "created_at"
+    enabled = "enabled"
+    id = "id"
+    last_fetched_at = "last_fetched_at"
+    registered_at = "registered_at"
+    remote_youtube_video_id = "remote_youtube_video_id"
+    updated_at = "updated_at"
+
+
+class youtube_videos_update_column(str, Enum):
+    last_fetched_at = "last_fetched_at"

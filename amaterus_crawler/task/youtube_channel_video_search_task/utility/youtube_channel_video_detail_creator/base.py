@@ -4,7 +4,7 @@ from datetime import datetime
 
 
 @dataclass
-class RemoteYoutubeChannelVideoDetailThumbnail:
+class YoutubeVideoDetailCreateQueryThumbnail:
     key: str
     """
     サムネイルの種類
@@ -24,7 +24,7 @@ class RemoteYoutubeChannelVideoDetailThumbnail:
 
 
 @dataclass
-class RemoteYoutubeChannelVideoDetail:
+class YoutubeVideoDetailCreateQuery:
     remote_youtube_channel_id: str
     """
     チャンネルID
@@ -43,7 +43,7 @@ class RemoteYoutubeChannelVideoDetail:
     """
     published_at: datetime
     """
-    動画の公開日時を表すタイムゾーン付き日時
+    動画の公開日時
     """
     privacy_status: str
     """
@@ -57,29 +57,39 @@ class RemoteYoutubeChannelVideoDetail:
     """
     配信の状態
     """
-    has_live_streaming_details: bool
     scheduled_start_time: datetime | None
+    """
+    配信のスケジュールされた開始日時
+    """
     scheduled_end_time: datetime | None
+    """
+    配信のスケジュールされた終了日時
+    """
     actual_start_time: datetime | None
+    """
+    配信の実際の開始日時
+    """
     actual_end_time: datetime | None
-    thumbnails: list[RemoteYoutubeChannelVideoDetailThumbnail]
+    """
+    配信の実際の終了日時
+    """
+    thumbnails: list[YoutubeVideoDetailCreateQueryThumbnail]
     """
     動画のサムネイル
     """
+    fetched_at: datetime
+    """
+    クローラによる自動的な情報取得の日時を表すタイムゾーン付き日時
+    """
 
 
-@dataclass
-class RemoteYoutubeChannelVideoDetailFetchResult:
-    remote_youtube_channel_video_details: list[RemoteYoutubeChannelVideoDetail]
-
-
-class RemoteYoutubeChannelVideoDetailFetchError(Exception):
+class YoutubeVideoDetailCreateError(Exception):
     pass
 
 
-class RemoteYoutubeChannelVideoDetailFetcher(ABC):
+class YoutubeVideoDetailCreator(ABC):
     @abstractmethod
-    async def fetch_remote_youtube_channel_video_details(
+    async def create_youtube_video_details(
         self,
-        remote_youtube_video_ids: list[str],
-    ) -> RemoteYoutubeChannelVideoDetailFetchResult: ...
+        create_queries: list[YoutubeVideoDetailCreateQuery],
+    ) -> None: ...

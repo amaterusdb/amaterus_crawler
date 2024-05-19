@@ -8,10 +8,15 @@ from .global_config import GlobalConfig
 from .server_config import ServerConfig
 from .task_config import (
     DownloadYoutubeChannelThumbnailConfig,
+    SearchYoutubeChannelVideoConfig,
     UpdateYoutubeChannelConfig,
 )
 
-TaskConfigType = UpdateYoutubeChannelConfig | DownloadYoutubeChannelThumbnailConfig
+TaskConfigType = (
+    UpdateYoutubeChannelConfig
+    | DownloadYoutubeChannelThumbnailConfig
+    | SearchYoutubeChannelVideoConfig
+)
 
 
 class AmaterusCrawlerConfig(BaseModel):
