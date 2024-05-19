@@ -51,7 +51,7 @@ npm install -g graphqurl
 ```
 
 ```shell
-poetry run python dev_scripts/fetch_hasura_graphql_schema.py
+poetry run python dev_scripts/fetch_graphql_engine_schema.py
 ```
 
 ```shell
