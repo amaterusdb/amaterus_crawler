@@ -38,6 +38,17 @@ class DownloadableYoutubeVideoThumbnailFetcherHasura(
 
         youtube_video_thumbnails = result.youtube_video_thumbnails
         for youtube_video_thumbnail in youtube_video_thumbnails:
+            if (
+                youtube_video_thumbnail.youtube_video is None
+                or youtube_video_thumbnail.url is None
+                or youtube_video_thumbnail.key is None
+                or youtube_video_thumbnail.width is None
+                or youtube_video_thumbnail.height is None
+            ):
+                raise DownloadableYoutubeVideoThumbnailFetchError(
+                    "Invalid youtube_video_thumbnail schema."
+                )
+
             downloadable_youtube_video_thumbnails.append(
                 DownloadableYoutubeVideoThumbnail(
                     remote_youtube_video_id=youtube_video_thumbnail.youtube_video.remote_youtube_video_id,
