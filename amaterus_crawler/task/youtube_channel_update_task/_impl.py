@@ -26,6 +26,8 @@ class YoutubeChannelUpdateTask(AmaterusCrawlerTask):
         remote_youtube_channel_fetcher = self.remote_youtube_channel_fetcher
         youtube_channel_updater = self.youtube_channel_updater
 
+        fetched_at_aware = datetime.now(tz=timezone.utc)
+
         youtube_channel_fetch_result = (
             await updatable_youtube_channel_fetcher.fetch_updatable_youtube_channels()
         )
@@ -51,7 +53,6 @@ class YoutubeChannelUpdateTask(AmaterusCrawlerTask):
                 remote_youtube_channel_fetch_result.remote_youtube_channels
             )
 
-            now = datetime.now(tz=timezone.utc)
             update_queries: list[YoutubeChannelUpdateQuery] = []
             for remote_youtube_channel in remote_youtube_channels:
                 update_query_thumbnails: list[YoutubeChannelUpdateQueryThumbnail] = []
@@ -73,7 +74,7 @@ class YoutubeChannelUpdateTask(AmaterusCrawlerTask):
                         published_at=remote_youtube_channel.published_at,
                         custom_url=remote_youtube_channel.custom_url,
                         thumbnails=update_query_thumbnails,
-                        fetched_at=now,
+                        fetched_at=fetched_at_aware,
                     ),
                 )
 
