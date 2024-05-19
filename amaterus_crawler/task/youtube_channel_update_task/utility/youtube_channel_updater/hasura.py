@@ -1,8 +1,6 @@
 from datetime import timezone
 from logging import getLogger
 
-from pydantic import BaseModel, Field
-
 from .....graphql_client import (
     Client,
     GraphQLClientError,
@@ -31,49 +29,6 @@ from .base import (
 )
 
 logger = getLogger(__name__)
-
-
-class CrawlerYoutubeChannelConfigInsertInput(BaseModel):
-    auto_updated_at: str | None
-
-
-class CrawlerYoutubeChannelConfigObjRelInsertInputOnConflict(BaseModel):
-    constraint: str = "crawler__youtube_channel_configs_remote_youtube_channel_id_key"
-    update_columns: list[str] = Field(default_factory=lambda: ["auto_updated_at"])
-
-
-class CrawlerYoutubeChannelConfigObjRelInsertInput(BaseModel):
-    data: CrawlerYoutubeChannelConfigInsertInput
-    on_conflict: CrawlerYoutubeChannelConfigObjRelInsertInputOnConflict = Field(
-        default_factory=(
-            lambda: CrawlerYoutubeChannelConfigObjRelInsertInputOnConflict()
-        )
-    )
-
-
-class YoutubeChannelsInsertInput(BaseModel):
-    remote_youtube_channel_id: str
-    name: str
-    icon_url: str | None
-    youtube_channel_handle: str | None
-    crawler__youtube_channel_config: CrawlerYoutubeChannelConfigObjRelInsertInput
-
-
-class UpsertYouTubeChannelsResponseBodyDataInsertYoutubeChannels(BaseModel):
-    affected_rows: int
-
-
-class UpsertYouTubeChannelsResponseBodyData(BaseModel):
-    insert_youtube_channels: UpsertYouTubeChannelsResponseBodyDataInsertYoutubeChannels
-
-
-class UpsertYouTubeChannelsResponseBodyError(BaseModel):
-    message: str
-
-
-class UpsertYouTubeChannelsResponseBody(BaseModel):
-    data: UpsertYouTubeChannelsResponseBodyData | None = None
-    errors: list[UpsertYouTubeChannelsResponseBodyError] | None = None
 
 
 class YoutubeChannelUpdaterHasura(YoutubeChannelUpdater):
