@@ -13,8 +13,13 @@ from .....graphql_client import (
     youtube_channel_details_insert_input,
     youtube_channel_details_on_conflict,
     youtube_channel_details_update_column,
+    youtube_channel_thumbnail_logs_arr_rel_insert_input,
+    youtube_channel_thumbnail_logs_insert_input,
     youtube_channel_thumbnails_arr_rel_insert_input,
+    youtube_channel_thumbnails_constraint,
     youtube_channel_thumbnails_insert_input,
+    youtube_channel_thumbnails_on_conflict,
+    youtube_channel_thumbnails_update_column,
     youtube_channels_insert_input,
 )
 from .base import (
@@ -92,12 +97,19 @@ class YoutubeChannelUpdaterHasura(YoutubeChannelUpdater):
             for thumbnail in update_query.thumbnails:
                 thumbnail_objects.append(
                     youtube_channel_thumbnails_insert_input(
-                        fetched_at=fetched_at_aware.isoformat(),
+                        last_fetched_at=fetched_at_aware.isoformat(),
                         key=thumbnail.key,
                         url=thumbnail.url,
                         width=thumbnail.width,
                         height=thumbnail.height,
-                    )
+                        youtube_channel_thumbnail_logs=youtube_channel_thumbnail_logs_arr_rel_insert_input(
+                            data=[
+                                youtube_channel_thumbnail_logs_insert_input(
+                                    fetched_at=fetched_at_aware,
+                                ),
+                            ],
+                        ),
+                    ),
                 )
 
             objects.append(
@@ -129,6 +141,12 @@ class YoutubeChannelUpdaterHasura(YoutubeChannelUpdater):
                     ),
                     youtube_channel_thumbnails=youtube_channel_thumbnails_arr_rel_insert_input(
                         data=thumbnail_objects,
+                        on_conflict=youtube_channel_thumbnails_on_conflict(
+                            constraint=youtube_channel_thumbnails_constraint.youtube_channel_thumbnails_key_url_width_height_youtube_channel,
+                            update_columns=[
+                                youtube_channel_thumbnails_update_column.last_fetched_at,
+                            ],
+                        ),
                     ),
                 ),
             )

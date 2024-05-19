@@ -57,6 +57,22 @@ class youtube_channel_details_update_column(str, Enum):
     last_fetched_at = "last_fetched_at"
 
 
+class youtube_channel_thumbnail_logs_constraint(str, Enum):
+    youtube_channel_thumbnail_logs_pkey = "youtube_channel_thumbnail_logs_pkey"
+
+
+class youtube_channel_thumbnail_logs_select_column(str, Enum):
+    created_at = "created_at"
+    fetched_at = "fetched_at"
+    id = "id"
+    updated_at = "updated_at"
+    youtube_channel_thumbnail_id = "youtube_channel_thumbnail_id"
+
+
+class youtube_channel_thumbnail_logs_update_column(str, Enum):
+    _PLACEHOLDER = "_PLACEHOLDER"
+
+
 class youtube_channel_thumbnail_objects_constraint(str, Enum):
     youtube_channel_thumbnail_obje_youtube_channel_thumbnail_id_key = (
         "youtube_channel_thumbnail_obje_youtube_channel_thumbnail_id_key"
@@ -81,15 +97,18 @@ class youtube_channel_thumbnail_objects_update_column(str, Enum):
 
 
 class youtube_channel_thumbnails_constraint(str, Enum):
+    youtube_channel_thumbnails_key_url_width_height_youtube_channel = (
+        "youtube_channel_thumbnails_key_url_width_height_youtube_channel"
+    )
     youtube_channel_thumbnails_pkey = "youtube_channel_thumbnails_pkey"
 
 
 class youtube_channel_thumbnails_select_column(str, Enum):
     created_at = "created_at"
-    fetched_at = "fetched_at"
     height = "height"
     id = "id"
     key = "key"
+    last_fetched_at = "last_fetched_at"
     updated_at = "updated_at"
     url = "url"
     width = "width"
@@ -97,7 +116,7 @@ class youtube_channel_thumbnails_select_column(str, Enum):
 
 
 class youtube_channel_thumbnails_update_column(str, Enum):
-    _PLACEHOLDER = "_PLACEHOLDER"
+    last_fetched_at = "last_fetched_at"
 
 
 class youtube_channels_constraint(str, Enum):
