@@ -108,6 +108,6 @@ class YoutubeChannelVideoSearchTask(AmaterusCrawlerTask):
                     )
                 )
 
-                await youtube_video_detail_creator.create_youtube_video_details(
-                    create_queries=youtube_video_detail_create_queries,
-                )
+            await youtube_video_detail_creator.create_youtube_video_details(
+                create_queries=youtube_video_detail_create_queries,
+            )
