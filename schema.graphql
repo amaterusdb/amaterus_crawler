@@ -96,6 +96,23 @@ input String_comparison_exp {
   _similar: String
 }
 
+scalar bigint
+
+"""
+Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'.
+"""
+input bigint_comparison_exp {
+  _eq: bigint
+  _gt: bigint
+  _gte: bigint
+  _in: [bigint!]
+  _is_null: Boolean
+  _lt: bigint
+  _lte: bigint
+  _neq: bigint
+  _nin: [bigint!]
+}
+
 """ordering argument of a cursor"""
 enum cursor_ordering {
   """ascending ordering of the cursor"""
@@ -4817,7 +4834,7 @@ type youtube_video_objects {
   fetched_at: timestamptz!
   id: uuid!
   object_key: String!
-  object_size: Int!
+  object_size: bigint!
   remote_youtube_video_id: String!
   sha256_digest: String!
   updated_at: timestamptz!
@@ -4913,7 +4930,7 @@ input youtube_video_objects_bool_exp {
   fetched_at: timestamptz_comparison_exp
   id: uuid_comparison_exp
   object_key: String_comparison_exp
-  object_size: Int_comparison_exp
+  object_size: bigint_comparison_exp
   remote_youtube_video_id: String_comparison_exp
   sha256_digest: String_comparison_exp
   updated_at: timestamptz_comparison_exp
@@ -4937,7 +4954,7 @@ input youtube_video_objects_insert_input {
   content_type: String
   fetched_at: timestamptz
   object_key: String
-  object_size: Int
+  object_size: bigint
   remote_youtube_video_id: String
   sha256_digest: String
   youtube_video: youtube_videos_obj_rel_insert_input
@@ -4950,7 +4967,7 @@ type youtube_video_objects_max_fields {
   fetched_at: timestamptz
   id: uuid
   object_key: String
-  object_size: Int
+  object_size: bigint
   remote_youtube_video_id: String
   sha256_digest: String
   updated_at: timestamptz
@@ -4978,7 +4995,7 @@ type youtube_video_objects_min_fields {
   fetched_at: timestamptz
   id: uuid
   object_key: String
-  object_size: Int
+  object_size: bigint
   remote_youtube_video_id: String
   sha256_digest: String
   updated_at: timestamptz
@@ -5119,7 +5136,7 @@ input youtube_video_objects_stream_cursor_value_input {
   fetched_at: timestamptz
   id: uuid
   object_key: String
-  object_size: Int
+  object_size: bigint
   remote_youtube_video_id: String
   sha256_digest: String
   updated_at: timestamptz
@@ -5127,7 +5144,7 @@ input youtube_video_objects_stream_cursor_value_input {
 
 """aggregate sum on columns"""
 type youtube_video_objects_sum_fields {
-  object_size: Int
+  object_size: bigint
 }
 
 """
@@ -5190,7 +5207,7 @@ type youtube_video_thumbnail_objects {
   fetched_at: timestamptz!
   id: uuid!
   object_key: String!
-  object_size: Int!
+  object_size: bigint!
   remote_youtube_video_thumbnail_url: String!
   sha256_digest: String!
   updated_at: timestamptz!
@@ -5319,7 +5336,7 @@ input youtube_video_thumbnail_objects_bool_exp {
   fetched_at: timestamptz_comparison_exp
   id: uuid_comparison_exp
   object_key: String_comparison_exp
-  object_size: Int_comparison_exp
+  object_size: bigint_comparison_exp
   remote_youtube_video_thumbnail_url: String_comparison_exp
   sha256_digest: String_comparison_exp
   updated_at: timestamptz_comparison_exp
@@ -5344,7 +5361,7 @@ input youtube_video_thumbnail_objects_insert_input {
   content_type: String
   fetched_at: timestamptz
   object_key: String
-  object_size: Int
+  object_size: bigint
   remote_youtube_video_thumbnail_url: String
   sha256_digest: String
   youtube_video_thumbnails: youtube_video_thumbnails_arr_rel_insert_input
@@ -5357,7 +5374,7 @@ type youtube_video_thumbnail_objects_max_fields {
   fetched_at: timestamptz
   id: uuid
   object_key: String
-  object_size: Int
+  object_size: bigint
   remote_youtube_video_thumbnail_url: String
   sha256_digest: String
   updated_at: timestamptz
@@ -5385,7 +5402,7 @@ type youtube_video_thumbnail_objects_min_fields {
   fetched_at: timestamptz
   id: uuid
   object_key: String
-  object_size: Int
+  object_size: bigint
   remote_youtube_video_thumbnail_url: String
   sha256_digest: String
   updated_at: timestamptz
@@ -5528,7 +5545,7 @@ input youtube_video_thumbnail_objects_stream_cursor_value_input {
   fetched_at: timestamptz
   id: uuid
   object_key: String
-  object_size: Int
+  object_size: bigint
   remote_youtube_video_thumbnail_url: String
   sha256_digest: String
   updated_at: timestamptz
@@ -5536,7 +5553,7 @@ input youtube_video_thumbnail_objects_stream_cursor_value_input {
 
 """aggregate sum on columns"""
 type youtube_video_thumbnail_objects_sum_fields {
-  object_size: Int
+  object_size: bigint
 }
 
 """

@@ -96,6 +96,18 @@ class String_comparison_exp(BaseModel):
     similar: Optional[str] = Field(alias="_similar", default=None)
 
 
+class bigint_comparison_exp(BaseModel):
+    eq: Optional[Any] = Field(alias="_eq", default=None)
+    gt: Optional[Any] = Field(alias="_gt", default=None)
+    gte: Optional[Any] = Field(alias="_gte", default=None)
+    in_: Optional[List[Any]] = Field(alias="_in", default=None)
+    is_null: Optional[bool] = Field(alias="_is_null", default=None)
+    lt: Optional[Any] = Field(alias="_lt", default=None)
+    lte: Optional[Any] = Field(alias="_lte", default=None)
+    neq: Optional[Any] = Field(alias="_neq", default=None)
+    nin: Optional[List[Any]] = Field(alias="_nin", default=None)
+
+
 class timestamptz_comparison_exp(BaseModel):
     eq: Optional[Any] = Field(alias="_eq", default=None)
     gt: Optional[Any] = Field(alias="_gt", default=None)
@@ -1310,7 +1322,7 @@ class youtube_video_objects_bool_exp(BaseModel):
     fetched_at: Optional["timestamptz_comparison_exp"] = None
     id: Optional["uuid_comparison_exp"] = None
     object_key: Optional["String_comparison_exp"] = None
-    object_size: Optional["Int_comparison_exp"] = None
+    object_size: Optional["bigint_comparison_exp"] = None
     remote_youtube_video_id: Optional["String_comparison_exp"] = None
     sha_256_digest: Optional["String_comparison_exp"] = Field(
         alias="sha256_digest", default=None
@@ -1323,7 +1335,7 @@ class youtube_video_objects_insert_input(BaseModel):
     content_type: Optional[str] = None
     fetched_at: Optional[Any] = None
     object_key: Optional[str] = None
-    object_size: Optional[int] = None
+    object_size: Optional[Any] = None
     remote_youtube_video_id: Optional[str] = None
     sha_256_digest: Optional[str] = Field(alias="sha256_digest", default=None)
     youtube_video: Optional["youtube_videos_obj_rel_insert_input"] = None
@@ -1397,7 +1409,7 @@ class youtube_video_objects_stream_cursor_value_input(BaseModel):
     fetched_at: Optional[Any] = None
     id: Optional[Any] = None
     object_key: Optional[str] = None
-    object_size: Optional[int] = None
+    object_size: Optional[Any] = None
     remote_youtube_video_id: Optional[str] = None
     sha_256_digest: Optional[str] = Field(alias="sha256_digest", default=None)
     updated_at: Optional[Any] = None
@@ -1468,7 +1480,7 @@ class youtube_video_thumbnail_objects_bool_exp(BaseModel):
     fetched_at: Optional["timestamptz_comparison_exp"] = None
     id: Optional["uuid_comparison_exp"] = None
     object_key: Optional["String_comparison_exp"] = None
-    object_size: Optional["Int_comparison_exp"] = None
+    object_size: Optional["bigint_comparison_exp"] = None
     remote_youtube_video_thumbnail_url: Optional["String_comparison_exp"] = None
     sha_256_digest: Optional["String_comparison_exp"] = Field(
         alias="sha256_digest", default=None
@@ -1484,7 +1496,7 @@ class youtube_video_thumbnail_objects_insert_input(BaseModel):
     content_type: Optional[str] = None
     fetched_at: Optional[Any] = None
     object_key: Optional[str] = None
-    object_size: Optional[int] = None
+    object_size: Optional[Any] = None
     remote_youtube_video_thumbnail_url: Optional[str] = None
     sha_256_digest: Optional[str] = Field(alias="sha256_digest", default=None)
     youtube_video_thumbnails: Optional[
@@ -1562,7 +1574,7 @@ class youtube_video_thumbnail_objects_stream_cursor_value_input(BaseModel):
     fetched_at: Optional[Any] = None
     id: Optional[Any] = None
     object_key: Optional[str] = None
-    object_size: Optional[int] = None
+    object_size: Optional[Any] = None
     remote_youtube_video_thumbnail_url: Optional[str] = None
     sha_256_digest: Optional[str] = Field(alias="sha256_digest", default=None)
     updated_at: Optional[Any] = None

@@ -3,7 +3,7 @@ mutation CreateYoutubeVideoObject(
   $fetched_at: timestamptz!
   $object_key: String!
   $sha256_digest: String!
-  $object_size: Int!
+  $object_size: bigint!
   $content_type: String!
 ) {
   insert_youtube_video_objects_one(

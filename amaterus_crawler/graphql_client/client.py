@@ -152,13 +152,13 @@ class Client(AsyncBaseClient):
         fetched_at: Any,
         object_key: str,
         sha_256_digest: str,
-        object_size: int,
+        object_size: Any,
         content_type: str,
         **kwargs: Any
     ) -> CreateYoutubeVideoObject:
         query = gql(
             """
-            mutation CreateYoutubeVideoObject($remote_youtube_video_id: String!, $fetched_at: timestamptz!, $object_key: String!, $sha256_digest: String!, $object_size: Int!, $content_type: String!) {
+            mutation CreateYoutubeVideoObject($remote_youtube_video_id: String!, $fetched_at: timestamptz!, $object_key: String!, $sha256_digest: String!, $object_size: bigint!, $content_type: String!) {
               insert_youtube_video_objects_one(
                 object: {remote_youtube_video_id: $remote_youtube_video_id, fetched_at: $fetched_at, object_key: $object_key, sha256_digest: $sha256_digest, object_size: $object_size, content_type: $content_type}
               ) {
@@ -190,13 +190,13 @@ class Client(AsyncBaseClient):
         fetched_at: Any,
         object_key: str,
         sha_256_digest: str,
-        object_size: int,
+        object_size: Any,
         content_type: str,
         **kwargs: Any
     ) -> CreateYoutubeVideoThumbnailObject:
         query = gql(
             """
-            mutation CreateYoutubeVideoThumbnailObject($remote_youtube_video_thumbnail_url: String!, $fetched_at: timestamptz!, $object_key: String!, $sha256_digest: String!, $object_size: Int!, $content_type: String!) {
+            mutation CreateYoutubeVideoThumbnailObject($remote_youtube_video_thumbnail_url: String!, $fetched_at: timestamptz!, $object_key: String!, $sha256_digest: String!, $object_size: bigint!, $content_type: String!) {
               insert_youtube_video_thumbnail_objects_one(
                 object: {remote_youtube_video_thumbnail_url: $remote_youtube_video_thumbnail_url, fetched_at: $fetched_at, object_key: $object_key, sha256_digest: $sha256_digest, object_size: $object_size, content_type: $content_type}
               ) {
