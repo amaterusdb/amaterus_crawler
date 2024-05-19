@@ -18,16 +18,35 @@ class order_by(str, Enum):
     desc_nulls_last = "desc_nulls_last"
 
 
+class youtube_channel_detail_logs_constraint(str, Enum):
+    youtube_channel_detail_logs_pkey = "youtube_channel_detail_logs_pkey"
+
+
+class youtube_channel_detail_logs_select_column(str, Enum):
+    created_at = "created_at"
+    fetched_at = "fetched_at"
+    id = "id"
+    updated_at = "updated_at"
+    youtube_channel_detail_id = "youtube_channel_detail_id"
+
+
+class youtube_channel_detail_logs_update_column(str, Enum):
+    _PLACEHOLDER = "_PLACEHOLDER"
+
+
 class youtube_channel_details_constraint(str, Enum):
     youtube_channel_details_pkey = "youtube_channel_details_pkey"
+    youtube_channel_details_title_description_published_at_custom_u = (
+        "youtube_channel_details_title_description_published_at_custom_u"
+    )
 
 
 class youtube_channel_details_select_column(str, Enum):
     created_at = "created_at"
     custom_url = "custom_url"
     description = "description"
-    fetched_at = "fetched_at"
     id = "id"
+    last_fetched_at = "last_fetched_at"
     published_at = "published_at"
     title = "title"
     updated_at = "updated_at"
@@ -35,7 +54,7 @@ class youtube_channel_details_select_column(str, Enum):
 
 
 class youtube_channel_details_update_column(str, Enum):
-    _PLACEHOLDER = "_PLACEHOLDER"
+    last_fetched_at = "last_fetched_at"
 
 
 class youtube_channel_thumbnail_objects_constraint(str, Enum):

@@ -6,8 +6,13 @@ from pydantic import BaseModel, Field
 from .....graphql_client import (
     Client,
     GraphQLClientError,
+    youtube_channel_detail_logs_arr_rel_insert_input,
+    youtube_channel_detail_logs_insert_input,
     youtube_channel_details_arr_rel_insert_input,
+    youtube_channel_details_constraint,
     youtube_channel_details_insert_input,
+    youtube_channel_details_on_conflict,
+    youtube_channel_details_update_column,
     youtube_channel_thumbnails_arr_rel_insert_input,
     youtube_channel_thumbnails_insert_input,
     youtube_channels_insert_input,
@@ -101,13 +106,26 @@ class YoutubeChannelUpdaterHasura(YoutubeChannelUpdater):
                     youtube_channel_details=youtube_channel_details_arr_rel_insert_input(
                         data=[
                             youtube_channel_details_insert_input(
-                                fetched_at=fetched_at_aware.isoformat(),
+                                last_fetched_at=fetched_at_aware.isoformat(),
                                 title=update_query.title,
                                 description=update_query.description,
                                 published_at=published_at_aware.isoformat(),
                                 custom_url=update_query.custom_url,
+                                youtube_channel_detail_logs=youtube_channel_detail_logs_arr_rel_insert_input(
+                                    data=[
+                                        youtube_channel_detail_logs_insert_input(
+                                            fetched_at=fetched_at_aware.isoformat(),
+                                        ),
+                                    ],
+                                ),
                             ),
                         ],
+                        on_conflict=youtube_channel_details_on_conflict(
+                            constraint=youtube_channel_details_constraint.youtube_channel_details_title_description_published_at_custom_u,
+                            update_columns=[
+                                youtube_channel_details_update_column.last_fetched_at,
+                            ],
+                        ),
                     ),
                     youtube_channel_thumbnails=youtube_channel_thumbnails_arr_rel_insert_input(
                         data=thumbnail_objects,
