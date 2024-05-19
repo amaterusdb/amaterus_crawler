@@ -1,5 +1,26 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
+from datetime import datetime
+
+
+@dataclass
+class RemoteYoutubeChannelThumbnail:
+    key: str
+    """
+    サムネイルの種類
+    """
+    url: str
+    """
+    サムネイルのURL
+    """
+    width: int
+    """
+    サムネイルの幅
+    """
+    height: int
+    """
+    サムネイルの高さ
+    """
 
 
 @dataclass
@@ -10,15 +31,23 @@ class RemoteYoutubeChannel:
     """
     title: str
     """
-    チャンネル名
+    チャンネルの名前
     """
-    icon_url: str
+    description: str
     """
-    アイコンURL
+    チャンネルの説明文
+    """
+    published_at: datetime
+    """
+    チャンネルの公開日時
     """
     custom_url: str | None
     """
-    @ を含むハンドル名
+    チャンネルのカスタムURL（@ を含むハンドル名）
+    """
+    thumbnails: list[RemoteYoutubeChannelThumbnail]
+    """
+    チャンネルのアイコン
     """
 
 

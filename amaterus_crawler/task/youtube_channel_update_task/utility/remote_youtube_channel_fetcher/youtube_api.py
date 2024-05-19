@@ -1,3 +1,5 @@
+from datetime import datetime, timezone
+
 import httpx
 from pydantic import BaseModel
 
@@ -6,6 +8,7 @@ from .base import (
     RemoteYoutubeChannelFetcher,
     RemoteYoutubeChannelFetchError,
     RemoteYoutubeChannelFetchResult,
+    RemoteYoutubeChannelThumbnail,
 )
 
 
@@ -23,6 +26,8 @@ class YoutubeApiChannelListResultItemSnippetThumbnails(BaseModel):
 
 class YoutubeApiChannelListResultItemSnippet(BaseModel):
     title: str
+    description: str
+    publishedAt: datetime
     customUrl: str | None = None
     thumbnails: YoutubeApiChannelListResultItemSnippetThumbnails | None = None
 
@@ -89,29 +94,53 @@ class RemoteYoutubeChannelFetcherYoutubeApi(RemoteYoutubeChannelFetcher):
                 raise RemoteYoutubeChannelFetchError("channel.snippet is None.")
 
             title = channel.snippet.title
-            custom_url = channel.snippet.customUrl
-            thumbnails = channel.snippet.thumbnails
-            if thumbnails is None:
-                raise RemoteYoutubeChannelFetchError("channel.thumbnails is None.")
+            description = channel.snippet.description
+            published_at_aware = channel.snippet.publishedAt.astimezone(tz=timezone.utc)
 
-            icon_url: str | None = None
-            if thumbnails.high is not None:
-                icon_url = thumbnails.high.url
-            elif thumbnails.medium is not None:
-                icon_url = thumbnails.medium.url
-            elif thumbnails.default is not None:
-                icon_url = thumbnails.default.url
-            else:
-                raise RemoteYoutubeChannelFetchError(
-                    "channel.thumbnails.high, medium and default is None."
-                )
+            custom_url = channel.snippet.customUrl
+
+            thumbnails = channel.snippet.thumbnails
+            thumbnail_objects: list[RemoteYoutubeChannelThumbnail] = []
+
+            if thumbnails is not None:
+                if thumbnails.high is not None:
+                    thumbnail_objects.append(
+                        RemoteYoutubeChannelThumbnail(
+                            key="high",
+                            url=thumbnails.high.url,
+                            width=thumbnails.high.width,
+                            height=thumbnails.high.height,
+                        ),
+                    )
+
+                if thumbnails.medium is not None:
+                    thumbnail_objects.append(
+                        RemoteYoutubeChannelThumbnail(
+                            key="medium",
+                            url=thumbnails.medium.url,
+                            width=thumbnails.medium.width,
+                            height=thumbnails.medium.height,
+                        ),
+                    )
+
+                if thumbnails.default is not None:
+                    thumbnail_objects.append(
+                        RemoteYoutubeChannelThumbnail(
+                            key="default",
+                            url=thumbnails.default.url,
+                            width=thumbnails.default.width,
+                            height=thumbnails.default.height,
+                        ),
+                    )
 
             remote_youtube_channels.append(
                 RemoteYoutubeChannel(
                     channel_id=channel_id,
                     title=title,
-                    icon_url=icon_url,
+                    description=description,
+                    published_at=published_at_aware,
                     custom_url=custom_url,
+                    thumbnails=thumbnail_objects,
                 ),
             )
 

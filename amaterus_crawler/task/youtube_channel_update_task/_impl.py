@@ -5,6 +5,7 @@ from .utility.remote_youtube_channel_fetcher import RemoteYoutubeChannelFetcher
 from .utility.updatable_youtube_channel_fetcher import UpdatableYoutubeChannelFetcher
 from .utility.youtube_channel_updater import (
     YoutubeChannelUpdateQuery,
+    YoutubeChannelUpdateQueryThumbnail,
     YoutubeChannelUpdater,
 )
 
@@ -53,20 +54,26 @@ class YoutubeChannelUpdateTask(AmaterusCrawlerTask):
             now = datetime.now(tz=timezone.utc)
             update_queries: list[YoutubeChannelUpdateQuery] = []
             for remote_youtube_channel in remote_youtube_channels:
-                remote_custom_url = remote_youtube_channel.custom_url
-
-                youtube_channel_handle: str | None = None
-                if remote_custom_url is not None and remote_custom_url.startswith("@"):
-                    # 1文字目の @ を除去する
-                    youtube_channel_handle = remote_custom_url[1:]
+                update_query_thumbnails: list[YoutubeChannelUpdateQueryThumbnail] = []
+                for thumbnail in remote_youtube_channel.thumbnails:
+                    update_query_thumbnails.append(
+                        YoutubeChannelUpdateQueryThumbnail(
+                            key=thumbnail.key,
+                            url=thumbnail.url,
+                            width=thumbnail.width,
+                            height=thumbnail.height,
+                        ),
+                    )
 
                 update_queries.append(
                     YoutubeChannelUpdateQuery(
                         remote_youtube_channel_id=remote_youtube_channel.channel_id,
-                        name=remote_youtube_channel.title,
-                        icon_url=remote_youtube_channel.icon_url,
-                        youtube_channel_handle=youtube_channel_handle,
-                        auto_updated_at=now,
+                        title=remote_youtube_channel.title,
+                        description=remote_youtube_channel.description,
+                        published_at=remote_youtube_channel.published_at,
+                        custom_url=remote_youtube_channel.custom_url,
+                        thumbnails=update_query_thumbnails,
+                        fetched_at=now,
                     ),
                 )
 

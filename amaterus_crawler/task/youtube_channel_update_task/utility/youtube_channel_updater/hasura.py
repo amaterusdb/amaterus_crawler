@@ -1,9 +1,17 @@
 from datetime import timezone
 from logging import getLogger
 
-import httpx
-from pydantic import BaseModel, Field, TypeAdapter
+from pydantic import BaseModel, Field
 
+from .....graphql_client import (
+    Client,
+    GraphQLClientError,
+    youtube_channel_details_arr_rel_insert_input,
+    youtube_channel_details_insert_input,
+    youtube_channel_thumbnails_arr_rel_insert_input,
+    youtube_channel_thumbnails_insert_input,
+    youtube_channels_insert_input,
+)
 from .base import (
     YoutubeChannelUpdateError,
     YoutubeChannelUpdateQuery,
@@ -59,111 +67,57 @@ class UpsertYouTubeChannelsResponseBody(BaseModel):
 class YoutubeChannelUpdaterHasura(YoutubeChannelUpdater):
     def __init__(
         self,
-        hasura_url: str,
-        hasura_access_token: str | None = None,
-        hasura_admin_secret: str | None = None,
-        hasura_role: str | None = None,
+        graphql_client: Client,
     ):
-        self.hasura_url = hasura_url
-        self.hasura_access_token = hasura_access_token
-        self.hasura_admin_secret = hasura_admin_secret
-        self.hasura_role = hasura_role
+        self.graphql_client = graphql_client
 
     async def update_youtube_channels(
         self,
         update_queries: list[YoutubeChannelUpdateQuery],
     ) -> None:
-        hasura_url = self.hasura_url
-        hasura_access_token = self.hasura_access_token
-        hasura_admin_secret = self.hasura_admin_secret
-        hasura_role = self.hasura_role
+        graphql_client = self.graphql_client
 
-        hasura_graphql_api_url = hasura_url
-        if not hasura_graphql_api_url.endswith("/"):
-            hasura_graphql_api_url += "/"
-        hasura_graphql_api_url += "v1/graphql"
-
-        headers = {}
-        if hasura_access_token is not None:
-            headers.update(
-                {
-                    "Authorization": f"Bearer {hasura_access_token}",
-                }
-            )
-        if hasura_admin_secret is not None:
-            headers.update(
-                {
-                    "X-Hasura-Admin-Secret": hasura_admin_secret,
-                }
-            )
-        if hasura_role is not None:
-            headers.update(
-                {
-                    "X-Hasura-Role": hasura_role,
-                }
-            )
-
-        objects: list[YoutubeChannelsInsertInput] = []
+        objects: list[youtube_channels_insert_input] = []
         for update_query in update_queries:
             # 送信時点でタイムゾーン付きであることを保証する
-            auto_updated_at_aware = update_query.auto_updated_at.astimezone(
-                tz=timezone.utc
-            )
+            fetched_at_aware = update_query.fetched_at.astimezone(tz=timezone.utc)
+            published_at_aware = update_query.published_at.astimezone(tz=timezone.utc)
+
+            thumbnail_objects: list[youtube_channel_thumbnails_insert_input] = []
+            for thumbnail in update_query.thumbnails:
+                thumbnail_objects.append(
+                    youtube_channel_thumbnails_insert_input(
+                        fetched_at=fetched_at_aware.isoformat(),
+                        key=thumbnail.key,
+                        url=thumbnail.url,
+                        width=thumbnail.width,
+                        height=thumbnail.height,
+                    )
+                )
+
             objects.append(
-                YoutubeChannelsInsertInput(
+                youtube_channels_insert_input(
                     remote_youtube_channel_id=update_query.remote_youtube_channel_id,
-                    name=update_query.name,
-                    icon_url=update_query.icon_url,
-                    youtube_channel_handle=update_query.youtube_channel_handle,
-                    crawler__youtube_channel_config=CrawlerYoutubeChannelConfigObjRelInsertInput(
-                        data=(
-                            CrawlerYoutubeChannelConfigInsertInput(
-                                auto_updated_at=auto_updated_at_aware.isoformat(),
-                            )
-                        ),
-                        on_conflict=CrawlerYoutubeChannelConfigObjRelInsertInputOnConflict(),
+                    youtube_channel_details=youtube_channel_details_arr_rel_insert_input(
+                        data=[
+                            youtube_channel_details_insert_input(
+                                fetched_at=fetched_at_aware.isoformat(),
+                                title=update_query.title,
+                                description=update_query.description,
+                                published_at=published_at_aware.isoformat(),
+                                custom_url=update_query.custom_url,
+                            ),
+                        ],
+                    ),
+                    youtube_channel_thumbnails=youtube_channel_thumbnails_arr_rel_insert_input(
+                        data=thumbnail_objects,
                     ),
                 ),
             )
 
         try:
-            async with httpx.AsyncClient() as client:
-                res = await client.post(
-                    url=hasura_graphql_api_url,
-                    headers=headers,
-                    json={
-                        "query": """
-mutation UpsertYoutubeChannels(
-  $objects: [youtube_channels_insert_input!]!
-) {
-  insert_youtube_channels(
-    objects: $objects
-    on_conflict: {
-      constraint: youtube_channels_youtube_channel_id_key
-      update_columns: [
-        name
-        icon_url
-        youtube_channel_handle
-      ]
-    }
-  ) {
-    affected_rows
-  }
-}
-""",
-                        "variables": {
-                            "objects": TypeAdapter(
-                                list[YoutubeChannelsInsertInput]
-                            ).dump_python(objects),
-                        },
-                    },
-                )
-
-                res.raise_for_status()
-        except httpx.HTTPError:
-            raise YoutubeChannelUpdateError("Failed to update youtube channel infos.")
-
-        response_body = UpsertYouTubeChannelsResponseBody.model_validate(res.json())
-        if response_body.errors is not None and len(response_body.errors) > 0:
-            logger.error(f"Hasura response body: {response_body.model_dump_json()}")
-            raise YoutubeChannelUpdateError("Hasura error occured.")
+            await graphql_client.create_youtube_channel_details(
+                objects=objects,
+            )
+        except GraphQLClientError:
+            raise YoutubeChannelUpdateError("Failed to update youtube channel.")

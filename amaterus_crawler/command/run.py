@@ -8,6 +8,7 @@ from ..config.task_config import (
     DownloadYoutubeChannelIconConfigOptions,
     UpdateYoutubeChannelConfigOptions,
 )
+from ..graphql_client import Client
 from ..task import AmaterusCrawlerTask
 from ..task.youtube_channel_icon_download_task import YoutubeChannelIconDownloadTask
 from ..task.youtube_channel_icon_download_task.utility.downloadable_youtube_channel_icon_fetcher import (  # noqa: B950
@@ -149,22 +150,37 @@ async def execute_subcommand_run(args: Namespace) -> None:
             if youtube_api_key is None:
                 raise SubcommandRunError("youtube_api_key is None")
 
+            graphql_client_headers = {}
+            if hasura_access_token is not None:
+                graphql_client_headers["Authorization"] = (
+                    f"Bearer {hasura_access_token}"
+                )
+            elif hasura_admin_secret is not None:
+                graphql_client_headers["X-Hasura-Admin-Secret"] = hasura_admin_secret
+
+            if hasura_role is not None:
+                graphql_client_headers["X-Hasura-Role"] = hasura_role
+
+            hasura_graphql_api_url = hasura_url
+            if not hasura_graphql_api_url.endswith("/"):
+                hasura_graphql_api_url += "/"
+            hasura_graphql_api_url += "v1/graphql"
+
+            graphql_client = Client(
+                url=hasura_graphql_api_url,
+                headers=graphql_client_headers,
+            )
+
             tasks.append(
                 YoutubeChannelUpdateTask(
                     updatable_youtube_channel_fetcher=UpdatableYoutubeChannelFetcherHasura(
-                        hasura_url=hasura_url,
-                        hasura_access_token=hasura_access_token,
-                        hasura_admin_secret=hasura_admin_secret,
-                        hasura_role=hasura_role,
+                        graphql_client=graphql_client,
                     ),
                     remote_youtube_channel_fetcher=RemoteYoutubeChannelFetcherYoutubeApi(
                         youtube_api_key=youtube_api_key,
                     ),
                     youtube_channel_updater=YoutubeChannelUpdaterHasura(
-                        hasura_url=hasura_url,
-                        hasura_access_token=hasura_access_token,
-                        hasura_admin_secret=hasura_admin_secret,
-                        hasura_role=hasura_role,
+                        graphql_client=graphql_client,
                     ),
                 ),
             )

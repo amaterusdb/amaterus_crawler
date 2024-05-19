@@ -4,24 +4,52 @@ from datetime import datetime
 
 
 @dataclass
+class YoutubeChannelUpdateQueryThumbnail:
+    key: str
+    """
+    サムネイルの種類
+    """
+    url: str
+    """
+    サムネイルのURL
+    """
+    width: int
+    """
+    サムネイルの幅
+    """
+    height: int
+    """
+    サムネイルの高さ
+    """
+
+
+@dataclass
 class YoutubeChannelUpdateQuery:
     remote_youtube_channel_id: str
     """
     チャンネルID
     """
-    name: str
+    title: str
     """
-    チャンネル名
+    チャンネルの名前
     """
-    icon_url: str
+    description: str
     """
-    アイコンURL
+    チャンネルの説明文
     """
-    youtube_channel_handle: str | None
+    published_at: datetime
     """
-    @ を含まないハンドル名
+    チャンネルの公開日時
     """
-    auto_updated_at: datetime
+    custom_url: str | None
+    """
+    チャンネルのカスタムURL（@ を含むハンドル名）
+    """
+    thumbnails: list[YoutubeChannelUpdateQueryThumbnail]
+    """
+    チャンネルのアイコン
+    """
+    fetched_at: datetime
     """
     クローラによる自動的な情報取得の日時を表すタイムゾーン付き日時
     """
