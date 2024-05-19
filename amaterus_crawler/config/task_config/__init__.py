@@ -2,6 +2,10 @@ from .download_youtube_channel_thumbnail_config import (
     DownloadYoutubeChannelThumbnailConfig,
     DownloadYoutubeChannelThumbnailConfigOptions,
 )
+from .download_youtube_video_thumbnail_config import (
+    DownloadYoutubeVideoThumbnailConfig,
+    DownloadYoutubeVideoThumbnailConfigOptions,
+)
 from .search_youtube_channel_video_config import (
     SearchYoutubeChannelVideoConfig,
     SearchYoutubeChannelVideoConfigOptions,
@@ -18,6 +22,8 @@ from .update_youtube_video_detail_config import (
 __all__ = [
     "DownloadYoutubeChannelThumbnailConfig",
     "DownloadYoutubeChannelThumbnailConfigOptions",
+    "DownloadYoutubeVideoThumbnailConfig",
+    "DownloadYoutubeVideoThumbnailConfigOptions",
     "UpdateYoutubeChannelConfig",
     "UpdateYoutubeChannelConfigOptions",
     "SearchYoutubeChannelVideoConfig",

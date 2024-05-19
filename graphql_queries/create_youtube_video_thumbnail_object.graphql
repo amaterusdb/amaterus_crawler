@@ -1,0 +1,21 @@
+mutation CreateYoutubeVideoThumbnailObject(
+  $remote_youtube_video_thumbnail_url: String!
+  $fetched_at: timestamptz!
+  $object_key: String!
+  $sha256_digest: String!
+  $object_size: Int!
+  $content_type: String!
+) {
+  insert_youtube_video_thumbnail_objects_one(
+    object: {
+      remote_youtube_video_thumbnail_url: $remote_youtube_video_thumbnail_url
+      fetched_at: $fetched_at
+      object_key: $object_key
+      sha256_digest: $sha256_digest
+      object_size: $object_size
+      content_type: $content_type
+    }
+  ) {
+    id
+  }
+}

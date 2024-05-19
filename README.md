@@ -39,6 +39,11 @@ tasks:
 
   - type: update_youtube_video_detail
     enabled: true
+
+  - type: download_youtube_video_thumbnail
+    enabled: true
+    options:
+      object_key_prefix: youtube_video_thumbnails/
 ```
 
 ## GraphQL Code Generation

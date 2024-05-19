@@ -1,0 +1,24 @@
+query GetDownloadableYoutubeVideoThumbnails {
+  youtube_video_thumbnails(
+    where: {
+      youtube_video: {
+        enabled: {
+          _eq: true
+        }
+      }
+      # youtube_video_thumbnail_objects が null
+      _not: {
+        youtube_video_thumbnail_objects: {
+        }
+      }
+    }
+  ) {
+    url
+    key
+    width
+    height
+    youtube_video {
+      remote_youtube_video_id
+    }
+  }
+}

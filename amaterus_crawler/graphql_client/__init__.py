@@ -19,6 +19,10 @@ from .create_youtube_video_details import (
     CreateYoutubeVideoDetails,
     CreateYoutubeVideoDetailsInsertYoutubeVideoDetails,
 )
+from .create_youtube_video_thumbnail_object import (
+    CreateYoutubeVideoThumbnailObject,
+    CreateYoutubeVideoThumbnailObjectInsertYoutubeVideoThumbnailObjectsOne,
+)
 from .enums import (
     cursor_ordering,
     order_by,
@@ -72,6 +76,11 @@ from .get_downloadable_youtube_channel_thumbnails import (
     GetDownloadableYoutubeChannelThumbnails,
     GetDownloadableYoutubeChannelThumbnailsYoutubeChannelThumbnails,
     GetDownloadableYoutubeChannelThumbnailsYoutubeChannelThumbnailsYoutubeChannel,
+)
+from .get_downloadable_youtube_video_thumbnails import (
+    GetDownloadableYoutubeVideoThumbnails,
+    GetDownloadableYoutubeVideoThumbnailsYoutubeVideoThumbnails,
+    GetDownloadableYoutubeVideoThumbnailsYoutubeVideoThumbnailsYoutubeVideo,
 )
 from .get_updatable_youtube_channels import (
     GetUpdatableYoutubeChannels,
@@ -283,9 +292,14 @@ __all__ = [
     "CreateYoutubeChannelThumbnailObjectInsertYoutubeChannelThumbnailObjectsOne",
     "CreateYoutubeVideoDetails",
     "CreateYoutubeVideoDetailsInsertYoutubeVideoDetails",
+    "CreateYoutubeVideoThumbnailObject",
+    "CreateYoutubeVideoThumbnailObjectInsertYoutubeVideoThumbnailObjectsOne",
     "GetDownloadableYoutubeChannelThumbnails",
     "GetDownloadableYoutubeChannelThumbnailsYoutubeChannelThumbnails",
     "GetDownloadableYoutubeChannelThumbnailsYoutubeChannelThumbnailsYoutubeChannel",
+    "GetDownloadableYoutubeVideoThumbnails",
+    "GetDownloadableYoutubeVideoThumbnailsYoutubeVideoThumbnails",
+    "GetDownloadableYoutubeVideoThumbnailsYoutubeVideoThumbnailsYoutubeVideo",
     "GetUpdatableYoutubeChannels",
     "GetUpdatableYoutubeChannelsYoutubeChannels",
     "GetUpdatableYoutubeVideos",
