@@ -49,7 +49,7 @@ class RemoteYoutubeChannelVideoSearcherYoutubeApi(RemoteYoutubeChannelVideoSearc
                         "channelId": remote_youtube_channel_id,
                         "type": "video",
                         "order": "date",  # createdAt desc
-                        "maxResults": "10",
+                        "maxResults": "50",
                     },
                 )
 
