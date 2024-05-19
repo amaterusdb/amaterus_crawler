@@ -37,6 +37,10 @@ class YoutubeChannelThumbnailDownloaderYoutubeHttp(YoutubeChannelThumbnailDownlo
                             )
 
                         content_type = response.headers["Content-Type"]
+                        if not content_type.startswith("image/"):
+                            raise YoutubeChannelThumbnailDownloadError(
+                                "Content-Type is not image/*."
+                            )
 
                         async for chunk in response.aiter_bytes():
                             temp_icon_fileobj.write(chunk)
