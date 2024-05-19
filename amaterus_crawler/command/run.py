@@ -3,17 +3,13 @@ from argparse import ArgumentParser, Namespace
 from logging import getLogger
 from pathlib import Path
 
-from amaterus_crawler.config.task_config.search_youtube_channel_video_config import (
-    SearchYoutubeChannelVideoConfigOptions,
-)
-from amaterus_crawler.task.youtube_channel_video_search_task.utility.remote_youtube_channel_video_searcher.youtube_api import (  # noqa: B950
-    RemoteYoutubeChannelVideoSearcherYoutubeApi,
-)
-
 from ..config.config_parser import parse_amaterus_crawler_config_from_file
 from ..config.task_config import (
     DownloadYoutubeChannelThumbnailConfigOptions,
     UpdateYoutubeChannelConfigOptions,
+)
+from ..config.task_config.search_youtube_channel_video_config import (
+    SearchYoutubeChannelVideoConfigOptions,
 )
 from ..graphql_client import Client
 from ..task import AmaterusCrawlerTask
@@ -43,6 +39,9 @@ from ..task.youtube_channel_video_search_task import (
 from ..task.youtube_channel_video_search_task import (
     YoutubeChannelVideoSearchTask,
     YoutubeVideoDetailCreatorHasura,
+)
+from ..task.youtube_channel_video_search_task.utility.remote_youtube_channel_video_searcher.youtube_api import (  # noqa: B950
+    RemoteYoutubeChannelVideoSearcherYoutubeApi,
 )
 
 logger = getLogger(__name__)

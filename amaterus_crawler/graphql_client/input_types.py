@@ -25,6 +25,9 @@ from .enums import (
     youtube_channel_thumbnails_update_column,
     youtube_channels_constraint,
     youtube_channels_update_column,
+    youtube_video_detail_logs_constraint,
+    youtube_video_detail_logs_select_column,
+    youtube_video_detail_logs_update_column,
     youtube_video_details_constraint,
     youtube_video_details_select_column,
     youtube_video_details_select_column_youtube_video_details_aggregate_bool_exp_bool_and_arguments_columns,
@@ -840,6 +843,98 @@ class youtube_channels_updates(BaseModel):
     where: "youtube_channels_bool_exp"
 
 
+class youtube_video_detail_logs_aggregate_bool_exp(BaseModel):
+    count: Optional["youtube_video_detail_logs_aggregate_bool_exp_count"] = None
+
+
+class youtube_video_detail_logs_aggregate_bool_exp_count(BaseModel):
+    arguments: Optional[List[youtube_video_detail_logs_select_column]] = None
+    distinct: Optional[bool] = None
+    filter: Optional["youtube_video_detail_logs_bool_exp"] = None
+    predicate: "Int_comparison_exp"
+
+
+class youtube_video_detail_logs_aggregate_order_by(BaseModel):
+    count: Optional[order_by] = None
+    max: Optional["youtube_video_detail_logs_max_order_by"] = None
+    min: Optional["youtube_video_detail_logs_min_order_by"] = None
+
+
+class youtube_video_detail_logs_arr_rel_insert_input(BaseModel):
+    data: List["youtube_video_detail_logs_insert_input"]
+    on_conflict: Optional["youtube_video_detail_logs_on_conflict"] = None
+
+
+class youtube_video_detail_logs_bool_exp(BaseModel):
+    and_: Optional[List["youtube_video_detail_logs_bool_exp"]] = Field(
+        alias="_and", default=None
+    )
+    not_: Optional["youtube_video_detail_logs_bool_exp"] = Field(
+        alias="_not", default=None
+    )
+    or_: Optional[List["youtube_video_detail_logs_bool_exp"]] = Field(
+        alias="_or", default=None
+    )
+    created_at: Optional["timestamptz_comparison_exp"] = None
+    fetched_at: Optional["timestamptz_comparison_exp"] = None
+    id: Optional["uuid_comparison_exp"] = None
+    updated_at: Optional["timestamptz_comparison_exp"] = None
+    youtube_video_detail: Optional["youtube_video_details_bool_exp"] = None
+    youtube_video_detail_id: Optional["uuid_comparison_exp"] = None
+
+
+class youtube_video_detail_logs_insert_input(BaseModel):
+    fetched_at: Optional[Any] = None
+    youtube_video_detail: Optional["youtube_video_details_obj_rel_insert_input"] = None
+    youtube_video_detail_id: Optional[Any] = None
+
+
+class youtube_video_detail_logs_max_order_by(BaseModel):
+    created_at: Optional[order_by] = None
+    fetched_at: Optional[order_by] = None
+    id: Optional[order_by] = None
+    updated_at: Optional[order_by] = None
+    youtube_video_detail_id: Optional[order_by] = None
+
+
+class youtube_video_detail_logs_min_order_by(BaseModel):
+    created_at: Optional[order_by] = None
+    fetched_at: Optional[order_by] = None
+    id: Optional[order_by] = None
+    updated_at: Optional[order_by] = None
+    youtube_video_detail_id: Optional[order_by] = None
+
+
+class youtube_video_detail_logs_on_conflict(BaseModel):
+    constraint: youtube_video_detail_logs_constraint
+    update_columns: List[youtube_video_detail_logs_update_column] = Field(
+        default_factory=lambda: []
+    )
+    where: Optional["youtube_video_detail_logs_bool_exp"] = None
+
+
+class youtube_video_detail_logs_order_by(BaseModel):
+    created_at: Optional[order_by] = None
+    fetched_at: Optional[order_by] = None
+    id: Optional[order_by] = None
+    updated_at: Optional[order_by] = None
+    youtube_video_detail: Optional["youtube_video_details_order_by"] = None
+    youtube_video_detail_id: Optional[order_by] = None
+
+
+class youtube_video_detail_logs_stream_cursor_input(BaseModel):
+    initial_value: "youtube_video_detail_logs_stream_cursor_value_input"
+    ordering: Optional[cursor_ordering] = None
+
+
+class youtube_video_detail_logs_stream_cursor_value_input(BaseModel):
+    created_at: Optional[Any] = None
+    fetched_at: Optional[Any] = None
+    id: Optional[Any] = None
+    updated_at: Optional[Any] = None
+    youtube_video_detail_id: Optional[Any] = None
+
+
 class youtube_video_details_aggregate_bool_exp(BaseModel):
     bool_and: Optional["youtube_video_details_aggregate_bool_exp_bool_and"] = None
     bool_or: Optional["youtube_video_details_aggregate_bool_exp_bool_or"] = None
@@ -905,6 +1000,10 @@ class youtube_video_details_bool_exp(BaseModel):
     upload_status: Optional["String_comparison_exp"] = None
     youtube_channel: Optional["youtube_channels_bool_exp"] = None
     youtube_video: Optional["youtube_videos_bool_exp"] = None
+    youtube_video_detail_logs: Optional["youtube_video_detail_logs_bool_exp"] = None
+    youtube_video_detail_logs_aggregate: Optional[
+        "youtube_video_detail_logs_aggregate_bool_exp"
+    ] = None
 
 
 class youtube_video_details_insert_input(BaseModel):
@@ -924,6 +1023,9 @@ class youtube_video_details_insert_input(BaseModel):
     upload_status: Optional[str] = None
     youtube_channel: Optional["youtube_channels_obj_rel_insert_input"] = None
     youtube_video: Optional["youtube_videos_obj_rel_insert_input"] = None
+    youtube_video_detail_logs: Optional[
+        "youtube_video_detail_logs_arr_rel_insert_input"
+    ] = None
 
 
 class youtube_video_details_max_order_by(BaseModel):
@@ -964,6 +1066,11 @@ class youtube_video_details_min_order_by(BaseModel):
     upload_status: Optional[order_by] = None
 
 
+class youtube_video_details_obj_rel_insert_input(BaseModel):
+    data: "youtube_video_details_insert_input"
+    on_conflict: Optional["youtube_video_details_on_conflict"] = None
+
+
 class youtube_video_details_on_conflict(BaseModel):
     constraint: youtube_video_details_constraint
     update_columns: List[youtube_video_details_update_column] = Field(
@@ -992,6 +1099,9 @@ class youtube_video_details_order_by(BaseModel):
     upload_status: Optional[order_by] = None
     youtube_channel: Optional["youtube_channels_order_by"] = None
     youtube_video: Optional["youtube_videos_order_by"] = None
+    youtube_video_detail_logs_aggregate: Optional[
+        "youtube_video_detail_logs_aggregate_order_by"
+    ] = None
 
 
 class youtube_video_details_pk_columns_input(BaseModel):

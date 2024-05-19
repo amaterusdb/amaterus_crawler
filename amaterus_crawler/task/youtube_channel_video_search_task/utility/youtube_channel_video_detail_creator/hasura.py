@@ -1,25 +1,22 @@
 from datetime import timezone
 from logging import getLogger
 
-from amaterus_crawler.graphql_client.enums import (
-    youtube_channels_constraint,
-    youtube_channels_update_column,
-    youtube_videos_constraint,
-    youtube_videos_update_column,
-)
-from amaterus_crawler.graphql_client.input_types import (
-    youtube_channels_on_conflict,
-    youtube_videos_insert_input,
-    youtube_videos_on_conflict,
-)
-
 from .....graphql_client import (
     Client,
     GraphQLClientError,
+    youtube_channels_constraint,
     youtube_channels_insert_input,
     youtube_channels_obj_rel_insert_input,
+    youtube_channels_on_conflict,
+    youtube_channels_update_column,
+    youtube_video_detail_logs_arr_rel_insert_input,
+    youtube_video_detail_logs_insert_input,
     youtube_video_details_insert_input,
+    youtube_videos_constraint,
+    youtube_videos_insert_input,
     youtube_videos_obj_rel_insert_input,
+    youtube_videos_on_conflict,
+    youtube_videos_update_column,
 )
 from .base import (
     YoutubeVideoDetailCreateError,
@@ -114,6 +111,13 @@ class YoutubeVideoDetailCreatorHasura(YoutubeVideoDetailCreator):
                     actual_start_time=actual_start_time_aware_string,
                     actual_end_time=actual_end_time_aware_string,
                     last_fetched_at=fetched_at_aware_string,
+                    youtube_video_detail_logs=youtube_video_detail_logs_arr_rel_insert_input(
+                        data=[
+                            youtube_video_detail_logs_insert_input(
+                                fetched_at=fetched_at_aware_string,
+                            ),
+                        ],
+                    ),
                 ),
             )
 

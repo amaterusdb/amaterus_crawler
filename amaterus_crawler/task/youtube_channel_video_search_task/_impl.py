@@ -42,7 +42,7 @@ class YoutubeChannelVideoSearchTask(AmaterusCrawlerTask):
         )
         youtube_video_detail_creator = self.youtube_video_detail_creator
 
-        fetched_at_aware = datetime.now(tz=timezone.utc)
+        fetched_at_aware_string = datetime.now(tz=timezone.utc)
 
         youtube_channel_fetch_result = (
             await updatable_youtube_channel_fetcher.fetch_updatable_youtube_channels()
@@ -104,7 +104,7 @@ class YoutubeChannelVideoSearchTask(AmaterusCrawlerTask):
                         actual_start_time=remote_youtube_channel_video_detail.actual_start_time,
                         actual_end_time=remote_youtube_channel_video_detail.actual_end_time,
                         thumbnails=thumbnails,
-                        fetched_at=fetched_at_aware,
+                        fetched_at=fetched_at_aware_string,
                     )
                 )
 

@@ -145,6 +145,22 @@ class youtube_channels_update_column(str, Enum):
     registered_at = "registered_at"
 
 
+class youtube_video_detail_logs_constraint(str, Enum):
+    youtube_video_detail_logs_pkey = "youtube_video_detail_logs_pkey"
+
+
+class youtube_video_detail_logs_select_column(str, Enum):
+    created_at = "created_at"
+    fetched_at = "fetched_at"
+    id = "id"
+    updated_at = "updated_at"
+    youtube_video_detail_id = "youtube_video_detail_id"
+
+
+class youtube_video_detail_logs_update_column(str, Enum):
+    _PLACEHOLDER = "_PLACEHOLDER"
+
+
 class youtube_video_details_constraint(str, Enum):
     youtube_video_details_actual_end_time_remote_youtube_channel_id = (
         "youtube_video_details_actual_end_time_remote_youtube_channel_id"
