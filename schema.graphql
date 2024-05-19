@@ -130,6 +130,28 @@ type mutation_root {
   ): youtube_channel_detail_logs
 
   """
+  insert data into the table: "youtube_channel_detail_thumbnails"
+  """
+  insert_youtube_channel_detail_thumbnails(
+    """the rows to be inserted"""
+    objects: [youtube_channel_detail_thumbnails_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: youtube_channel_detail_thumbnails_on_conflict
+  ): youtube_channel_detail_thumbnails_mutation_response
+
+  """
+  insert a single row into the table: "youtube_channel_detail_thumbnails"
+  """
+  insert_youtube_channel_detail_thumbnails_one(
+    """the row to be inserted"""
+    object: youtube_channel_detail_thumbnails_insert_input!
+
+    """upsert condition"""
+    on_conflict: youtube_channel_detail_thumbnails_on_conflict
+  ): youtube_channel_detail_thumbnails
+
+  """
   insert data into the table: "youtube_channel_details"
   """
   insert_youtube_channel_details(
@@ -150,28 +172,6 @@ type mutation_root {
     """upsert condition"""
     on_conflict: youtube_channel_details_on_conflict
   ): youtube_channel_details
-
-  """
-  insert data into the table: "youtube_channel_thumbnail_logs"
-  """
-  insert_youtube_channel_thumbnail_logs(
-    """the rows to be inserted"""
-    objects: [youtube_channel_thumbnail_logs_insert_input!]!
-
-    """upsert condition"""
-    on_conflict: youtube_channel_thumbnail_logs_on_conflict
-  ): youtube_channel_thumbnail_logs_mutation_response
-
-  """
-  insert a single row into the table: "youtube_channel_thumbnail_logs"
-  """
-  insert_youtube_channel_thumbnail_logs_one(
-    """the row to be inserted"""
-    object: youtube_channel_thumbnail_logs_insert_input!
-
-    """upsert condition"""
-    on_conflict: youtube_channel_thumbnail_logs_on_conflict
-  ): youtube_channel_thumbnail_logs
 
   """
   insert data into the table: "youtube_channel_thumbnail_objects"
@@ -388,6 +388,47 @@ type query_root {
   youtube_channel_detail_logs_by_pk(id: uuid!): youtube_channel_detail_logs
 
   """An array relationship"""
+  youtube_channel_detail_thumbnails(
+    """distinct select on columns"""
+    distinct_on: [youtube_channel_detail_thumbnails_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [youtube_channel_detail_thumbnails_order_by!]
+
+    """filter the rows returned"""
+    where: youtube_channel_detail_thumbnails_bool_exp
+  ): [youtube_channel_detail_thumbnails!]!
+
+  """An aggregate relationship"""
+  youtube_channel_detail_thumbnails_aggregate(
+    """distinct select on columns"""
+    distinct_on: [youtube_channel_detail_thumbnails_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [youtube_channel_detail_thumbnails_order_by!]
+
+    """filter the rows returned"""
+    where: youtube_channel_detail_thumbnails_bool_exp
+  ): youtube_channel_detail_thumbnails_aggregate!
+
+  """
+  fetch data from the table: "youtube_channel_detail_thumbnails" using primary key columns
+  """
+  youtube_channel_detail_thumbnails_by_pk(id: uuid!): youtube_channel_detail_thumbnails
+
+  """An array relationship"""
   youtube_channel_details(
     """distinct select on columns"""
     distinct_on: [youtube_channel_details_select_column!]
@@ -427,47 +468,6 @@ type query_root {
   fetch data from the table: "youtube_channel_details" using primary key columns
   """
   youtube_channel_details_by_pk(id: uuid!): youtube_channel_details
-
-  """An array relationship"""
-  youtube_channel_thumbnail_logs(
-    """distinct select on columns"""
-    distinct_on: [youtube_channel_thumbnail_logs_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [youtube_channel_thumbnail_logs_order_by!]
-
-    """filter the rows returned"""
-    where: youtube_channel_thumbnail_logs_bool_exp
-  ): [youtube_channel_thumbnail_logs!]!
-
-  """An aggregate relationship"""
-  youtube_channel_thumbnail_logs_aggregate(
-    """distinct select on columns"""
-    distinct_on: [youtube_channel_thumbnail_logs_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [youtube_channel_thumbnail_logs_order_by!]
-
-    """filter the rows returned"""
-    where: youtube_channel_thumbnail_logs_bool_exp
-  ): youtube_channel_thumbnail_logs_aggregate!
-
-  """
-  fetch data from the table: "youtube_channel_thumbnail_logs" using primary key columns
-  """
-  youtube_channel_thumbnail_logs_by_pk(id: uuid!): youtube_channel_thumbnail_logs
 
   """
   fetch data from the table: "youtube_channel_thumbnail_objects"
@@ -658,6 +658,61 @@ type subscription_root {
   ): [youtube_channel_detail_logs!]!
 
   """An array relationship"""
+  youtube_channel_detail_thumbnails(
+    """distinct select on columns"""
+    distinct_on: [youtube_channel_detail_thumbnails_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [youtube_channel_detail_thumbnails_order_by!]
+
+    """filter the rows returned"""
+    where: youtube_channel_detail_thumbnails_bool_exp
+  ): [youtube_channel_detail_thumbnails!]!
+
+  """An aggregate relationship"""
+  youtube_channel_detail_thumbnails_aggregate(
+    """distinct select on columns"""
+    distinct_on: [youtube_channel_detail_thumbnails_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [youtube_channel_detail_thumbnails_order_by!]
+
+    """filter the rows returned"""
+    where: youtube_channel_detail_thumbnails_bool_exp
+  ): youtube_channel_detail_thumbnails_aggregate!
+
+  """
+  fetch data from the table: "youtube_channel_detail_thumbnails" using primary key columns
+  """
+  youtube_channel_detail_thumbnails_by_pk(id: uuid!): youtube_channel_detail_thumbnails
+
+  """
+  fetch data from the table in a streaming manner: "youtube_channel_detail_thumbnails"
+  """
+  youtube_channel_detail_thumbnails_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [youtube_channel_detail_thumbnails_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: youtube_channel_detail_thumbnails_bool_exp
+  ): [youtube_channel_detail_thumbnails!]!
+
+  """An array relationship"""
   youtube_channel_details(
     """distinct select on columns"""
     distinct_on: [youtube_channel_details_select_column!]
@@ -711,61 +766,6 @@ type subscription_root {
     """filter the rows returned"""
     where: youtube_channel_details_bool_exp
   ): [youtube_channel_details!]!
-
-  """An array relationship"""
-  youtube_channel_thumbnail_logs(
-    """distinct select on columns"""
-    distinct_on: [youtube_channel_thumbnail_logs_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [youtube_channel_thumbnail_logs_order_by!]
-
-    """filter the rows returned"""
-    where: youtube_channel_thumbnail_logs_bool_exp
-  ): [youtube_channel_thumbnail_logs!]!
-
-  """An aggregate relationship"""
-  youtube_channel_thumbnail_logs_aggregate(
-    """distinct select on columns"""
-    distinct_on: [youtube_channel_thumbnail_logs_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [youtube_channel_thumbnail_logs_order_by!]
-
-    """filter the rows returned"""
-    where: youtube_channel_thumbnail_logs_bool_exp
-  ): youtube_channel_thumbnail_logs_aggregate!
-
-  """
-  fetch data from the table: "youtube_channel_thumbnail_logs" using primary key columns
-  """
-  youtube_channel_thumbnail_logs_by_pk(id: uuid!): youtube_channel_thumbnail_logs
-
-  """
-  fetch data from the table in a streaming manner: "youtube_channel_thumbnail_logs"
-  """
-  youtube_channel_thumbnail_logs_stream(
-    """maximum number of rows returned in a single batch"""
-    batch_size: Int!
-
-    """cursor to stream the results returned by the query"""
-    cursor: [youtube_channel_thumbnail_logs_stream_cursor_input]!
-
-    """filter the rows returned"""
-    where: youtube_channel_thumbnail_logs_bool_exp
-  ): [youtube_channel_thumbnail_logs!]!
 
   """
   fetch data from the table: "youtube_channel_thumbnail_objects"
@@ -1191,6 +1191,232 @@ enum youtube_channel_detail_logs_update_column {
 }
 
 """
+columns and relationships of "youtube_channel_detail_thumbnails"
+"""
+type youtube_channel_detail_thumbnails {
+  created_at: timestamptz!
+  id: uuid!
+  updated_at: timestamptz!
+
+  """An object relationship"""
+  youtube_channel_detail: youtube_channel_details!
+  youtube_channel_detail_id: uuid!
+
+  """An object relationship"""
+  youtube_channel_thumbnail: youtube_channel_thumbnails!
+  youtube_channel_thumbnail_id: uuid!
+}
+
+"""
+aggregated selection of "youtube_channel_detail_thumbnails"
+"""
+type youtube_channel_detail_thumbnails_aggregate {
+  aggregate: youtube_channel_detail_thumbnails_aggregate_fields
+  nodes: [youtube_channel_detail_thumbnails!]!
+}
+
+input youtube_channel_detail_thumbnails_aggregate_bool_exp {
+  count: youtube_channel_detail_thumbnails_aggregate_bool_exp_count
+}
+
+input youtube_channel_detail_thumbnails_aggregate_bool_exp_count {
+  arguments: [youtube_channel_detail_thumbnails_select_column!]
+  distinct: Boolean
+  filter: youtube_channel_detail_thumbnails_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "youtube_channel_detail_thumbnails"
+"""
+type youtube_channel_detail_thumbnails_aggregate_fields {
+  count(columns: [youtube_channel_detail_thumbnails_select_column!], distinct: Boolean): Int!
+  max: youtube_channel_detail_thumbnails_max_fields
+  min: youtube_channel_detail_thumbnails_min_fields
+}
+
+"""
+order by aggregate values of table "youtube_channel_detail_thumbnails"
+"""
+input youtube_channel_detail_thumbnails_aggregate_order_by {
+  count: order_by
+  max: youtube_channel_detail_thumbnails_max_order_by
+  min: youtube_channel_detail_thumbnails_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "youtube_channel_detail_thumbnails"
+"""
+input youtube_channel_detail_thumbnails_arr_rel_insert_input {
+  data: [youtube_channel_detail_thumbnails_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: youtube_channel_detail_thumbnails_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "youtube_channel_detail_thumbnails". All fields are combined with a logical 'AND'.
+"""
+input youtube_channel_detail_thumbnails_bool_exp {
+  _and: [youtube_channel_detail_thumbnails_bool_exp!]
+  _not: youtube_channel_detail_thumbnails_bool_exp
+  _or: [youtube_channel_detail_thumbnails_bool_exp!]
+  created_at: timestamptz_comparison_exp
+  id: uuid_comparison_exp
+  updated_at: timestamptz_comparison_exp
+  youtube_channel_detail: youtube_channel_details_bool_exp
+  youtube_channel_detail_id: uuid_comparison_exp
+  youtube_channel_thumbnail: youtube_channel_thumbnails_bool_exp
+  youtube_channel_thumbnail_id: uuid_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "youtube_channel_detail_thumbnails"
+"""
+enum youtube_channel_detail_thumbnails_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  youtube_channel_detail_thumbnails_pkey
+
+  """
+  unique or primary key constraint on columns "youtube_channel_thumbnail_id", "youtube_channel_detail_id"
+  """
+  youtube_channel_detail_thumbnails_youtube_channel_detail_id_you
+}
+
+"""
+input type for inserting data into table "youtube_channel_detail_thumbnails"
+"""
+input youtube_channel_detail_thumbnails_insert_input {
+  youtube_channel_detail: youtube_channel_details_obj_rel_insert_input
+  youtube_channel_detail_id: uuid
+  youtube_channel_thumbnail: youtube_channel_thumbnails_obj_rel_insert_input
+  youtube_channel_thumbnail_id: uuid
+}
+
+"""aggregate max on columns"""
+type youtube_channel_detail_thumbnails_max_fields {
+  created_at: timestamptz
+  id: uuid
+  updated_at: timestamptz
+  youtube_channel_detail_id: uuid
+  youtube_channel_thumbnail_id: uuid
+}
+
+"""
+order by max() on columns of table "youtube_channel_detail_thumbnails"
+"""
+input youtube_channel_detail_thumbnails_max_order_by {
+  created_at: order_by
+  id: order_by
+  updated_at: order_by
+  youtube_channel_detail_id: order_by
+  youtube_channel_thumbnail_id: order_by
+}
+
+"""aggregate min on columns"""
+type youtube_channel_detail_thumbnails_min_fields {
+  created_at: timestamptz
+  id: uuid
+  updated_at: timestamptz
+  youtube_channel_detail_id: uuid
+  youtube_channel_thumbnail_id: uuid
+}
+
+"""
+order by min() on columns of table "youtube_channel_detail_thumbnails"
+"""
+input youtube_channel_detail_thumbnails_min_order_by {
+  created_at: order_by
+  id: order_by
+  updated_at: order_by
+  youtube_channel_detail_id: order_by
+  youtube_channel_thumbnail_id: order_by
+}
+
+"""
+response of any mutation on the table "youtube_channel_detail_thumbnails"
+"""
+type youtube_channel_detail_thumbnails_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [youtube_channel_detail_thumbnails!]!
+}
+
+"""
+on_conflict condition type for table "youtube_channel_detail_thumbnails"
+"""
+input youtube_channel_detail_thumbnails_on_conflict {
+  constraint: youtube_channel_detail_thumbnails_constraint!
+  update_columns: [youtube_channel_detail_thumbnails_update_column!]! = []
+  where: youtube_channel_detail_thumbnails_bool_exp
+}
+
+"""
+Ordering options when selecting data from "youtube_channel_detail_thumbnails".
+"""
+input youtube_channel_detail_thumbnails_order_by {
+  created_at: order_by
+  id: order_by
+  updated_at: order_by
+  youtube_channel_detail: youtube_channel_details_order_by
+  youtube_channel_detail_id: order_by
+  youtube_channel_thumbnail: youtube_channel_thumbnails_order_by
+  youtube_channel_thumbnail_id: order_by
+}
+
+"""
+select columns of table "youtube_channel_detail_thumbnails"
+"""
+enum youtube_channel_detail_thumbnails_select_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  id
+
+  """column name"""
+  updated_at
+
+  """column name"""
+  youtube_channel_detail_id
+
+  """column name"""
+  youtube_channel_thumbnail_id
+}
+
+"""
+Streaming cursor of the table "youtube_channel_detail_thumbnails"
+"""
+input youtube_channel_detail_thumbnails_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: youtube_channel_detail_thumbnails_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input youtube_channel_detail_thumbnails_stream_cursor_value_input {
+  created_at: timestamptz
+  id: uuid
+  updated_at: timestamptz
+  youtube_channel_detail_id: uuid
+  youtube_channel_thumbnail_id: uuid
+}
+
+"""
+placeholder for update columns of table "youtube_channel_detail_thumbnails" (current role has no relevant permissions)
+"""
+enum youtube_channel_detail_thumbnails_update_column {
+  """placeholder (do not use)"""
+  _PLACEHOLDER
+}
+
+"""
 columns and relationships of "youtube_channel_details"
 """
 type youtube_channel_details {
@@ -1241,6 +1467,42 @@ type youtube_channel_details {
     """filter the rows returned"""
     where: youtube_channel_detail_logs_bool_exp
   ): youtube_channel_detail_logs_aggregate!
+
+  """An array relationship"""
+  youtube_channel_detail_thumbnails(
+    """distinct select on columns"""
+    distinct_on: [youtube_channel_detail_thumbnails_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [youtube_channel_detail_thumbnails_order_by!]
+
+    """filter the rows returned"""
+    where: youtube_channel_detail_thumbnails_bool_exp
+  ): [youtube_channel_detail_thumbnails!]!
+
+  """An aggregate relationship"""
+  youtube_channel_detail_thumbnails_aggregate(
+    """distinct select on columns"""
+    distinct_on: [youtube_channel_detail_thumbnails_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [youtube_channel_detail_thumbnails_order_by!]
+
+    """filter the rows returned"""
+    where: youtube_channel_detail_thumbnails_bool_exp
+  ): youtube_channel_detail_thumbnails_aggregate!
   youtube_channel_id: uuid!
 }
 
@@ -1309,6 +1571,8 @@ input youtube_channel_details_bool_exp {
   youtube_channel: youtube_channels_bool_exp
   youtube_channel_detail_logs: youtube_channel_detail_logs_bool_exp
   youtube_channel_detail_logs_aggregate: youtube_channel_detail_logs_aggregate_bool_exp
+  youtube_channel_detail_thumbnails: youtube_channel_detail_thumbnails_bool_exp
+  youtube_channel_detail_thumbnails_aggregate: youtube_channel_detail_thumbnails_aggregate_bool_exp
   youtube_channel_id: uuid_comparison_exp
 }
 
@@ -1338,6 +1602,7 @@ input youtube_channel_details_insert_input {
   title: String
   youtube_channel: youtube_channels_obj_rel_insert_input
   youtube_channel_detail_logs: youtube_channel_detail_logs_arr_rel_insert_input
+  youtube_channel_detail_thumbnails: youtube_channel_detail_thumbnails_arr_rel_insert_input
   youtube_channel_id: uuid
 }
 
@@ -1439,6 +1704,7 @@ input youtube_channel_details_order_by {
   updated_at: order_by
   youtube_channel: youtube_channels_order_by
   youtube_channel_detail_logs_aggregate: youtube_channel_detail_logs_aggregate_order_by
+  youtube_channel_detail_thumbnails_aggregate: youtube_channel_detail_thumbnails_aggregate_order_by
   youtube_channel_id: order_by
 }
 
@@ -1524,221 +1790,6 @@ input youtube_channel_details_updates {
 
   """filter the rows which have to be updated"""
   where: youtube_channel_details_bool_exp!
-}
-
-"""
-columns and relationships of "youtube_channel_thumbnail_logs"
-"""
-type youtube_channel_thumbnail_logs {
-  created_at: timestamptz!
-  fetched_at: timestamptz!
-  id: uuid!
-  updated_at: timestamptz!
-
-  """An object relationship"""
-  youtube_channel_thumbnail: youtube_channel_thumbnails!
-  youtube_channel_thumbnail_id: uuid!
-}
-
-"""
-aggregated selection of "youtube_channel_thumbnail_logs"
-"""
-type youtube_channel_thumbnail_logs_aggregate {
-  aggregate: youtube_channel_thumbnail_logs_aggregate_fields
-  nodes: [youtube_channel_thumbnail_logs!]!
-}
-
-input youtube_channel_thumbnail_logs_aggregate_bool_exp {
-  count: youtube_channel_thumbnail_logs_aggregate_bool_exp_count
-}
-
-input youtube_channel_thumbnail_logs_aggregate_bool_exp_count {
-  arguments: [youtube_channel_thumbnail_logs_select_column!]
-  distinct: Boolean
-  filter: youtube_channel_thumbnail_logs_bool_exp
-  predicate: Int_comparison_exp!
-}
-
-"""
-aggregate fields of "youtube_channel_thumbnail_logs"
-"""
-type youtube_channel_thumbnail_logs_aggregate_fields {
-  count(columns: [youtube_channel_thumbnail_logs_select_column!], distinct: Boolean): Int!
-  max: youtube_channel_thumbnail_logs_max_fields
-  min: youtube_channel_thumbnail_logs_min_fields
-}
-
-"""
-order by aggregate values of table "youtube_channel_thumbnail_logs"
-"""
-input youtube_channel_thumbnail_logs_aggregate_order_by {
-  count: order_by
-  max: youtube_channel_thumbnail_logs_max_order_by
-  min: youtube_channel_thumbnail_logs_min_order_by
-}
-
-"""
-input type for inserting array relation for remote table "youtube_channel_thumbnail_logs"
-"""
-input youtube_channel_thumbnail_logs_arr_rel_insert_input {
-  data: [youtube_channel_thumbnail_logs_insert_input!]!
-
-  """upsert condition"""
-  on_conflict: youtube_channel_thumbnail_logs_on_conflict
-}
-
-"""
-Boolean expression to filter rows from the table "youtube_channel_thumbnail_logs". All fields are combined with a logical 'AND'.
-"""
-input youtube_channel_thumbnail_logs_bool_exp {
-  _and: [youtube_channel_thumbnail_logs_bool_exp!]
-  _not: youtube_channel_thumbnail_logs_bool_exp
-  _or: [youtube_channel_thumbnail_logs_bool_exp!]
-  created_at: timestamptz_comparison_exp
-  fetched_at: timestamptz_comparison_exp
-  id: uuid_comparison_exp
-  updated_at: timestamptz_comparison_exp
-  youtube_channel_thumbnail: youtube_channel_thumbnails_bool_exp
-  youtube_channel_thumbnail_id: uuid_comparison_exp
-}
-
-"""
-unique or primary key constraints on table "youtube_channel_thumbnail_logs"
-"""
-enum youtube_channel_thumbnail_logs_constraint {
-  """
-  unique or primary key constraint on columns "id"
-  """
-  youtube_channel_thumbnail_logs_pkey
-}
-
-"""
-input type for inserting data into table "youtube_channel_thumbnail_logs"
-"""
-input youtube_channel_thumbnail_logs_insert_input {
-  fetched_at: timestamptz
-  youtube_channel_thumbnail: youtube_channel_thumbnails_obj_rel_insert_input
-  youtube_channel_thumbnail_id: uuid
-}
-
-"""aggregate max on columns"""
-type youtube_channel_thumbnail_logs_max_fields {
-  created_at: timestamptz
-  fetched_at: timestamptz
-  id: uuid
-  updated_at: timestamptz
-  youtube_channel_thumbnail_id: uuid
-}
-
-"""
-order by max() on columns of table "youtube_channel_thumbnail_logs"
-"""
-input youtube_channel_thumbnail_logs_max_order_by {
-  created_at: order_by
-  fetched_at: order_by
-  id: order_by
-  updated_at: order_by
-  youtube_channel_thumbnail_id: order_by
-}
-
-"""aggregate min on columns"""
-type youtube_channel_thumbnail_logs_min_fields {
-  created_at: timestamptz
-  fetched_at: timestamptz
-  id: uuid
-  updated_at: timestamptz
-  youtube_channel_thumbnail_id: uuid
-}
-
-"""
-order by min() on columns of table "youtube_channel_thumbnail_logs"
-"""
-input youtube_channel_thumbnail_logs_min_order_by {
-  created_at: order_by
-  fetched_at: order_by
-  id: order_by
-  updated_at: order_by
-  youtube_channel_thumbnail_id: order_by
-}
-
-"""
-response of any mutation on the table "youtube_channel_thumbnail_logs"
-"""
-type youtube_channel_thumbnail_logs_mutation_response {
-  """number of rows affected by the mutation"""
-  affected_rows: Int!
-
-  """data from the rows affected by the mutation"""
-  returning: [youtube_channel_thumbnail_logs!]!
-}
-
-"""
-on_conflict condition type for table "youtube_channel_thumbnail_logs"
-"""
-input youtube_channel_thumbnail_logs_on_conflict {
-  constraint: youtube_channel_thumbnail_logs_constraint!
-  update_columns: [youtube_channel_thumbnail_logs_update_column!]! = []
-  where: youtube_channel_thumbnail_logs_bool_exp
-}
-
-"""
-Ordering options when selecting data from "youtube_channel_thumbnail_logs".
-"""
-input youtube_channel_thumbnail_logs_order_by {
-  created_at: order_by
-  fetched_at: order_by
-  id: order_by
-  updated_at: order_by
-  youtube_channel_thumbnail: youtube_channel_thumbnails_order_by
-  youtube_channel_thumbnail_id: order_by
-}
-
-"""
-select columns of table "youtube_channel_thumbnail_logs"
-"""
-enum youtube_channel_thumbnail_logs_select_column {
-  """column name"""
-  created_at
-
-  """column name"""
-  fetched_at
-
-  """column name"""
-  id
-
-  """column name"""
-  updated_at
-
-  """column name"""
-  youtube_channel_thumbnail_id
-}
-
-"""
-Streaming cursor of the table "youtube_channel_thumbnail_logs"
-"""
-input youtube_channel_thumbnail_logs_stream_cursor_input {
-  """Stream column input with initial value"""
-  initial_value: youtube_channel_thumbnail_logs_stream_cursor_value_input!
-
-  """cursor ordering"""
-  ordering: cursor_ordering
-}
-
-"""Initial value of the column from where the streaming should start"""
-input youtube_channel_thumbnail_logs_stream_cursor_value_input {
-  created_at: timestamptz
-  fetched_at: timestamptz
-  id: uuid
-  updated_at: timestamptz
-  youtube_channel_thumbnail_id: uuid
-}
-
-"""
-placeholder for update columns of table "youtube_channel_thumbnail_logs" (current role has no relevant permissions)
-"""
-enum youtube_channel_thumbnail_logs_update_column {
-  """placeholder (do not use)"""
-  _PLACEHOLDER
 }
 
 """
@@ -2022,12 +2073,11 @@ type youtube_channel_thumbnails {
 
   """An object relationship"""
   youtube_channel: youtube_channels!
-  youtube_channel_id: uuid!
 
   """An array relationship"""
-  youtube_channel_thumbnail_logs(
+  youtube_channel_detail_thumbnails(
     """distinct select on columns"""
-    distinct_on: [youtube_channel_thumbnail_logs_select_column!]
+    distinct_on: [youtube_channel_detail_thumbnails_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -2036,16 +2086,16 @@ type youtube_channel_thumbnails {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [youtube_channel_thumbnail_logs_order_by!]
+    order_by: [youtube_channel_detail_thumbnails_order_by!]
 
     """filter the rows returned"""
-    where: youtube_channel_thumbnail_logs_bool_exp
-  ): [youtube_channel_thumbnail_logs!]!
+    where: youtube_channel_detail_thumbnails_bool_exp
+  ): [youtube_channel_detail_thumbnails!]!
 
   """An aggregate relationship"""
-  youtube_channel_thumbnail_logs_aggregate(
+  youtube_channel_detail_thumbnails_aggregate(
     """distinct select on columns"""
-    distinct_on: [youtube_channel_thumbnail_logs_select_column!]
+    distinct_on: [youtube_channel_detail_thumbnails_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -2054,11 +2104,12 @@ type youtube_channel_thumbnails {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [youtube_channel_thumbnail_logs_order_by!]
+    order_by: [youtube_channel_detail_thumbnails_order_by!]
 
     """filter the rows returned"""
-    where: youtube_channel_thumbnail_logs_bool_exp
-  ): youtube_channel_thumbnail_logs_aggregate!
+    where: youtube_channel_detail_thumbnails_bool_exp
+  ): youtube_channel_detail_thumbnails_aggregate!
+  youtube_channel_id: uuid!
 
   """An object relationship"""
   youtube_channel_thumbnail_object: youtube_channel_thumbnail_objects
@@ -2157,9 +2208,9 @@ input youtube_channel_thumbnails_bool_exp {
   url: String_comparison_exp
   width: Int_comparison_exp
   youtube_channel: youtube_channels_bool_exp
+  youtube_channel_detail_thumbnails: youtube_channel_detail_thumbnails_bool_exp
+  youtube_channel_detail_thumbnails_aggregate: youtube_channel_detail_thumbnails_aggregate_bool_exp
   youtube_channel_id: uuid_comparison_exp
-  youtube_channel_thumbnail_logs: youtube_channel_thumbnail_logs_bool_exp
-  youtube_channel_thumbnail_logs_aggregate: youtube_channel_thumbnail_logs_aggregate_bool_exp
   youtube_channel_thumbnail_object: youtube_channel_thumbnail_objects_bool_exp
 }
 
@@ -2188,8 +2239,8 @@ input youtube_channel_thumbnails_insert_input {
   url: String
   width: Int
   youtube_channel: youtube_channels_obj_rel_insert_input
+  youtube_channel_detail_thumbnails: youtube_channel_detail_thumbnails_arr_rel_insert_input
   youtube_channel_id: uuid
-  youtube_channel_thumbnail_logs: youtube_channel_thumbnail_logs_arr_rel_insert_input
   youtube_channel_thumbnail_object: youtube_channel_thumbnail_objects_obj_rel_insert_input
 }
 
@@ -2292,8 +2343,8 @@ input youtube_channel_thumbnails_order_by {
   url: order_by
   width: order_by
   youtube_channel: youtube_channels_order_by
+  youtube_channel_detail_thumbnails_aggregate: youtube_channel_detail_thumbnails_aggregate_order_by
   youtube_channel_id: order_by
-  youtube_channel_thumbnail_logs_aggregate: youtube_channel_thumbnail_logs_aggregate_order_by
   youtube_channel_thumbnail_object: youtube_channel_thumbnail_objects_order_by
 }
 

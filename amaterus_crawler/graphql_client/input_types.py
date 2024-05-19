@@ -12,12 +12,12 @@ from .enums import (
     youtube_channel_detail_logs_constraint,
     youtube_channel_detail_logs_select_column,
     youtube_channel_detail_logs_update_column,
+    youtube_channel_detail_thumbnails_constraint,
+    youtube_channel_detail_thumbnails_select_column,
+    youtube_channel_detail_thumbnails_update_column,
     youtube_channel_details_constraint,
     youtube_channel_details_select_column,
     youtube_channel_details_update_column,
-    youtube_channel_thumbnail_logs_constraint,
-    youtube_channel_thumbnail_logs_select_column,
-    youtube_channel_thumbnail_logs_update_column,
     youtube_channel_thumbnail_objects_constraint,
     youtube_channel_thumbnail_objects_update_column,
     youtube_channel_thumbnails_constraint,
@@ -192,6 +192,105 @@ class youtube_channel_detail_logs_stream_cursor_value_input(BaseModel):
     youtube_channel_detail_id: Optional[Any] = None
 
 
+class youtube_channel_detail_thumbnails_aggregate_bool_exp(BaseModel):
+    count: Optional["youtube_channel_detail_thumbnails_aggregate_bool_exp_count"] = None
+
+
+class youtube_channel_detail_thumbnails_aggregate_bool_exp_count(BaseModel):
+    arguments: Optional[List[youtube_channel_detail_thumbnails_select_column]] = None
+    distinct: Optional[bool] = None
+    filter: Optional["youtube_channel_detail_thumbnails_bool_exp"] = None
+    predicate: "Int_comparison_exp"
+
+
+class youtube_channel_detail_thumbnails_aggregate_order_by(BaseModel):
+    count: Optional[order_by] = None
+    max: Optional["youtube_channel_detail_thumbnails_max_order_by"] = None
+    min: Optional["youtube_channel_detail_thumbnails_min_order_by"] = None
+
+
+class youtube_channel_detail_thumbnails_arr_rel_insert_input(BaseModel):
+    data: List["youtube_channel_detail_thumbnails_insert_input"]
+    on_conflict: Optional["youtube_channel_detail_thumbnails_on_conflict"] = None
+
+
+class youtube_channel_detail_thumbnails_bool_exp(BaseModel):
+    and_: Optional[List["youtube_channel_detail_thumbnails_bool_exp"]] = Field(
+        alias="_and", default=None
+    )
+    not_: Optional["youtube_channel_detail_thumbnails_bool_exp"] = Field(
+        alias="_not", default=None
+    )
+    or_: Optional[List["youtube_channel_detail_thumbnails_bool_exp"]] = Field(
+        alias="_or", default=None
+    )
+    created_at: Optional["timestamptz_comparison_exp"] = None
+    id: Optional["uuid_comparison_exp"] = None
+    updated_at: Optional["timestamptz_comparison_exp"] = None
+    youtube_channel_detail: Optional["youtube_channel_details_bool_exp"] = None
+    youtube_channel_detail_id: Optional["uuid_comparison_exp"] = None
+    youtube_channel_thumbnail: Optional["youtube_channel_thumbnails_bool_exp"] = None
+    youtube_channel_thumbnail_id: Optional["uuid_comparison_exp"] = None
+
+
+class youtube_channel_detail_thumbnails_insert_input(BaseModel):
+    youtube_channel_detail: Optional["youtube_channel_details_obj_rel_insert_input"] = (
+        None
+    )
+    youtube_channel_detail_id: Optional[Any] = None
+    youtube_channel_thumbnail: Optional[
+        "youtube_channel_thumbnails_obj_rel_insert_input"
+    ] = None
+    youtube_channel_thumbnail_id: Optional[Any] = None
+
+
+class youtube_channel_detail_thumbnails_max_order_by(BaseModel):
+    created_at: Optional[order_by] = None
+    id: Optional[order_by] = None
+    updated_at: Optional[order_by] = None
+    youtube_channel_detail_id: Optional[order_by] = None
+    youtube_channel_thumbnail_id: Optional[order_by] = None
+
+
+class youtube_channel_detail_thumbnails_min_order_by(BaseModel):
+    created_at: Optional[order_by] = None
+    id: Optional[order_by] = None
+    updated_at: Optional[order_by] = None
+    youtube_channel_detail_id: Optional[order_by] = None
+    youtube_channel_thumbnail_id: Optional[order_by] = None
+
+
+class youtube_channel_detail_thumbnails_on_conflict(BaseModel):
+    constraint: youtube_channel_detail_thumbnails_constraint
+    update_columns: List[youtube_channel_detail_thumbnails_update_column] = Field(
+        default_factory=lambda: []
+    )
+    where: Optional["youtube_channel_detail_thumbnails_bool_exp"] = None
+
+
+class youtube_channel_detail_thumbnails_order_by(BaseModel):
+    created_at: Optional[order_by] = None
+    id: Optional[order_by] = None
+    updated_at: Optional[order_by] = None
+    youtube_channel_detail: Optional["youtube_channel_details_order_by"] = None
+    youtube_channel_detail_id: Optional[order_by] = None
+    youtube_channel_thumbnail: Optional["youtube_channel_thumbnails_order_by"] = None
+    youtube_channel_thumbnail_id: Optional[order_by] = None
+
+
+class youtube_channel_detail_thumbnails_stream_cursor_input(BaseModel):
+    initial_value: "youtube_channel_detail_thumbnails_stream_cursor_value_input"
+    ordering: Optional[cursor_ordering] = None
+
+
+class youtube_channel_detail_thumbnails_stream_cursor_value_input(BaseModel):
+    created_at: Optional[Any] = None
+    id: Optional[Any] = None
+    updated_at: Optional[Any] = None
+    youtube_channel_detail_id: Optional[Any] = None
+    youtube_channel_thumbnail_id: Optional[Any] = None
+
+
 class youtube_channel_details_aggregate_bool_exp(BaseModel):
     count: Optional["youtube_channel_details_aggregate_bool_exp_count"] = None
 
@@ -237,6 +336,12 @@ class youtube_channel_details_bool_exp(BaseModel):
     youtube_channel_detail_logs_aggregate: Optional[
         "youtube_channel_detail_logs_aggregate_bool_exp"
     ] = None
+    youtube_channel_detail_thumbnails: Optional[
+        "youtube_channel_detail_thumbnails_bool_exp"
+    ] = None
+    youtube_channel_detail_thumbnails_aggregate: Optional[
+        "youtube_channel_detail_thumbnails_aggregate_bool_exp"
+    ] = None
     youtube_channel_id: Optional["uuid_comparison_exp"] = None
 
 
@@ -249,6 +354,9 @@ class youtube_channel_details_insert_input(BaseModel):
     youtube_channel: Optional["youtube_channels_obj_rel_insert_input"] = None
     youtube_channel_detail_logs: Optional[
         "youtube_channel_detail_logs_arr_rel_insert_input"
+    ] = None
+    youtube_channel_detail_thumbnails: Optional[
+        "youtube_channel_detail_thumbnails_arr_rel_insert_input"
     ] = None
     youtube_channel_id: Optional[Any] = None
 
@@ -303,6 +411,9 @@ class youtube_channel_details_order_by(BaseModel):
     youtube_channel_detail_logs_aggregate: Optional[
         "youtube_channel_detail_logs_aggregate_order_by"
     ] = None
+    youtube_channel_detail_thumbnails_aggregate: Optional[
+        "youtube_channel_detail_thumbnails_aggregate_order_by"
+    ] = None
     youtube_channel_id: Optional[order_by] = None
 
 
@@ -336,100 +447,6 @@ class youtube_channel_details_updates(BaseModel):
         alias="_set", default=None
     )
     where: "youtube_channel_details_bool_exp"
-
-
-class youtube_channel_thumbnail_logs_aggregate_bool_exp(BaseModel):
-    count: Optional["youtube_channel_thumbnail_logs_aggregate_bool_exp_count"] = None
-
-
-class youtube_channel_thumbnail_logs_aggregate_bool_exp_count(BaseModel):
-    arguments: Optional[List[youtube_channel_thumbnail_logs_select_column]] = None
-    distinct: Optional[bool] = None
-    filter: Optional["youtube_channel_thumbnail_logs_bool_exp"] = None
-    predicate: "Int_comparison_exp"
-
-
-class youtube_channel_thumbnail_logs_aggregate_order_by(BaseModel):
-    count: Optional[order_by] = None
-    max: Optional["youtube_channel_thumbnail_logs_max_order_by"] = None
-    min: Optional["youtube_channel_thumbnail_logs_min_order_by"] = None
-
-
-class youtube_channel_thumbnail_logs_arr_rel_insert_input(BaseModel):
-    data: List["youtube_channel_thumbnail_logs_insert_input"]
-    on_conflict: Optional["youtube_channel_thumbnail_logs_on_conflict"] = None
-
-
-class youtube_channel_thumbnail_logs_bool_exp(BaseModel):
-    and_: Optional[List["youtube_channel_thumbnail_logs_bool_exp"]] = Field(
-        alias="_and", default=None
-    )
-    not_: Optional["youtube_channel_thumbnail_logs_bool_exp"] = Field(
-        alias="_not", default=None
-    )
-    or_: Optional[List["youtube_channel_thumbnail_logs_bool_exp"]] = Field(
-        alias="_or", default=None
-    )
-    created_at: Optional["timestamptz_comparison_exp"] = None
-    fetched_at: Optional["timestamptz_comparison_exp"] = None
-    id: Optional["uuid_comparison_exp"] = None
-    updated_at: Optional["timestamptz_comparison_exp"] = None
-    youtube_channel_thumbnail: Optional["youtube_channel_thumbnails_bool_exp"] = None
-    youtube_channel_thumbnail_id: Optional["uuid_comparison_exp"] = None
-
-
-class youtube_channel_thumbnail_logs_insert_input(BaseModel):
-    fetched_at: Optional[Any] = None
-    youtube_channel_thumbnail: Optional[
-        "youtube_channel_thumbnails_obj_rel_insert_input"
-    ] = None
-    youtube_channel_thumbnail_id: Optional[Any] = None
-
-
-class youtube_channel_thumbnail_logs_max_order_by(BaseModel):
-    created_at: Optional[order_by] = None
-    fetched_at: Optional[order_by] = None
-    id: Optional[order_by] = None
-    updated_at: Optional[order_by] = None
-    youtube_channel_thumbnail_id: Optional[order_by] = None
-
-
-class youtube_channel_thumbnail_logs_min_order_by(BaseModel):
-    created_at: Optional[order_by] = None
-    fetched_at: Optional[order_by] = None
-    id: Optional[order_by] = None
-    updated_at: Optional[order_by] = None
-    youtube_channel_thumbnail_id: Optional[order_by] = None
-
-
-class youtube_channel_thumbnail_logs_on_conflict(BaseModel):
-    constraint: youtube_channel_thumbnail_logs_constraint
-    update_columns: List[youtube_channel_thumbnail_logs_update_column] = Field(
-        default_factory=lambda: []
-    )
-    where: Optional["youtube_channel_thumbnail_logs_bool_exp"] = None
-
-
-class youtube_channel_thumbnail_logs_order_by(BaseModel):
-    created_at: Optional[order_by] = None
-    fetched_at: Optional[order_by] = None
-    id: Optional[order_by] = None
-    updated_at: Optional[order_by] = None
-    youtube_channel_thumbnail: Optional["youtube_channel_thumbnails_order_by"] = None
-    youtube_channel_thumbnail_id: Optional[order_by] = None
-
-
-class youtube_channel_thumbnail_logs_stream_cursor_input(BaseModel):
-    initial_value: "youtube_channel_thumbnail_logs_stream_cursor_value_input"
-    ordering: Optional[cursor_ordering] = None
-
-
-class youtube_channel_thumbnail_logs_stream_cursor_value_input(BaseModel):
-    created_at: Optional[Any] = None
-    fetched_at: Optional[Any] = None
-    id: Optional[Any] = None
-    updated_at: Optional[Any] = None
-    youtube_channel_thumbnail_id: Optional[Any] = None
 
 
 class youtube_channel_thumbnail_objects_bool_exp(BaseModel):
@@ -565,13 +582,13 @@ class youtube_channel_thumbnails_bool_exp(BaseModel):
     url: Optional["String_comparison_exp"] = None
     width: Optional["Int_comparison_exp"] = None
     youtube_channel: Optional["youtube_channels_bool_exp"] = None
+    youtube_channel_detail_thumbnails: Optional[
+        "youtube_channel_detail_thumbnails_bool_exp"
+    ] = None
+    youtube_channel_detail_thumbnails_aggregate: Optional[
+        "youtube_channel_detail_thumbnails_aggregate_bool_exp"
+    ] = None
     youtube_channel_id: Optional["uuid_comparison_exp"] = None
-    youtube_channel_thumbnail_logs: Optional[
-        "youtube_channel_thumbnail_logs_bool_exp"
-    ] = None
-    youtube_channel_thumbnail_logs_aggregate: Optional[
-        "youtube_channel_thumbnail_logs_aggregate_bool_exp"
-    ] = None
     youtube_channel_thumbnail_object: Optional[
         "youtube_channel_thumbnail_objects_bool_exp"
     ] = None
@@ -584,10 +601,10 @@ class youtube_channel_thumbnails_insert_input(BaseModel):
     url: Optional[str] = None
     width: Optional[int] = None
     youtube_channel: Optional["youtube_channels_obj_rel_insert_input"] = None
-    youtube_channel_id: Optional[Any] = None
-    youtube_channel_thumbnail_logs: Optional[
-        "youtube_channel_thumbnail_logs_arr_rel_insert_input"
+    youtube_channel_detail_thumbnails: Optional[
+        "youtube_channel_detail_thumbnails_arr_rel_insert_input"
     ] = None
+    youtube_channel_id: Optional[Any] = None
     youtube_channel_thumbnail_object: Optional[
         "youtube_channel_thumbnail_objects_obj_rel_insert_input"
     ] = None
@@ -640,10 +657,10 @@ class youtube_channel_thumbnails_order_by(BaseModel):
     url: Optional[order_by] = None
     width: Optional[order_by] = None
     youtube_channel: Optional["youtube_channels_order_by"] = None
-    youtube_channel_id: Optional[order_by] = None
-    youtube_channel_thumbnail_logs_aggregate: Optional[
-        "youtube_channel_thumbnail_logs_aggregate_order_by"
+    youtube_channel_detail_thumbnails_aggregate: Optional[
+        "youtube_channel_detail_thumbnails_aggregate_order_by"
     ] = None
+    youtube_channel_id: Optional[order_by] = None
     youtube_channel_thumbnail_object: Optional[
         "youtube_channel_thumbnail_objects_order_by"
     ] = None
