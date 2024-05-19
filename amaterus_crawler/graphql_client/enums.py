@@ -162,10 +162,8 @@ class youtube_video_detail_logs_update_column(str, Enum):
 
 
 class youtube_video_details_constraint(str, Enum):
-    youtube_video_details_actual_end_time_remote_youtube_channel_id = (
-        "youtube_video_details_actual_end_time_remote_youtube_channel_id"
-    )
     youtube_video_details_pkey = "youtube_video_details_pkey"
+    youtube_video_details_values_key = "youtube_video_details_values_key"
 
 
 class youtube_video_details_select_column(str, Enum):

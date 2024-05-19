@@ -120,7 +120,7 @@ class Client(AsyncBaseClient):
             mutation CreateYoutubeVideoDetails($objects: [youtube_video_details_insert_input!]!) {
               insert_youtube_video_details(
                 objects: $objects
-                on_conflict: {constraint: youtube_video_details_actual_end_time_remote_youtube_channel_id, update_columns: [last_fetched_at]}
+                on_conflict: {constraint: youtube_video_details_values_key, update_columns: [last_fetched_at]}
               ) {
                 affected_rows
               }

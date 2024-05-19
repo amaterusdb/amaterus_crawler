@@ -4,7 +4,7 @@ mutation CreateYoutubeVideoDetails(
   insert_youtube_video_details(
     objects: $objects
     on_conflict: {
-      constraint: youtube_video_details_actual_end_time_remote_youtube_channel_id
+      constraint: youtube_video_details_values_key
       update_columns: [
         last_fetched_at
       ]

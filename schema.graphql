@@ -3650,14 +3650,14 @@ unique or primary key constraints on table "youtube_video_details"
 """
 enum youtube_video_details_constraint {
   """
-  unique or primary key constraint on columns "upload_status", "published_at", "has_live_streaming_details", "actual_end_time", "scheduled_end_time", "scheduled_start_time", "description", "live_broadcast_content", "remote_youtube_channel_id", "title", "privacy_status", "remote_youtube_video_id", "actual_start_time"
-  """
-  youtube_video_details_actual_end_time_remote_youtube_channel_id
-
-  """
   unique or primary key constraint on columns "id"
   """
   youtube_video_details_pkey
+
+  """
+  unique or primary key constraint on columns "upload_status", "published_at", "has_live_streaming_details", "actual_end_time", "scheduled_end_time", "scheduled_start_time", "description", "live_broadcast_content", "remote_youtube_channel_id", "title", "privacy_status", "remote_youtube_video_id", "actual_start_time"
+  """
+  youtube_video_details_values_key
 }
 
 """
