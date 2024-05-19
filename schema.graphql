@@ -262,6 +262,28 @@ type mutation_root {
   ): youtube_video_detail_logs
 
   """
+  insert data into the table: "youtube_video_detail_thumbnails"
+  """
+  insert_youtube_video_detail_thumbnails(
+    """the rows to be inserted"""
+    objects: [youtube_video_detail_thumbnails_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: youtube_video_detail_thumbnails_on_conflict
+  ): youtube_video_detail_thumbnails_mutation_response
+
+  """
+  insert a single row into the table: "youtube_video_detail_thumbnails"
+  """
+  insert_youtube_video_detail_thumbnails_one(
+    """the row to be inserted"""
+    object: youtube_video_detail_thumbnails_insert_input!
+
+    """upsert condition"""
+    on_conflict: youtube_video_detail_thumbnails_on_conflict
+  ): youtube_video_detail_thumbnails
+
+  """
   insert data into the table: "youtube_video_details"
   """
   insert_youtube_video_details(
@@ -282,6 +304,28 @@ type mutation_root {
     """upsert condition"""
     on_conflict: youtube_video_details_on_conflict
   ): youtube_video_details
+
+  """
+  insert data into the table: "youtube_video_thumbnails"
+  """
+  insert_youtube_video_thumbnails(
+    """the rows to be inserted"""
+    objects: [youtube_video_thumbnails_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: youtube_video_thumbnails_on_conflict
+  ): youtube_video_thumbnails_mutation_response
+
+  """
+  insert a single row into the table: "youtube_video_thumbnails"
+  """
+  insert_youtube_video_thumbnails_one(
+    """the row to be inserted"""
+    object: youtube_video_thumbnails_insert_input!
+
+    """upsert condition"""
+    on_conflict: youtube_video_thumbnails_on_conflict
+  ): youtube_video_thumbnails
 
   """
   insert data into the table: "youtube_videos"
@@ -416,6 +460,34 @@ type mutation_root {
     """updates to execute, in order"""
     updates: [youtube_video_details_updates!]!
   ): [youtube_video_details_mutation_response]
+
+  """
+  update data of the table: "youtube_video_thumbnails"
+  """
+  update_youtube_video_thumbnails(
+    """sets the columns of the filtered rows to the given values"""
+    _set: youtube_video_thumbnails_set_input
+
+    """filter the rows which have to be updated"""
+    where: youtube_video_thumbnails_bool_exp!
+  ): youtube_video_thumbnails_mutation_response
+
+  """
+  update single row of the table: "youtube_video_thumbnails"
+  """
+  update_youtube_video_thumbnails_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: youtube_video_thumbnails_set_input
+    pk_columns: youtube_video_thumbnails_pk_columns_input!
+  ): youtube_video_thumbnails
+
+  """
+  update multiples rows of table: "youtube_video_thumbnails"
+  """
+  update_youtube_video_thumbnails_many(
+    """updates to execute, in order"""
+    updates: [youtube_video_thumbnails_updates!]!
+  ): [youtube_video_thumbnails_mutation_response]
 
   """
   update data of the table: "youtube_videos"
@@ -764,6 +836,47 @@ type query_root {
   youtube_video_detail_logs_by_pk(id: uuid!): youtube_video_detail_logs
 
   """An array relationship"""
+  youtube_video_detail_thumbnails(
+    """distinct select on columns"""
+    distinct_on: [youtube_video_detail_thumbnails_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [youtube_video_detail_thumbnails_order_by!]
+
+    """filter the rows returned"""
+    where: youtube_video_detail_thumbnails_bool_exp
+  ): [youtube_video_detail_thumbnails!]!
+
+  """An aggregate relationship"""
+  youtube_video_detail_thumbnails_aggregate(
+    """distinct select on columns"""
+    distinct_on: [youtube_video_detail_thumbnails_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [youtube_video_detail_thumbnails_order_by!]
+
+    """filter the rows returned"""
+    where: youtube_video_detail_thumbnails_bool_exp
+  ): youtube_video_detail_thumbnails_aggregate!
+
+  """
+  fetch data from the table: "youtube_video_detail_thumbnails" using primary key columns
+  """
+  youtube_video_detail_thumbnails_by_pk(id: uuid!): youtube_video_detail_thumbnails
+
+  """An array relationship"""
   youtube_video_details(
     """distinct select on columns"""
     distinct_on: [youtube_video_details_select_column!]
@@ -803,6 +916,47 @@ type query_root {
   fetch data from the table: "youtube_video_details" using primary key columns
   """
   youtube_video_details_by_pk(id: uuid!): youtube_video_details
+
+  """An array relationship"""
+  youtube_video_thumbnails(
+    """distinct select on columns"""
+    distinct_on: [youtube_video_thumbnails_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [youtube_video_thumbnails_order_by!]
+
+    """filter the rows returned"""
+    where: youtube_video_thumbnails_bool_exp
+  ): [youtube_video_thumbnails!]!
+
+  """An aggregate relationship"""
+  youtube_video_thumbnails_aggregate(
+    """distinct select on columns"""
+    distinct_on: [youtube_video_thumbnails_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [youtube_video_thumbnails_order_by!]
+
+    """filter the rows returned"""
+    where: youtube_video_thumbnails_bool_exp
+  ): youtube_video_thumbnails_aggregate!
+
+  """
+  fetch data from the table: "youtube_video_thumbnails" using primary key columns
+  """
+  youtube_video_thumbnails_by_pk(id: uuid!): youtube_video_thumbnails
 
   """
   fetch data from the table: "youtube_videos"
@@ -1243,6 +1397,61 @@ type subscription_root {
   ): [youtube_video_detail_logs!]!
 
   """An array relationship"""
+  youtube_video_detail_thumbnails(
+    """distinct select on columns"""
+    distinct_on: [youtube_video_detail_thumbnails_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [youtube_video_detail_thumbnails_order_by!]
+
+    """filter the rows returned"""
+    where: youtube_video_detail_thumbnails_bool_exp
+  ): [youtube_video_detail_thumbnails!]!
+
+  """An aggregate relationship"""
+  youtube_video_detail_thumbnails_aggregate(
+    """distinct select on columns"""
+    distinct_on: [youtube_video_detail_thumbnails_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [youtube_video_detail_thumbnails_order_by!]
+
+    """filter the rows returned"""
+    where: youtube_video_detail_thumbnails_bool_exp
+  ): youtube_video_detail_thumbnails_aggregate!
+
+  """
+  fetch data from the table: "youtube_video_detail_thumbnails" using primary key columns
+  """
+  youtube_video_detail_thumbnails_by_pk(id: uuid!): youtube_video_detail_thumbnails
+
+  """
+  fetch data from the table in a streaming manner: "youtube_video_detail_thumbnails"
+  """
+  youtube_video_detail_thumbnails_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [youtube_video_detail_thumbnails_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: youtube_video_detail_thumbnails_bool_exp
+  ): [youtube_video_detail_thumbnails!]!
+
+  """An array relationship"""
   youtube_video_details(
     """distinct select on columns"""
     distinct_on: [youtube_video_details_select_column!]
@@ -1296,6 +1505,61 @@ type subscription_root {
     """filter the rows returned"""
     where: youtube_video_details_bool_exp
   ): [youtube_video_details!]!
+
+  """An array relationship"""
+  youtube_video_thumbnails(
+    """distinct select on columns"""
+    distinct_on: [youtube_video_thumbnails_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [youtube_video_thumbnails_order_by!]
+
+    """filter the rows returned"""
+    where: youtube_video_thumbnails_bool_exp
+  ): [youtube_video_thumbnails!]!
+
+  """An aggregate relationship"""
+  youtube_video_thumbnails_aggregate(
+    """distinct select on columns"""
+    distinct_on: [youtube_video_thumbnails_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [youtube_video_thumbnails_order_by!]
+
+    """filter the rows returned"""
+    where: youtube_video_thumbnails_bool_exp
+  ): youtube_video_thumbnails_aggregate!
+
+  """
+  fetch data from the table: "youtube_video_thumbnails" using primary key columns
+  """
+  youtube_video_thumbnails_by_pk(id: uuid!): youtube_video_thumbnails
+
+  """
+  fetch data from the table in a streaming manner: "youtube_video_thumbnails"
+  """
+  youtube_video_thumbnails_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [youtube_video_thumbnails_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: youtube_video_thumbnails_bool_exp
+  ): [youtube_video_thumbnails!]!
 
   """
   fetch data from the table: "youtube_videos"
@@ -3488,6 +3752,232 @@ enum youtube_video_detail_logs_update_column {
 }
 
 """
+columns and relationships of "youtube_video_detail_thumbnails"
+"""
+type youtube_video_detail_thumbnails {
+  created_at: timestamptz!
+  id: uuid!
+  updated_at: timestamptz!
+
+  """An object relationship"""
+  youtube_video_detail: youtube_video_details!
+  youtube_video_detail_id: uuid!
+
+  """An object relationship"""
+  youtube_video_thumbnail: youtube_video_thumbnails!
+  youtube_video_thumbnail_id: uuid!
+}
+
+"""
+aggregated selection of "youtube_video_detail_thumbnails"
+"""
+type youtube_video_detail_thumbnails_aggregate {
+  aggregate: youtube_video_detail_thumbnails_aggregate_fields
+  nodes: [youtube_video_detail_thumbnails!]!
+}
+
+input youtube_video_detail_thumbnails_aggregate_bool_exp {
+  count: youtube_video_detail_thumbnails_aggregate_bool_exp_count
+}
+
+input youtube_video_detail_thumbnails_aggregate_bool_exp_count {
+  arguments: [youtube_video_detail_thumbnails_select_column!]
+  distinct: Boolean
+  filter: youtube_video_detail_thumbnails_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "youtube_video_detail_thumbnails"
+"""
+type youtube_video_detail_thumbnails_aggregate_fields {
+  count(columns: [youtube_video_detail_thumbnails_select_column!], distinct: Boolean): Int!
+  max: youtube_video_detail_thumbnails_max_fields
+  min: youtube_video_detail_thumbnails_min_fields
+}
+
+"""
+order by aggregate values of table "youtube_video_detail_thumbnails"
+"""
+input youtube_video_detail_thumbnails_aggregate_order_by {
+  count: order_by
+  max: youtube_video_detail_thumbnails_max_order_by
+  min: youtube_video_detail_thumbnails_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "youtube_video_detail_thumbnails"
+"""
+input youtube_video_detail_thumbnails_arr_rel_insert_input {
+  data: [youtube_video_detail_thumbnails_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: youtube_video_detail_thumbnails_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "youtube_video_detail_thumbnails". All fields are combined with a logical 'AND'.
+"""
+input youtube_video_detail_thumbnails_bool_exp {
+  _and: [youtube_video_detail_thumbnails_bool_exp!]
+  _not: youtube_video_detail_thumbnails_bool_exp
+  _or: [youtube_video_detail_thumbnails_bool_exp!]
+  created_at: timestamptz_comparison_exp
+  id: uuid_comparison_exp
+  updated_at: timestamptz_comparison_exp
+  youtube_video_detail: youtube_video_details_bool_exp
+  youtube_video_detail_id: uuid_comparison_exp
+  youtube_video_thumbnail: youtube_video_thumbnails_bool_exp
+  youtube_video_thumbnail_id: uuid_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "youtube_video_detail_thumbnails"
+"""
+enum youtube_video_detail_thumbnails_constraint {
+  """
+  unique or primary key constraint on columns "youtube_video_thumbnail_id", "youtube_video_detail_id"
+  """
+  youtube_video_detail_thumbnai_youtube_video_detail_id_youtu_key
+
+  """
+  unique or primary key constraint on columns "id"
+  """
+  youtube_video_detail_thumbnails_pkey
+}
+
+"""
+input type for inserting data into table "youtube_video_detail_thumbnails"
+"""
+input youtube_video_detail_thumbnails_insert_input {
+  youtube_video_detail: youtube_video_details_obj_rel_insert_input
+  youtube_video_detail_id: uuid
+  youtube_video_thumbnail: youtube_video_thumbnails_obj_rel_insert_input
+  youtube_video_thumbnail_id: uuid
+}
+
+"""aggregate max on columns"""
+type youtube_video_detail_thumbnails_max_fields {
+  created_at: timestamptz
+  id: uuid
+  updated_at: timestamptz
+  youtube_video_detail_id: uuid
+  youtube_video_thumbnail_id: uuid
+}
+
+"""
+order by max() on columns of table "youtube_video_detail_thumbnails"
+"""
+input youtube_video_detail_thumbnails_max_order_by {
+  created_at: order_by
+  id: order_by
+  updated_at: order_by
+  youtube_video_detail_id: order_by
+  youtube_video_thumbnail_id: order_by
+}
+
+"""aggregate min on columns"""
+type youtube_video_detail_thumbnails_min_fields {
+  created_at: timestamptz
+  id: uuid
+  updated_at: timestamptz
+  youtube_video_detail_id: uuid
+  youtube_video_thumbnail_id: uuid
+}
+
+"""
+order by min() on columns of table "youtube_video_detail_thumbnails"
+"""
+input youtube_video_detail_thumbnails_min_order_by {
+  created_at: order_by
+  id: order_by
+  updated_at: order_by
+  youtube_video_detail_id: order_by
+  youtube_video_thumbnail_id: order_by
+}
+
+"""
+response of any mutation on the table "youtube_video_detail_thumbnails"
+"""
+type youtube_video_detail_thumbnails_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [youtube_video_detail_thumbnails!]!
+}
+
+"""
+on_conflict condition type for table "youtube_video_detail_thumbnails"
+"""
+input youtube_video_detail_thumbnails_on_conflict {
+  constraint: youtube_video_detail_thumbnails_constraint!
+  update_columns: [youtube_video_detail_thumbnails_update_column!]! = []
+  where: youtube_video_detail_thumbnails_bool_exp
+}
+
+"""
+Ordering options when selecting data from "youtube_video_detail_thumbnails".
+"""
+input youtube_video_detail_thumbnails_order_by {
+  created_at: order_by
+  id: order_by
+  updated_at: order_by
+  youtube_video_detail: youtube_video_details_order_by
+  youtube_video_detail_id: order_by
+  youtube_video_thumbnail: youtube_video_thumbnails_order_by
+  youtube_video_thumbnail_id: order_by
+}
+
+"""
+select columns of table "youtube_video_detail_thumbnails"
+"""
+enum youtube_video_detail_thumbnails_select_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  id
+
+  """column name"""
+  updated_at
+
+  """column name"""
+  youtube_video_detail_id
+
+  """column name"""
+  youtube_video_thumbnail_id
+}
+
+"""
+Streaming cursor of the table "youtube_video_detail_thumbnails"
+"""
+input youtube_video_detail_thumbnails_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: youtube_video_detail_thumbnails_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input youtube_video_detail_thumbnails_stream_cursor_value_input {
+  created_at: timestamptz
+  id: uuid
+  updated_at: timestamptz
+  youtube_video_detail_id: uuid
+  youtube_video_thumbnail_id: uuid
+}
+
+"""
+placeholder for update columns of table "youtube_video_detail_thumbnails" (current role has no relevant permissions)
+"""
+enum youtube_video_detail_thumbnails_update_column {
+  """placeholder (do not use)"""
+  _PLACEHOLDER
+}
+
+"""
 columns and relationships of "youtube_video_details"
 """
 type youtube_video_details {
@@ -3550,6 +4040,42 @@ type youtube_video_details {
     """filter the rows returned"""
     where: youtube_video_detail_logs_bool_exp
   ): youtube_video_detail_logs_aggregate!
+
+  """An array relationship"""
+  youtube_video_detail_thumbnails(
+    """distinct select on columns"""
+    distinct_on: [youtube_video_detail_thumbnails_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [youtube_video_detail_thumbnails_order_by!]
+
+    """filter the rows returned"""
+    where: youtube_video_detail_thumbnails_bool_exp
+  ): [youtube_video_detail_thumbnails!]!
+
+  """An aggregate relationship"""
+  youtube_video_detail_thumbnails_aggregate(
+    """distinct select on columns"""
+    distinct_on: [youtube_video_detail_thumbnails_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [youtube_video_detail_thumbnails_order_by!]
+
+    """filter the rows returned"""
+    where: youtube_video_detail_thumbnails_bool_exp
+  ): youtube_video_detail_thumbnails_aggregate!
 }
 
 """
@@ -3643,6 +4169,8 @@ input youtube_video_details_bool_exp {
   youtube_video: youtube_videos_bool_exp
   youtube_video_detail_logs: youtube_video_detail_logs_bool_exp
   youtube_video_detail_logs_aggregate: youtube_video_detail_logs_aggregate_bool_exp
+  youtube_video_detail_thumbnails: youtube_video_detail_thumbnails_bool_exp
+  youtube_video_detail_thumbnails_aggregate: youtube_video_detail_thumbnails_aggregate_bool_exp
 }
 
 """
@@ -3681,6 +4209,7 @@ input youtube_video_details_insert_input {
   youtube_channel: youtube_channels_obj_rel_insert_input
   youtube_video: youtube_videos_obj_rel_insert_input
   youtube_video_detail_logs: youtube_video_detail_logs_arr_rel_insert_input
+  youtube_video_detail_thumbnails: youtube_video_detail_thumbnails_arr_rel_insert_input
 }
 
 """aggregate max on columns"""
@@ -3819,6 +4348,7 @@ input youtube_video_details_order_by {
   youtube_channel: youtube_channels_order_by
   youtube_video: youtube_videos_order_by
   youtube_video_detail_logs_aggregate: youtube_video_detail_logs_aggregate_order_by
+  youtube_video_detail_thumbnails_aggregate: youtube_video_detail_thumbnails_aggregate_order_by
 }
 
 """primary key columns input for table: youtube_video_details"""
@@ -3954,6 +4484,470 @@ input youtube_video_details_updates {
 }
 
 """
+columns and relationships of "youtube_video_thumbnails"
+"""
+type youtube_video_thumbnails {
+  created_at: timestamptz!
+  height: Int!
+  id: uuid!
+  key: String!
+  last_fetched_at: timestamptz!
+  remote_youtube_video_id: String!
+  updated_at: timestamptz!
+  url: String!
+  width: Int!
+
+  """An object relationship"""
+  youtube_video: youtube_videos!
+
+  """An array relationship"""
+  youtube_video_detail_thumbnails(
+    """distinct select on columns"""
+    distinct_on: [youtube_video_detail_thumbnails_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [youtube_video_detail_thumbnails_order_by!]
+
+    """filter the rows returned"""
+    where: youtube_video_detail_thumbnails_bool_exp
+  ): [youtube_video_detail_thumbnails!]!
+
+  """An aggregate relationship"""
+  youtube_video_detail_thumbnails_aggregate(
+    """distinct select on columns"""
+    distinct_on: [youtube_video_detail_thumbnails_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [youtube_video_detail_thumbnails_order_by!]
+
+    """filter the rows returned"""
+    where: youtube_video_detail_thumbnails_bool_exp
+  ): youtube_video_detail_thumbnails_aggregate!
+}
+
+"""
+aggregated selection of "youtube_video_thumbnails"
+"""
+type youtube_video_thumbnails_aggregate {
+  aggregate: youtube_video_thumbnails_aggregate_fields
+  nodes: [youtube_video_thumbnails!]!
+}
+
+input youtube_video_thumbnails_aggregate_bool_exp {
+  count: youtube_video_thumbnails_aggregate_bool_exp_count
+}
+
+input youtube_video_thumbnails_aggregate_bool_exp_count {
+  arguments: [youtube_video_thumbnails_select_column!]
+  distinct: Boolean
+  filter: youtube_video_thumbnails_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "youtube_video_thumbnails"
+"""
+type youtube_video_thumbnails_aggregate_fields {
+  avg: youtube_video_thumbnails_avg_fields
+  count(columns: [youtube_video_thumbnails_select_column!], distinct: Boolean): Int!
+  max: youtube_video_thumbnails_max_fields
+  min: youtube_video_thumbnails_min_fields
+  stddev: youtube_video_thumbnails_stddev_fields
+  stddev_pop: youtube_video_thumbnails_stddev_pop_fields
+  stddev_samp: youtube_video_thumbnails_stddev_samp_fields
+  sum: youtube_video_thumbnails_sum_fields
+  var_pop: youtube_video_thumbnails_var_pop_fields
+  var_samp: youtube_video_thumbnails_var_samp_fields
+  variance: youtube_video_thumbnails_variance_fields
+}
+
+"""
+order by aggregate values of table "youtube_video_thumbnails"
+"""
+input youtube_video_thumbnails_aggregate_order_by {
+  avg: youtube_video_thumbnails_avg_order_by
+  count: order_by
+  max: youtube_video_thumbnails_max_order_by
+  min: youtube_video_thumbnails_min_order_by
+  stddev: youtube_video_thumbnails_stddev_order_by
+  stddev_pop: youtube_video_thumbnails_stddev_pop_order_by
+  stddev_samp: youtube_video_thumbnails_stddev_samp_order_by
+  sum: youtube_video_thumbnails_sum_order_by
+  var_pop: youtube_video_thumbnails_var_pop_order_by
+  var_samp: youtube_video_thumbnails_var_samp_order_by
+  variance: youtube_video_thumbnails_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "youtube_video_thumbnails"
+"""
+input youtube_video_thumbnails_arr_rel_insert_input {
+  data: [youtube_video_thumbnails_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: youtube_video_thumbnails_on_conflict
+}
+
+"""aggregate avg on columns"""
+type youtube_video_thumbnails_avg_fields {
+  height: Float
+  width: Float
+}
+
+"""
+order by avg() on columns of table "youtube_video_thumbnails"
+"""
+input youtube_video_thumbnails_avg_order_by {
+  height: order_by
+  width: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "youtube_video_thumbnails". All fields are combined with a logical 'AND'.
+"""
+input youtube_video_thumbnails_bool_exp {
+  _and: [youtube_video_thumbnails_bool_exp!]
+  _not: youtube_video_thumbnails_bool_exp
+  _or: [youtube_video_thumbnails_bool_exp!]
+  created_at: timestamptz_comparison_exp
+  height: Int_comparison_exp
+  id: uuid_comparison_exp
+  key: String_comparison_exp
+  last_fetched_at: timestamptz_comparison_exp
+  remote_youtube_video_id: String_comparison_exp
+  updated_at: timestamptz_comparison_exp
+  url: String_comparison_exp
+  width: Int_comparison_exp
+  youtube_video: youtube_videos_bool_exp
+  youtube_video_detail_thumbnails: youtube_video_detail_thumbnails_bool_exp
+  youtube_video_detail_thumbnails_aggregate: youtube_video_detail_thumbnails_aggregate_bool_exp
+}
+
+"""
+unique or primary key constraints on table "youtube_video_thumbnails"
+"""
+enum youtube_video_thumbnails_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  youtube_video_thumbnails_pkey
+
+  """
+  unique or primary key constraint on columns "key", "width", "height", "remote_youtube_video_id", "url"
+  """
+  youtube_video_thumbnails_remote_youtube_video_id_key_url_wi_key
+}
+
+"""
+input type for inserting data into table "youtube_video_thumbnails"
+"""
+input youtube_video_thumbnails_insert_input {
+  height: Int
+  key: String
+  last_fetched_at: timestamptz
+  remote_youtube_video_id: String
+  url: String
+  width: Int
+  youtube_video: youtube_videos_obj_rel_insert_input
+  youtube_video_detail_thumbnails: youtube_video_detail_thumbnails_arr_rel_insert_input
+}
+
+"""aggregate max on columns"""
+type youtube_video_thumbnails_max_fields {
+  created_at: timestamptz
+  height: Int
+  id: uuid
+  key: String
+  last_fetched_at: timestamptz
+  remote_youtube_video_id: String
+  updated_at: timestamptz
+  url: String
+  width: Int
+}
+
+"""
+order by max() on columns of table "youtube_video_thumbnails"
+"""
+input youtube_video_thumbnails_max_order_by {
+  created_at: order_by
+  height: order_by
+  id: order_by
+  key: order_by
+  last_fetched_at: order_by
+  remote_youtube_video_id: order_by
+  updated_at: order_by
+  url: order_by
+  width: order_by
+}
+
+"""aggregate min on columns"""
+type youtube_video_thumbnails_min_fields {
+  created_at: timestamptz
+  height: Int
+  id: uuid
+  key: String
+  last_fetched_at: timestamptz
+  remote_youtube_video_id: String
+  updated_at: timestamptz
+  url: String
+  width: Int
+}
+
+"""
+order by min() on columns of table "youtube_video_thumbnails"
+"""
+input youtube_video_thumbnails_min_order_by {
+  created_at: order_by
+  height: order_by
+  id: order_by
+  key: order_by
+  last_fetched_at: order_by
+  remote_youtube_video_id: order_by
+  updated_at: order_by
+  url: order_by
+  width: order_by
+}
+
+"""
+response of any mutation on the table "youtube_video_thumbnails"
+"""
+type youtube_video_thumbnails_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [youtube_video_thumbnails!]!
+}
+
+"""
+input type for inserting object relation for remote table "youtube_video_thumbnails"
+"""
+input youtube_video_thumbnails_obj_rel_insert_input {
+  data: youtube_video_thumbnails_insert_input!
+
+  """upsert condition"""
+  on_conflict: youtube_video_thumbnails_on_conflict
+}
+
+"""
+on_conflict condition type for table "youtube_video_thumbnails"
+"""
+input youtube_video_thumbnails_on_conflict {
+  constraint: youtube_video_thumbnails_constraint!
+  update_columns: [youtube_video_thumbnails_update_column!]! = []
+  where: youtube_video_thumbnails_bool_exp
+}
+
+"""Ordering options when selecting data from "youtube_video_thumbnails"."""
+input youtube_video_thumbnails_order_by {
+  created_at: order_by
+  height: order_by
+  id: order_by
+  key: order_by
+  last_fetched_at: order_by
+  remote_youtube_video_id: order_by
+  updated_at: order_by
+  url: order_by
+  width: order_by
+  youtube_video: youtube_videos_order_by
+  youtube_video_detail_thumbnails_aggregate: youtube_video_detail_thumbnails_aggregate_order_by
+}
+
+"""primary key columns input for table: youtube_video_thumbnails"""
+input youtube_video_thumbnails_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "youtube_video_thumbnails"
+"""
+enum youtube_video_thumbnails_select_column {
+  """column name"""
+  created_at
+
+  """column name"""
+  height
+
+  """column name"""
+  id
+
+  """column name"""
+  key
+
+  """column name"""
+  last_fetched_at
+
+  """column name"""
+  remote_youtube_video_id
+
+  """column name"""
+  updated_at
+
+  """column name"""
+  url
+
+  """column name"""
+  width
+}
+
+"""
+input type for updating data in table "youtube_video_thumbnails"
+"""
+input youtube_video_thumbnails_set_input {
+  last_fetched_at: timestamptz
+}
+
+"""aggregate stddev on columns"""
+type youtube_video_thumbnails_stddev_fields {
+  height: Float
+  width: Float
+}
+
+"""
+order by stddev() on columns of table "youtube_video_thumbnails"
+"""
+input youtube_video_thumbnails_stddev_order_by {
+  height: order_by
+  width: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type youtube_video_thumbnails_stddev_pop_fields {
+  height: Float
+  width: Float
+}
+
+"""
+order by stddev_pop() on columns of table "youtube_video_thumbnails"
+"""
+input youtube_video_thumbnails_stddev_pop_order_by {
+  height: order_by
+  width: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type youtube_video_thumbnails_stddev_samp_fields {
+  height: Float
+  width: Float
+}
+
+"""
+order by stddev_samp() on columns of table "youtube_video_thumbnails"
+"""
+input youtube_video_thumbnails_stddev_samp_order_by {
+  height: order_by
+  width: order_by
+}
+
+"""
+Streaming cursor of the table "youtube_video_thumbnails"
+"""
+input youtube_video_thumbnails_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: youtube_video_thumbnails_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input youtube_video_thumbnails_stream_cursor_value_input {
+  created_at: timestamptz
+  height: Int
+  id: uuid
+  key: String
+  last_fetched_at: timestamptz
+  remote_youtube_video_id: String
+  updated_at: timestamptz
+  url: String
+  width: Int
+}
+
+"""aggregate sum on columns"""
+type youtube_video_thumbnails_sum_fields {
+  height: Int
+  width: Int
+}
+
+"""
+order by sum() on columns of table "youtube_video_thumbnails"
+"""
+input youtube_video_thumbnails_sum_order_by {
+  height: order_by
+  width: order_by
+}
+
+"""
+update columns of table "youtube_video_thumbnails"
+"""
+enum youtube_video_thumbnails_update_column {
+  """column name"""
+  last_fetched_at
+}
+
+input youtube_video_thumbnails_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: youtube_video_thumbnails_set_input
+
+  """filter the rows which have to be updated"""
+  where: youtube_video_thumbnails_bool_exp!
+}
+
+"""aggregate var_pop on columns"""
+type youtube_video_thumbnails_var_pop_fields {
+  height: Float
+  width: Float
+}
+
+"""
+order by var_pop() on columns of table "youtube_video_thumbnails"
+"""
+input youtube_video_thumbnails_var_pop_order_by {
+  height: order_by
+  width: order_by
+}
+
+"""aggregate var_samp on columns"""
+type youtube_video_thumbnails_var_samp_fields {
+  height: Float
+  width: Float
+}
+
+"""
+order by var_samp() on columns of table "youtube_video_thumbnails"
+"""
+input youtube_video_thumbnails_var_samp_order_by {
+  height: order_by
+  width: order_by
+}
+
+"""aggregate variance on columns"""
+type youtube_video_thumbnails_variance_fields {
+  height: Float
+  width: Float
+}
+
+"""
+order by variance() on columns of table "youtube_video_thumbnails"
+"""
+input youtube_video_thumbnails_variance_order_by {
+  height: order_by
+  width: order_by
+}
+
+"""
 columns and relationships of "youtube_videos"
 """
 type youtube_videos {
@@ -4000,6 +4994,42 @@ type youtube_videos {
     """filter the rows returned"""
     where: youtube_video_details_bool_exp
   ): youtube_video_details_aggregate!
+
+  """An array relationship"""
+  youtube_video_thumbnails(
+    """distinct select on columns"""
+    distinct_on: [youtube_video_thumbnails_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [youtube_video_thumbnails_order_by!]
+
+    """filter the rows returned"""
+    where: youtube_video_thumbnails_bool_exp
+  ): [youtube_video_thumbnails!]!
+
+  """An aggregate relationship"""
+  youtube_video_thumbnails_aggregate(
+    """distinct select on columns"""
+    distinct_on: [youtube_video_thumbnails_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [youtube_video_thumbnails_order_by!]
+
+    """filter the rows returned"""
+    where: youtube_video_thumbnails_bool_exp
+  ): youtube_video_thumbnails_aggregate!
 }
 
 """
@@ -4035,6 +5065,8 @@ input youtube_videos_bool_exp {
   updated_at: timestamptz_comparison_exp
   youtube_video_details: youtube_video_details_bool_exp
   youtube_video_details_aggregate: youtube_video_details_aggregate_bool_exp
+  youtube_video_thumbnails: youtube_video_thumbnails_bool_exp
+  youtube_video_thumbnails_aggregate: youtube_video_thumbnails_aggregate_bool_exp
 }
 
 """
@@ -4061,6 +5093,7 @@ input youtube_videos_insert_input {
   registered_at: timestamptz
   remote_youtube_video_id: String
   youtube_video_details: youtube_video_details_arr_rel_insert_input
+  youtube_video_thumbnails: youtube_video_thumbnails_arr_rel_insert_input
 }
 
 """aggregate max on columns"""
@@ -4123,6 +5156,7 @@ input youtube_videos_order_by {
   remote_youtube_video_id: order_by
   updated_at: order_by
   youtube_video_details_aggregate: youtube_video_details_aggregate_order_by
+  youtube_video_thumbnails_aggregate: youtube_video_thumbnails_aggregate_order_by
 }
 
 """primary key columns input for table: youtube_videos"""

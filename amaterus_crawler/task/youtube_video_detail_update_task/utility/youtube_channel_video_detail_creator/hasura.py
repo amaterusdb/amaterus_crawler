@@ -1,6 +1,17 @@
 from datetime import timezone
 from logging import getLogger
 
+from amaterus_crawler.graphql_client.enums import (
+    youtube_video_thumbnails_constraint,
+    youtube_video_thumbnails_update_column,
+)
+from amaterus_crawler.graphql_client.input_types import (
+    youtube_video_detail_thumbnails_insert_input,
+    youtube_video_thumbnails_insert_input,
+    youtube_video_thumbnails_obj_rel_insert_input,
+    youtube_video_thumbnails_on_conflict,
+)
+
 from .....graphql_client import (
     Client,
     GraphQLClientError,
@@ -11,6 +22,9 @@ from .....graphql_client import (
     youtube_channels_update_column,
     youtube_video_detail_logs_arr_rel_insert_input,
     youtube_video_detail_logs_insert_input,
+    youtube_video_detail_thumbnails_arr_rel_insert_input,
+    youtube_video_detail_thumbnails_constraint,
+    youtube_video_detail_thumbnails_on_conflict,
     youtube_video_details_insert_input,
     youtube_videos_constraint,
     youtube_videos_insert_input,
@@ -73,6 +87,31 @@ class YoutubeVideoDetailCreatorHasura(YoutubeVideoDetailCreator):
                 tz=timezone.utc
             ).isoformat()
 
+            detail_thumbnail_objects: list[
+                youtube_video_detail_thumbnails_insert_input
+            ] = []
+            for thumbnail in create_query.thumbnails:
+                detail_thumbnail_objects.append(
+                    youtube_video_detail_thumbnails_insert_input(
+                        youtube_video_thumbnail=youtube_video_thumbnails_obj_rel_insert_input(
+                            data=youtube_video_thumbnails_insert_input(
+                                last_fetched_at=fetched_at_aware_string,
+                                remote_youtube_video_id=create_query.remote_youtube_video_id,
+                                key=thumbnail.key,
+                                url=thumbnail.url,
+                                width=thumbnail.width,
+                                height=thumbnail.height,
+                            ),
+                            on_conflict=youtube_video_thumbnails_on_conflict(
+                                constraint=youtube_video_thumbnails_constraint.youtube_video_thumbnails_remote_youtube_video_id_key_url_wi_key,
+                                update_columns=[
+                                    youtube_video_thumbnails_update_column.last_fetched_at,
+                                ],
+                            ),
+                        ),
+                    ),
+                )
+
             objects.append(
                 youtube_video_details_insert_input(
                     youtube_channel=youtube_channels_obj_rel_insert_input(
@@ -111,6 +150,13 @@ class YoutubeVideoDetailCreatorHasura(YoutubeVideoDetailCreator):
                     actual_start_time=actual_start_time_aware_string,
                     actual_end_time=actual_end_time_aware_string,
                     last_fetched_at=fetched_at_aware_string,
+                    youtube_video_detail_thumbnails=youtube_video_detail_thumbnails_arr_rel_insert_input(
+                        data=detail_thumbnail_objects,
+                        on_conflict=youtube_video_detail_thumbnails_on_conflict(
+                            constraint=youtube_video_detail_thumbnails_constraint.youtube_video_detail_thumbnai_youtube_video_detail_id_youtu_key,
+                            update_columns=[],
+                        ),
+                    ),
                     youtube_video_detail_logs=youtube_video_detail_logs_arr_rel_insert_input(
                         data=[
                             youtube_video_detail_logs_insert_input(

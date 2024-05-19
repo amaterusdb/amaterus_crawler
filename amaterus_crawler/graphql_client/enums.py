@@ -161,6 +161,25 @@ class youtube_video_detail_logs_update_column(str, Enum):
     _PLACEHOLDER = "_PLACEHOLDER"
 
 
+class youtube_video_detail_thumbnails_constraint(str, Enum):
+    youtube_video_detail_thumbnai_youtube_video_detail_id_youtu_key = (
+        "youtube_video_detail_thumbnai_youtube_video_detail_id_youtu_key"
+    )
+    youtube_video_detail_thumbnails_pkey = "youtube_video_detail_thumbnails_pkey"
+
+
+class youtube_video_detail_thumbnails_select_column(str, Enum):
+    created_at = "created_at"
+    id = "id"
+    updated_at = "updated_at"
+    youtube_video_detail_id = "youtube_video_detail_id"
+    youtube_video_thumbnail_id = "youtube_video_thumbnail_id"
+
+
+class youtube_video_detail_thumbnails_update_column(str, Enum):
+    _PLACEHOLDER = "_PLACEHOLDER"
+
+
 class youtube_video_details_constraint(str, Enum):
     youtube_video_details_pkey = "youtube_video_details_pkey"
     youtube_video_details_values_key = "youtube_video_details_values_key"
@@ -199,6 +218,29 @@ class youtube_video_details_select_column_youtube_video_details_aggregate_bool_e
 
 
 class youtube_video_details_update_column(str, Enum):
+    last_fetched_at = "last_fetched_at"
+
+
+class youtube_video_thumbnails_constraint(str, Enum):
+    youtube_video_thumbnails_pkey = "youtube_video_thumbnails_pkey"
+    youtube_video_thumbnails_remote_youtube_video_id_key_url_wi_key = (
+        "youtube_video_thumbnails_remote_youtube_video_id_key_url_wi_key"
+    )
+
+
+class youtube_video_thumbnails_select_column(str, Enum):
+    created_at = "created_at"
+    height = "height"
+    id = "id"
+    key = "key"
+    last_fetched_at = "last_fetched_at"
+    remote_youtube_video_id = "remote_youtube_video_id"
+    updated_at = "updated_at"
+    url = "url"
+    width = "width"
+
+
+class youtube_video_thumbnails_update_column(str, Enum):
     last_fetched_at = "last_fetched_at"
 
 
