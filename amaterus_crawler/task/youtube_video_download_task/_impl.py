@@ -1,4 +1,6 @@
+import traceback
 from datetime import datetime, timezone
+from logging import getLogger
 from uuid import uuid4
 
 from ..base import AmaterusCrawlerTask
@@ -15,6 +17,8 @@ from .utility.youtube_video_uploader import (
     YoutubeVideoUploader,
     YoutubeVideoUploadError,
 )
+
+logger = getLogger(__name__)
 
 
 class YoutubeVideoDownloadTask(AmaterusCrawlerTask):
@@ -81,6 +85,7 @@ class YoutubeVideoDownloadTask(AmaterusCrawlerTask):
                 YoutubeVideoUploadError,
                 YoutubeVideoObjectCreateError,
             ) as err:
+                logger.error(traceback.format_exc())
                 exceptions.append(err)
 
         if len(exceptions) > 0:
