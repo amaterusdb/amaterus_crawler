@@ -78,9 +78,6 @@ class youtube_channel_details_update_column(str, Enum):
 
 class youtube_channel_thumbnail_objects_constraint(str, Enum):
     youtube_channel_thumbnail_objects_pkey = "youtube_channel_thumbnail_objects_pkey"
-    youtube_channel_thumbnail_objects_remote_youtube_channel_thumbn = (
-        "youtube_channel_thumbnail_objects_remote_youtube_channel_thumbn"
-    )
 
 
 class youtube_channel_thumbnail_objects_select_column(str, Enum):

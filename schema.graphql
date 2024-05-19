@@ -2579,11 +2579,6 @@ enum youtube_channel_thumbnail_objects_constraint {
   unique or primary key constraint on columns "id"
   """
   youtube_channel_thumbnail_objects_pkey
-
-  """
-  unique or primary key constraint on columns "remote_youtube_channel_thumbnail_url"
-  """
-  youtube_channel_thumbnail_objects_remote_youtube_channel_thumbn
 }
 
 """
